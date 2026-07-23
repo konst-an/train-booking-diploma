@@ -1,9 +1,10 @@
+/* ==========================================================================
+   БАЗОВЫЕ СТИЛИ(общие элементы для шапки)
+   ========================================================================== */
 .header {
   width: 100%;
-  height: 985px;
   display: flex;
   flex-direction: column;
-  
   position: relative; 
   overflow: hidden;
 }
@@ -15,14 +16,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  
   background-image: url('../../assets/header-bg.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  
   transform: scaleX(-1); 
-  
   z-index: 0; 
 }
 
@@ -34,7 +32,6 @@
 
 .header__logo-wrapper {
   width: 100%;
-
   padding-top: 15px;
   padding-left: 258px;
 }
@@ -52,12 +49,10 @@
   position: absolute;
   top: 64px;         
   left: 0;
-  
   width: 100%;
   height: 94px; 
-  background-color: #292929;
+  background-color: var(--color-primary-text-dark); 
   z-index: 1;
-  
   display: flex;
   align-items: center;
   padding-left: 258px; 
@@ -83,80 +78,13 @@
   color: var(--color-primary-orange);
 }
 
-.header__content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 985px; 
-  z-index: 1;
-}
-
-.header__slogan {
-  position: absolute;
-  top: 573px;       
-  left: 348px;       
-  
-  color: var(--color-primary-text-white);
-  font-family: var(--font-main);
-  font-size: 72px;   
-  font-weight: 100;  
-  line-height: 100%;
-  margin: 0;
-}
-
-.header__slogan span {
-  font-weight: 700; 
-}
-
-.header__search-form {
-  position: absolute;
-  top: 411px;           
-  right: 232px;          
-  
-  width: 729px;
-  height: 574px;
-  background-color: rgba(41, 41, 41, 0.8); 
-  
-  padding: 79px 21px 0px 21px; 
-  display: flex;
-  flex-direction: column;
-}
-
-.header__form-content {
-  width: 684px;
-  height: 283px;
-  display: flex;
-  flex-direction: column;
-}
-
-.header__form-section {
-  margin-bottom: 61px;  
-}
-
-.header__form-title {
-  color: var(--color-primary-text-white);
-  font-family: var(--font-main);
-  font-size: 30px;
-  font-weight: 300;
-  margin: 0 0 12px 0;
-}
-
-.header__form-row {
-  display: flex;
-  align-items: center;
-  gap: 5px; 
-}
-
-.header__form-row--dates {
-  display: flex;
-  align-items: center;
-  gap: 40px; 
-}
-
 .header__input-wrapper {
   position: relative;
   flex: 1;
+}
+
+.header__input-wrapper .react-datepicker-wrapper {
+  width: 100%;
 }
 
 .header__form-input {
@@ -165,17 +93,28 @@
   background-color: var(--color-primary-text-white);
   border: none;
   border-radius: 3px;
-  
   font-size: 18px;
   font-weight: 400;
-  color: var(--color-primary-text-dark); 
+  color: var(--color-primary-text-dark);
+
+  padding: 0 21px; 
+  box-sizing: border-box; 
+}
+
+.header__form-title {
+  color: var(--color-primary-text-white);
+  font-family: 'Roboto', var(--font-main), sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 100%;
+
+   margin: 0 0 20px 0; 
 }
 
 .header__form-input::placeholder {
   color: #E5E5E5;
   font-size: 18px;
-  font-weight: 400;
-  padding: 19px 21px 11px 21px; 
+  font-weight: 400; 
 }
 
 .header__input-icon {
@@ -183,10 +122,8 @@
   right: 15px;
   top: 50%;
   transform: translateY(-50%); 
-
   width: 20.87px;
   height: 30px;
-  
   object-fit: contain;
   pointer-events: none; 
 }
@@ -224,10 +161,6 @@
   text-transform: uppercase;
   cursor: pointer;
   
-  margin-top: auto; 
-  margin-left: auto;
-  margin-bottom: 35px;
-  
   transition: all 0.2s ease-in-out; 
 }
 
@@ -241,6 +174,164 @@
   transform: scale(0.98);
 }
 
+/* ==========================================================================
+   СТИЛИ ДЛЯ КАЛЕНДАРЯ
+   ========================================================================== */
+
+.react-datepicker {
+  background-color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-main), sans-serif;
+}
+
+.react-datepicker__header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #E5E5E5 !important;
+  padding-top: 15px !important;
+}
+
+.react-datepicker__current-month {
+  font-size: 18px !important;
+  font-weight: bold !important;
+  color: var(--color-primary-text-dark) !important;
+  text-transform: capitalize !important;
+}
+
+.react-datepicker__day-name {
+  color: #949494 !important;
+  font-size: 14px;
+  width: 35px !important;
+  line-height: 35px !important;
+}
+
+.react-datepicker__day {
+  color: var(--color-primary-text-dark) !important;
+  font-size: 14px;
+  width: 35px !important;
+  line-height: 35px !important;
+  margin: 2px !important;
+  border-radius: 4px !important;
+}
+
+.react-datepicker__day:hover {
+  background-color: rgba(255, 168, 0, 0.2) !important; 
+}
+
+.react-datepicker__day--selected {
+  background-color: var(--color-primary-orange) !important;
+  color: var(--color-primary-text-dark) !important;
+  font-weight: bold;
+}
+
+.react-datepicker__day--outside-month {
+  color: #E5E5E5 !important;
+}
+
+.react-datepicker__navigation {
+  top: 15px !important;
+}
+
+.react-datepicker-popper {
+  z-index: 99999 !important;
+  top: 100% !important;       
+  transform: none !important;   
+}
+
+.react-datepicker {
+  margin-top: 5px !important;   
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+/* ==========================================================================
+   РАЗДЕЛЕНИЕ ВЫСОТЫ ПО СТРАНИЦАМ
+   ========================================================================== */
+
+.header--home {
+  height: 985px;
+  overflow: visible !important;
+}
+.header--home .header__content {
+  height: 985px; 
+}
+
+.header--inner {
+  height: 595px; 
+  overflow: visible !important; 
+}
+
+.header--inner::before {
+  background-image: url('../../assets/header-inner-bg.png'); 
+   transform: scaleX(1); 
+}
+
+.header--inner .header__content {
+  height: 595px;
+}
+
+/* ==========================================================================
+   СТИЛИ ИСКЛЮЧИТЕЛЬНО ДЛЯ ГЛАВНОЙ СТРАНИЦЫ
+   ========================================================================== */
+
+.header__slogan {
+  position: absolute;
+  top: 573px;       
+  left: 348px;       
+  color: var(--color-primary-text-white);
+  font-family: var(--font-main);
+  font-size: 72px;   
+  font-weight: 100;  
+  line-height: 100%;
+  margin: 0;
+}
+
+.header__slogan span {
+  font-weight: 700; 
+}
+
+.header__search-form {
+  background-color: rgba(41, 41, 41, 0.8); 
+  box-sizing: border-box;
+}
+
+.header__search-form--home {
+  position: absolute;
+  top: 411px;           
+  right: 232px;          
+  width: 729px;
+  height: 574px;
+  padding: 79px 21px 0px 21px; 
+  display: flex;
+  flex-direction: column;
+}
+
+.header__search-form--home .header__form-content {
+  width: 684px;
+  height: 283px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header__search-form--home .header__form-section {
+  margin-bottom: 60px;  
+}
+
+.header__search-form--home .header__form-row {
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+}
+
+.header__search-form--home .header__form-row--dates {
+  display: flex;
+  align-items: center;
+  gap: 40px; 
+}
+
 .header__border {
   position: absolute;
   bottom: 0;        
@@ -250,6 +341,178 @@
   background-color: var(--color-primary-orange); 
   z-index: 2;        
 }
+
+/* ==========================================================================
+   СТИЛИ ИСКЛЮЧИТЕЛЬНО ДЛЯ СТРАНИЦЫ ВЫБОРА ПОЕЗДА
+   ========================================================================== */
+
+.header__search-form--inner {
+  position: absolute;
+  top: 205px;         
+  left: 215px;         
+  width: 1490px;       
+  height: 350px;       
+  background-color: rgba(41, 41, 41, 0.7); 
+  border-radius: 3px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column; 
+
+  align-items: flex-start; 
+  padding-top: 30px;      
+  padding-left: 44px;
+}
+
+.header__search-form--inner .header__form-section:nth-child(1) .header__form-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 7px;
+}
+
+.header__search-form--inner .header__form-content {
+  display: flex;
+  flex-direction: row;
+  gap: 35px; 
+}
+
+.header__search-form--inner .header__form-section:nth-child(2) .header__form-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 35px;
+}
+
+.header__search-form--inner .header__input-wrapper,
+.header__search-form--inner .react-datepicker-wrapper {
+  width: 325px !important; 
+  height: 60px !important;
+  flex: none;
+}
+
+/* ==========================================================================
+   ПОЗИЦИОНИРОВАНИЕ КНОПКИ НА РАЗНЫХ СТРАНИЦАХ
+   ========================================================================== */
+
+.header__search-form--home .header__form-submit {
+  position: absolute;
+  top: 455px;
+  left: 382px; 
+  margin-bottom: 35px;
+}
+
+.header__search-form--inner .header__form-submit {
+  position: absolute;
+  top: 190px;  
+  left: 1142px; 
+  margin: 0;   
+}
+
+/* ==========================================================================
+   ВЕРСТКА ЭТАПОВ
+   ========================================================================== */
+
+.steps-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px; 
+  display: flex;
+  background-color: #3E3C41; 
+  z-index: 2;
+}
+
+.steps-bar__step {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+
+  /* Шрифты для текста этапов */
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 100%;
+  color: var(--color-primary-text-white); 
+}
+
+.steps-bar__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  width: 56px;
+  height: 56px;
+  border: 3px solid var(--color-primary-text-white); 
+  border-radius: 50%;
+  
+  margin-right: 15px; 
+  flex-shrink: 0;
+
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--color-primary-text-white); 
+}
+
+.steps-bar__step:nth-child(1) {
+  flex: none; 
+  width: 620.5px;
+  background-color: var(--color-primary-orange);
+  padding-left: 230px; 
+
+  clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%);
+  position: relative;
+  z-index: 3;
+}
+
+.steps-bar__step:nth-child(2) {
+  flex: none;
+  width: 360px;          
+  padding-left: 35px;    
+  position: relative;    
+}
+
+.steps-bar__step:nth-child(2).steps-bar__step--active {
+  background-color: var(--color-primary-orange); /* Окрашиваем в оранжевый */
+  
+  /* Сдвигаем его влево на 25px, чтобы он заехал под оранжевый носик 1-го шага и перекрыл серую щель */
+  margin-left: -25px; 
+  
+  /* Делаем общую ширину чуть больше (305 + 25), чтобы компенсировать сдвиг и кружок не уехал */
+  width: 330px; 
+  
+  /* Вырезаем ему носик-стрелочку ТОЛЬКО справа, а слева срез делаем прямым, чтобы он слился с первым шагом */
+  clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%);
+  
+  z-index: 2; /* Кладем поверх серой полосы */
+}
+
+.steps-bar__step:nth-child(3) {
+  flex: none;
+  width: 305px;          
+  padding-left: 35px;    
+  position: relative;    
+}
+
+
+.steps-bar__step:nth-child(4) {
+  flex: none;
+  width: 305px;          
+  padding-left: 35px;    
+  position: relative;    
+}
+
+
+
+
+
 
 
 
