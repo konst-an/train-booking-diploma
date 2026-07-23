@@ -142,7 +142,7 @@
 /* --- БЛОК 3: ОТЗЫВЫ  --- */
 
 .home-main__reviews {
-  padding-top: 152px; /
+  padding-top: 152px; 
   padding-bottom: 80px;
   background-color: #ffffff;
 }
@@ -152,7 +152,7 @@
   font-size: 36px;
   font-weight: 500;
   text-transform: uppercase;
-  color: color: var(--color-primary-text-dark);
+  color: var(--color-primary-text-dark);
   margin: 0 0 115px 0;
 }
 
@@ -205,6 +205,26 @@
   position: relative;
   
   padding: 0 15px; 
+}
+
+.home-main__reviews-text::before {
+  content: "“";
+  font-size: 24px;
+  font-weight: 500;
+  color: #928F94;
+  position: absolute;
+  left: -2px;
+  top: -4px;
+}
+
+.home-main__reviews-text::after {
+  content: "”";
+  font-size: 24px;
+  font-weight: 500;
+  color: #928F94;
+  display: inline-block;
+  margin-left: 2px;
+  vertical-align: bottom;
 }
 
 .home-main__reviews-pagination {
