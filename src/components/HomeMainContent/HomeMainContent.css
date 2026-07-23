@@ -207,26 +207,6 @@
   padding: 0 15px; 
 }
 
-.home-main__reviews-text::before {
-  content: "“";
-  font-size: 24px;
-  font-weight: 500;
-  color: #928F94;
-  position: absolute;
-  left: -2px; 
-  top: -4px;
-}
-
-.home-main__reviews-text::after {
-  content: "”";
-  font-size: 24px;
-  font-weight: 500;
-  color: #928F94;
-  display: inline-block;
-  margin-left: 2px;
-  vertical-align: bottom;
-}
-
 .home-main__reviews-pagination {
   display: flex;
   justify-content: center;
