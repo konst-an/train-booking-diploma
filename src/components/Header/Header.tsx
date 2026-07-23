@@ -1,5 +1,10 @@
 import './Header.css';
 
+import formGeoIcon from '../../assets/form-geo-icon.svg';
+import formSwapIcon from '../../assets/form-swap-icon.svg';
+import formCalendarIcon from '../../assets/form-calendar-icon.svg';
+
+
 function Header() {
   return (
     <header className="header">
@@ -25,6 +30,56 @@ function Header() {
         </ul>
       </nav>
 
+      <div className="header__content">
+        <h1 className="header__slogan">Вся жизнь - <br/><span>путешествие!</span></h1>
+
+        <form className="header__search-form">
+          
+          <div className="header__form-content">
+          
+            <div className="header__form-section">
+              <h3 className="header__form-title">Направление</h3>
+              <div className="header__form-row">
+                <div className="header__input-wrapper">
+                  <input type="text" placeholder="Откуда" className="header__form-input" />
+                  <img src={formGeoIcon} alt="" className="header__input-icon" />
+                </div>
+                
+                <button type="button" className="header__form-swap">
+                  <img src={formSwapIcon} alt="Сменить направления" />
+                </button>
+                
+                <div className="header__input-wrapper">
+                  <input type="text" placeholder="Куда" className="header__form-input" />
+                  <img src={formGeoIcon} alt="" className="header__input-icon" />
+                </div>
+              </div>
+            </div>
+
+            <div className="header__form-section">
+              <h3 className="header__form-title">Дата</h3>
+            
+              <div className="header__form-row header__form-row--dates">
+                <div className="header__input-wrapper">
+                  <input type="text" placeholder="ДД/ММ/ГГ" className="header__form-input" />
+                  <img src={formCalendarIcon} alt="" className="header__input-icon" />
+                </div>
+                <div className="header__input-wrapper">
+                  <input type="text" placeholder="ДД/ММ/ГГ" className="header__form-input" />
+                  <img src={formCalendarIcon} alt="" className="header__input-icon" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <button type="submit" className="header__form-submit">Найти билеты</button>
+
+        </form>
+         
+      </div>
+
+      <div className="header__border"></div>
     </header>
   );
 }
