@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import HomeMainContent from './components/HomeMainContent/HomeMainContent';
 import TrainSelection from './components/TrainSelection/TrainSelection';
+import SeatSelection from './components/SeatSelection/SeatSelection'; 
 import Footer from './components/Footer/Footer';
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
             <Route path="/" element={<HomeMainContent />} /> 
   
             <Route path="/trains" element={<TrainSelection />} />
+
+            <Route path="/seats" element={<SeatSelection />} />
 
             {/* 3. Страница пассажиров */}
             <Route path="/passengers" element={

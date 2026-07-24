@@ -1,0 +1,446 @@
+.sidebar-left {
+  width: 360px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column; 
+  gap: 40px; 
+  box-sizing: border-box;
+}
+
+.sidebar {
+  flex-shrink: 0;           
+  width: 360px;              
+  background-color: #3E3C41; 
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__section.filter-date {
+  padding: 43px 29px 33px 29px; 
+  border-bottom: 1px solid #E5E5E5;
+  box-sizing: border-box;
+}
+
+.sidebar__title {
+  color: var(--color-primary-text-white);
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 30px;            
+  line-height: 100%;
+  margin: 0 0 15px 0;         
+}
+
+.sidebar__title--return {
+  margin-top: 39px;           
+}
+
+.sidebar__input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.sidebar__datepicker-input {
+  width: 100%;                
+  height: 48px;              
+  background-color: var(--color-primary-text-white);
+  border: 1px solid #E5E5E5;
+  border-radius: 3px;
+  padding: 0 45px 0 15px; 
+  font-size: 16px;
+  color: var(--color-primary-text-dark); 
+  box-sizing: border-box;
+}
+
+.sidebar__input-icon {
+  position: absolute;
+  top: 50%;
+  right: 15px;                
+  transform: translateY(-50%);
+  width: 20px;                
+  height: 20px;
+  pointer-events: none;       
+  opacity: 0.8;               
+}
+
+.sidebar__input-wrapper .react-datepicker-wrapper {
+  width: 100%;
+}
+
+/* Контейнер всей секции с тумблерами */
+.sidebar__section.filter-options {
+  padding-top: 32px;          
+  padding-left: 68px;         
+  padding-right: 29px;        
+  padding-bottom: 26px;       
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;                  
+  
+  border-bottom: 1px solid #E5E5E5; 
+}
+
+.sidebar__option-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 28px;               
+}
+
+.sidebar__option-img {
+  width: 17px;                
+  height: 17px;               
+  object-fit: contain;        
+  margin-right: 34px;        
+  flex-shrink: 0;
+}
+
+.sidebar__option-label {
+  color: var(--color-primary-text-white);
+  font-family: var(--font-main), sans-serif;
+  font-size: 18px;            
+  font-weight: 400;
+  line-height: 100%;
+  flex-grow: 1;              
+}
+
+.sidebar__switch {
+  position: relative;
+  display: inline-block;
+  width: 72px;                
+  height: 28px;               
+  flex-shrink: 0;
+}
+
+.sidebar__switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.sidebar__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--color-primary-text-white);
+  border-radius: 28px;
+  transition: .3s ease-in-out;
+}
+
+.sidebar__slider::before {
+  content: "";
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #C4C4C4;
+  border-radius: 50%;
+  transition: .3s ease-in-out;
+}
+
+/* Когда тумблер включен */
+.sidebar__switch input:checked + .sidebar__slider {
+  background-color: #FCDC9D;
+}
+
+/* Когда тумблер включен */
+.sidebar__switch input:checked + .sidebar__slider::before {
+  transform: translateX(44px); /* Сдвиг кружка в правый край (72px - 24px - 4px отступы) */
+  background-color: var(--color-primary-orange);
+}
+
+/* ==========================================================================
+СТИЛИ БЛОКА СТОИМОСТЬ
+   ========================================================================== */
+
+.sidebar__section.filter-price {
+  padding: 32px 37px 40px 29px; 
+  border-bottom: 1px solid #E5E5E5; 
+  box-sizing: border-box;
+}
+
+.sidebar__price-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #E5E5E5;
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 3px; 
+}
+
+.sidebar__slider-container {
+  position: relative;
+  width: 294px;              
+  height: 28px;               
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px; 
+  box-sizing: border-box;
+}
+
+.sidebar__price-track {
+  position: absolute;
+  width: 100%;
+  height: 19px;            
+  background-color: transparent; 
+  border: 1px solid #C4C4C4; 
+  border-radius: 8px;       
+  box-sizing: border-box;
+}
+
+/* Оранжевая заполненная полоса внутри трека */
+.sidebar__price-range {
+  position: absolute;
+  left: 0;
+  width: 129px; 
+  height: 100%;
+  background-color: var(--color-primary-orange); 
+}
+
+.sidebar__price-handle {
+  position: absolute;
+  width: 24px;           
+  height: 24px;          
+  background-color: var(--color-primary-text-white, #FFFFFF);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  top: 50%; 
+  transform: translateY(-50%) translateX(-50%); 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+/* Первый левый ползунок стоит в самом начале */
+.sidebar__price-handle--min {
+  left: 0;
+}
+
+/* Второй правый ползунок встает ТОЧНО в конец оранжевой полосы на 129px */
+.sidebar__price-handle--max {
+  left: 129px; 
+}
+
+.sidebar__price-handle:hover {
+  transform: translateY(-50%) translateX(-50%) scale(1.15); 
+}
+.sidebar__price-handle:active {
+  background-color: #E5E5E5;
+  transform: translateY(-50%) translateX(-50%) scale(1.05);
+}
+
+.sidebar__price-values {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  box-sizing: border-box;
+}
+
+.sidebar__price-values span {
+  position: absolute;
+  top: 0;
+  color: #E5E5E5; 
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+}
+
+.sidebar__price-values span:nth-child(1) {
+  left: 0;
+}
+
+.sidebar__price-values span:nth-child(2) {
+  left: 129px;
+  transform: translateX(-50%);
+}
+
+.sidebar__price-values span:nth-child(3) {
+  right: 0;
+}
+
+
+/* ==========================================================================
+    СТИЛИ БЛОКОВ НАПРАВЛЕНИЙ (ТУДА / ОБРАТНО)
+   ========================================================================== */
+
+.sidebar__section.filter-direction {
+  padding: 32px 27px;   
+  border-bottom: 1px solid #E5E5E5; 
+  box-sizing: border-box;
+}
+
+.sidebar__direction-header {
+  display: flex;
+  align-items: center;        
+  width: 100%;
+  height: 32px;               
+}
+
+.sidebar__direction-arrow {
+  width: 32px;                /* Размеры плашки из макета */
+  height: 26px;
+  object-fit: contain;
+  margin-right: 12px;         
+  flex-shrink: 0;
+}
+
+.sidebar__direction-title {
+  color: var(--color-primary-text-white);
+  font-family: var(--font-main);
+  font-weight: 700;          
+  font-size: 30px;            
+  line-height: 100%;
+  letter-spacing: 0%;
+  flex-grow: 1;              
+}
+
+.sidebar__direction-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 24px;                
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;           
+  transition: opacity 0.2s ease;
+}
+
+.sidebar__direction-toggle:hover {
+  opacity: 1;                 
+}
+
+/* ==========================================================================
+   СТИЛИ ДЛЯ БЛОКА "ПОСЛЕДНИЕ БИЛЕТЫ"
+   ========================================================================== */
+
+.last-tickets {
+  margin-top: 92px;          
+  width: 360px;               
+  box-sizing: border-box;
+}
+
+.last-tickets__main-title {
+  color: var(--color-primary-text-dark); 
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 30px;           
+  line-height: 100%;
+  text-transform: uppercase; 
+  margin: 0 0 30px 0;        
+}
+
+.last-tickets__list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;                
+  width: 100%;
+}
+
+.ticket-card {
+  width: 100%;
+  background-color: var(--color-primary-text-white); 
+  border: 1px solid #E5E5E5;  
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;                  
+}
+
+/* Верхняя строка с городами (Откуда и Куда) */
+.ticket-card__row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Блок одного города */
+.ticket-card__city-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+
+}
+
+.ticket-card__city-block--right {
+  align-items: flex-end;    
+  text-align: right;
+}
+
+/* Название города */
+.ticket-card__city-name {
+  font-family: var(--font-main) ;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--color-primary-text-dark);
+  white-space: nowrap;
+}
+
+/* Название вокзала */
+.ticket-card__station {
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 14px;
+  color: #949494;
+  width: 105px;               
+  display: inline-block;      
+  line-height: 1.2;           
+}
+
+.ticket-card__city-block--right .ticket-card__station {
+  margin-left: auto;          
+  text-align: right;
+}
+
+.ticket-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;        
+  width: 100%;
+  padding-top: 15px;
+}
+
+
+.ticket-card__features {
+  height: 20px;            
+  object-fit: contain;
+}
+
+.ticket-card__price {
+  display: flex;
+  align-items: baseline;     
+  font-family: var(--font-main);
+  color: var(--color-primary-orange); /
+}
+
+.ticket-card__price-from {
+  font-size: 16px;
+  color: #949494;
+  margin-right: 5px;
+  font-weight: 400;
+}
+
+.ticket-card__price-value {
+  font-size: 36px;
+  font-weight: 700;
+  margin-right: 3px;
+}
+
+/* Знак рубля */
+.ticket-card__price-currency {
+  font-size: 36px;
+  font-weight: 400;
+  color: #928F94;
+
+  width: 20px;
+  height: 25px;
+}
