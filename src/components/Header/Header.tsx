@@ -129,28 +129,45 @@ function Header() {
 
       {/* Полоса шагов для внутренних страниц */}
       {!isHome && (
-          <div className="header__steps-bar steps-bar">
-            {/* 1 шаг: Билеты */}
-            <div className="steps-bar__step steps-bar__step--active">
-              <span className="steps-bar__number">1</span> Билеты
-            </div>
+        <div className="header__steps-bar steps-bar">
+          
+          {/* 1 шаг: Билеты */}
+          <div className="steps-bar__step steps-bar__step--active">
+            <span className="steps-bar__number">1</span> Билеты
+          </div>
 
-            {/* 2 шаг: Пассажиры (после оранжевого шага стрелка НЕ нужна) */}
-            <div className={`steps-bar__step ${location.pathname === '/passengers' ? 'steps-bar__step--active' : ''}`}>
-              <span className="steps-bar__number">2</span> Пассажиры
-            </div>
-
-            {/* 3 шаг: Оплата (в начале вставляем SVG-разделитель) */}
-            <div className={`steps-bar__step ${location.pathname === '/payment' ? 'steps-bar__step--active' : ''}`}>
+          {/* 2 шаг: Пассажиры */}
+          <div className={`steps-bar__step ${
+            ['/passengers', '/payment', '/verification'].includes(location.pathname) 
+              ? 'steps-bar__step--active' 
+              : ''
+          }`}>
+            {/* СТРЕЛКА СТЫКА 1 И 2: рендерится ТОЛЬКО на странице пассажиров (когда оба шага оранжевые) */}
+            {location.pathname === '/passengers' && (
               <img src={arrowStepDivider} alt="" className="steps-bar__divider-img" />
-              <span className="steps-bar__number">3</span> Оплата
-            </div>
+            )}
+            <span className="steps-bar__number">2</span> Пассажиры
+          </div>
 
-            {/* 4 шаг: Проверка (в начале вставляем SVG-разделитель) */}
-            <div className={`steps-bar__step ${location.pathname === '/verification' ? 'steps-bar__step--active' : ''}`}>
+          {/* 3 шаг: Оплата */}
+          <div className={`steps-bar__step ${
+            ['/payment', '/verification'].includes(location.pathname) 
+              ? 'steps-bar__step--active' 
+              : ''
+          }`}>
+            {/* СТРЕЛКА СТЫКА 2 И 3: скрывается на странице пассажиров (так как цвета шагов разные) */}
+            {location.pathname !== '/passengers' && (
               <img src={arrowStepDivider} alt="" className="steps-bar__divider-img" />
-              <span className="steps-bar__number">4</span> Проверка
-            </div>
+            )}
+            <span className="steps-bar__number">3</span> Оплата
+          </div>
+
+          {/* 4 шаг: Проверка */}
+          <div className={`steps-bar__step ${location.pathname === '/verification' ? 'steps-bar__step--active' : ''}`}>
+            <img src={arrowStepDivider} alt="" className="steps-bar__divider-img" />
+            <span className="steps-bar__number">4</span> Проверка
+          </div>
+
         </div>
       )}
 

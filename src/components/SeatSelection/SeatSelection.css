@@ -19,3 +19,814 @@
   display: flex;
   flex-direction: column;
 }
+
+.seat-selection__title {
+   font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 100%;
+  color: #292929;
+  text-transform: uppercase;
+  letter-spacing: 0%;
+  margin: 0 0 50px 0;
+}
+
+/* Правая контентная область */
+.seat-selection__content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 959px;
+  box-sizing: border-box;
+}
+
+.seat-selection__train-block {
+  width: 959px;
+  border: 1px solid #E5E5E5; 
+  box-sizing: border-box;
+}
+
+.seat-selection__train-block--active {
+  height: 1295px; 
+}
+
+.seat-selection__train-block--collapsed {
+  height: 909px; 
+}
+
+.seat-selection__train-block--active {
+  height: 1295px;
+  padding: 36px 0 0 0;
+  box-sizing: border-box;
+}
+
+/* БЛОК НАВИГАЦИИ  */
+.seat-selection__navigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 20px; 
+  margin-bottom: 32px;
+  box-sizing: border-box;
+}
+
+.seat-selection__back-arrow-img {
+  width: 76px; 
+  height: 60px;
+  display: block;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.seat-selection__btn-back {
+  width: 325px; 
+  height: 60px; 
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-primary-text-dark); 
+  border-radius: 5px; 
+  cursor: pointer;
+  box-sizing: border-box;
+  
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--color-primary-text-dark);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.seat-selection__btn-back:hover {
+  background-color: #F7F5F9;
+  border-color: var(--color-primary-orange);
+  color: var(--color-primary-orange);
+}
+.seat-selection__btn-back:active {
+  transform: scale(0.98);
+}
+
+/* МИНИ - КАРТОЧКА ВЫБРАННОГО ПОЕЗДА */
+.seat-selection__train-mini-card {
+  display: flex;
+  width: 957px;
+  height: 123px;
+  background-color: #F7F6F6;
+  box-sizing: border-box;
+}
+
+/* ЛЕВАЯ СЕКЦИЯ: Номер поезда и маршрут */
+.seat-selection__mini-info {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  gap: 27px;
+  width: 240px; 
+  padding-left: 24px;
+  box-sizing: border-box;
+  border-right: 1px solid #FFFFFF; 
+  height: 100%;
+}
+
+.seat-selection__mini-train-num {
+  font-size: 24px;
+  font-weight: 700;
+  color: #3E3C41;
+  line-height: 1.2;
+}
+
+.seat-selection__mini-cities {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  color: #000000;
+  line-height: 1.4;
+  margin-top: 2px; 
+}
+
+.seat-selection__mini-cities span:first-child {
+  color: #9E9E9E; 
+}
+
+/* СРЕДНЯЯ СЕКЦИЯ */
+.seat-selection__mini-route {
+  width: 520px; 
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  gap: 35px;
+  padding: 0 41px 0 36px; 
+  box-sizing: border-box;
+  border-right: 1px solid #FFFFFF;
+}
+
+.seat-selection__mini-time-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  
+  height: 72px;
+  box-sizing: border-box;
+}
+
+.seat-selection__mini-time {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-text-dark); 
+  line-height: 100%;
+}
+
+.seat-selection__mini-station {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: #292929;
+  line-height: 100%;
+}
+
+.seat-selection__mini-vokzal {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: #9E9E9E;
+  line-height: 100%;
+}
+
+.seat-selection__mini-route-arrow {
+  width: 30px; 
+  height: auto;
+  align-self: center; 
+}
+
+.seat-selection__mini-duration {
+  display: flex;
+  align-items: center;      
+  justify-content: flex-start; 
+  
+  padding-left: 35px; 
+
+  width: 200px;             
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.seat-selection__mini-clock-icon {
+  width: 30px;              
+  height: auto;
+  flex-shrink: 0;           
+}
+
+.seat-selection__mini-duration-text {
+  display: flex;
+  flex-direction: column;       
+  margin-left: 12px;             
+
+  font-family: var(--font-main);
+  font-size: 18px;          
+  font-weight: 400;
+  color: #000000;       
+  line-height: 1.2;         
+  white-space: nowrap;     
+}
+
+/* Главный контейнер секции билетов */
+.seat-selection__tickets-section {
+  margin-top: 40px; 
+  width: 957px;
+  box-sizing: border-box;
+}
+
+.seat-selection__tickets-title {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-text-dark);
+  text-transform: uppercase; 
+  margin: 0 0 13px 20px;
+}
+
+.seat-selection__tickets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 0; 
+  align-items: stretch;
+  margin-left: 20px;
+  width: calc(100% - 20px);
+  box-sizing: border-box;
+}
+
+.seat-selection__ticket-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+
+    padding: 25px 43px; 
+    
+    border: 1px solid transparent; 
+    box-sizing: border-box;
+}
+
+.seat-selection__ticket-field {
+    border: 1px solid #979797;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    height: 50px; 
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    padding: 0 10px; 
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.seat-selection__ticket-field span {
+    font-family: var(--font-main);
+    font-size: 16px; 
+    color: var(--color-primary-text-dark); 
+    white-space: nowrap; 
+}
+.seat-selection__ticket-hint {
+    font-family: var(--font-main);
+    font-size: 15px;
+    line-height: 1.4;
+    color: #9E9E9E;
+    margin: 0;
+  
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.seat-selection__ticket-card--filled {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.seat-selection__ticket-card--active {
+  border: 1px solid var(--color-primary-orange); 
+}
+
+.seat-selection__ticket-card--active .seat-selection__ticket-hint {
+  color: #9E9E9E; 
+}
+
+.seat-selection__ticket-card--filled .seat-selection__ticket-hint {
+  color: #000000; 
+}
+
+/* Пунктирная разделительная линия */
+.seat-selection__dashed-divider {
+  width: 956px;
+  height: 0px;
+  margin-top: 50px; 
+  border-top: 1px dashed #C4C4C4; 
+  box-sizing: border-box;
+}
+
+.seat-selection__wagon-type-section {
+  width: 956px;
+  box-sizing: border-box;
+}
+
+/* Заголовок "Тип вагона" */
+.seat-selection__wagon-type-title {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-text-dark);
+  
+  margin: 27px 0 0 20px; 
+  line-height: 100%;
+}
+
+.seat-selection__wagon-type-list {
+  display: flex;
+  justify-content: space-between;
+  width: 820px; 
+  margin-top: 25px; 
+  padding-left: 64px; 
+  box-sizing: border-box;
+}
+
+.seat-selection__wagon-type-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.seat-selection__wagon-icon {
+  height: 50px; 
+  object-fit: contain;
+}
+
+/* Сидячий */
+.seat-selection__wagon-icon--sedentary {
+  width: 30.43px;
+}
+
+/* Плацкарт */
+.seat-selection__wagon-icon--reserved {
+   width: 50px;
+}
+
+/* Купе */
+.seat-selection__wagon-icon--coupe {
+  width: 50px;
+}
+
+/* Люкс */
+.seat-selection__wagon-icon--luxury {
+  width: 56.45px;
+}
+
+.seat-selection__wagon-text {
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  color: #928F94; 
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.seat-selection__wagon-type-item:hover .seat-selection__wagon-text {
+  color: #292929;
+}
+.seat-selection__wagon-type-item:hover .seat-selection__wagon-icon {
+  filter: grayscale(0%) opacity(80%);
+}
+
+.seat-selection__wagon-type-item:active {
+  transform: scale(0.95);
+}
+
+.seat-selection__wagon-type-item--active .seat-selection__wagon-text {
+  color: var(--color-primary-orange);
+}
+
+.seat-selection__wagon-type-item--active .seat-selection__wagon-icon {
+  filter: brightness(0) saturate(100%) invert(73%) sepia(51%) saturate(1211%) hue-rotate(341deg) brightness(102%) contrast(101%);
+}
+
+.seat-selection__wagons-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  width: 958px;
+  height: 37px;
+  background-color: rgba(255, 168, 0, 0.44); 
+  
+  margin-top: 30px; 
+  padding: 0 25px 0 20px;
+  box-sizing: border-box;
+}
+
+.seat-selection__wagons-left-group {
+  display: flex;
+  align-items: center;
+  gap: 14px; 
+}
+
+.seat-selection__wagons-title-label {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-primary-text-dark); 
+}
+
+.seat-selection__wagons-buttons-list {
+  display: flex;
+  gap: 8px; 
+}
+
+.seat-selection__wagon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-main);
+  font-size: 24px; 
+  font-weight: 700;
+  color: var(--color-primary-text-dark); 
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.seat-selection__wagon-btn:hover {
+  color: var(--color-primary-text-white);
+  transform: scale(1.1);
+}
+
+/* 2. Состояние Active (Клик) */
+.seat-selection__wagon-btn:active {
+  transform: scale(0.95);
+}
+
+
+.seat-selection__wagon-btn--active {
+  color: var(--color-primary-text-white);
+  cursor: default; 
+}
+.seat-selection__wagon-btn--active:hover {
+  transform: none; 
+}
+
+.seat-selection__wagons-direction-hint {
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-primary-text-dark); 
+}
+
+
+
+/* Главный контейнер всей карточки вагона */
+.seat-selection__wagon-card {
+  position: relative;
+  display: flex;
+  width: 958px;
+  box-sizing: border-box;
+  margin-top: 0px;
+}
+
+.seat-selection__wagon-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 190px;
+  height: 161px;
+  background-color: #FFD98F;
+  padding-left: 37px;
+  border-right: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.seat-selection__wagon-badge-num {
+  font-family: var(--font-main);
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--color-primary-text-dark);
+  line-height: 1;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+}
+
+.seat-selection__wagon-badge-text {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-primary-text-dark);
+}
+
+.seat-selection__wagon-info-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding-left: 85px;
+  padding-top: 33px;
+  box-sizing: border-box;
+}
+
+.seat-selection__wagon-col-title {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: #928F94;
+  margin-bottom: 28px;
+  line-height: 100%;
+}
+
+.seat-selection__wagon-col-item {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  margin-bottom: 24px;
+}
+
+/* КОЛОНКА 1: МЕСТА */
+.seat-selection__wagon-col-seats {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.seat-selection__total-seats-count {
+  font-weight: 700;
+  color: var(--color-primary-text-dark);
+  margin-left: 6px;
+}
+
+.seat-selection__wagon-col-seats .seat-selection__wagon-col-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.seat-selection__seat-name {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--color-primary-text-dark);
+}
+
+.seat-selection__seat-qty {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-text-dark);
+}
+
+/* КОЛОНКА 2: СТОИМОСТЬ */
+.seat-selection__wagon-col-prices {
+  width: 140px;
+  display: flex;
+  flex-direction: column;
+
+  margin-left: 50px; 
+}
+
+.seat-selection__wagon-col-prices .seat-selection__wagon-col-item {
+  gap: 8px;
+}
+
+.seat-selection__price-num {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-text-dark);
+}
+
+.seat-selection__price-rub {
+  font-family: var(--font-main);
+  font-size: 20px;
+  font-weight: 400;
+  color: #928F94;
+}
+
+/* КОЛОНКА 3: ОБСЛУЖИВАНИЕ */
+.seat-selection__wagon-col-services {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 60px; 
+}
+
+/* Название компании (ФПК) */
+.seat-selection__company-name {
+  color: #C4C4C4;
+  font-weight: 700;
+  margin-left: 6px;
+}
+
+/* Выстраиваем иконки строго в один горизонтальный ряд */
+.seat-selection__services-icons-list {
+  display: flex;
+  flex-direction: row; 
+  gap: 12px;
+}
+
+.seat-selection__service-item {
+  position: relative; 
+}
+
+.seat-selection__service-btn {
+  
+  background: none;
+  border: none; 
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: transform 0.1s ease;
+}
+
+.seat-selection__service-img {
+   width: 36px;
+  height: 34.1px;
+  object-fit: contain;
+}
+
+.seat-selection__service-btn:hover {
+  transform: scale(1.1);
+}
+
+.seat-selection__service-btn:active {
+  transform: scale(0.95);
+}
+
+.seat-selection__service-tooltip {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #FFFFFF;
+  border: 1px solid #E5E5E5;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  padding: 6px 14px;
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: var(--color-primary-text-dark);
+  white-space: nowrap;
+  z-index: 20;
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-in-out;
+}
+
+
+.seat-selection__service-item:hover .seat-selection__service-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ПАНЕЛЬ ЖИВОГО СЧЕТЧИКА (Оставляем абсолютное позиционирование, не меняя HTML) */
+.seat-selection__live-users-panel {
+  position: absolute;
+
+  width: 199px;
+  height: 72px;
+  
+  right: 32px; 
+  top: 180px; 
+  bottom: auto; 
+
+  background-color: #F0F0F0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 15px; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ВТОРОЙ КОНТЕЙНЕР: СВЕРНУТЫЙ БЛОК ВЫБОРА МЕСТ */
+.seat-selection__train-block--collapsed {
+  width: 959px; 
+  height: 909px;
+  box-sizing: border-box;
+}
+
+.seat-selection__navigation--collapsed {
+  padding-top: 40px; 
+  padding-right: 25px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.seat-selection__navigation--collapsed .seat-selection__back-arrow-img {
+  transform: scaleX(-1); /* Разворачивает стрелку по горизонтали на 180 градусов */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* КНОПКА ДАЛЕЕ  */
+.seat-selection__btn-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  width: 255px;
+  height: 60px;
+  
+  margin-top: 100px; 
+  margin-bottom: 122px; 
+  
+  margin-left: 704px;
+
+  background-color: var(--color-primary-orange);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 100%;
+  color: var(--color-primary-text-white);
+  text-transform: uppercase; 
+  transition: all 0.2s ease;
+}
+
