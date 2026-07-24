@@ -19,8 +19,6 @@ import iconWifi from '../../assets/icon-wifi.svg';
 import iconServiceLinen from '../../assets/icon-service-linen.svg'; 
 import iconServiceFood from '../../assets/icon-service-food.svg';   
 
-import wagonKupeBg from '../../assets/wagon-kupe-bg.svg';
-
 function SeatSelection() {
     return (
         <div className="seat-selection__container">
