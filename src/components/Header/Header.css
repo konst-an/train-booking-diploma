@@ -428,15 +428,18 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   box-sizing: border-box;
+  position: relative;
+  background-color: #3E3C41;
 
   /* Шрифты для текста этапов */
   font-family: var(--font-main);
   font-weight: 700;
   font-size: 30px;
   line-height: 100%;
-  color: var(--color-primary-text-white); 
+  color: var(--color-primary-text-white);
+  
+  clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%, 25px 50%, 0% 0%);
 }
 
 .steps-bar__number {
@@ -446,7 +449,7 @@
   
   width: 56px;
   height: 56px;
-  border: 3px solid var(--color-primary-text-white); 
+  border: 3px solid var(--color-primary-text-white);
   border-radius: 50%;
   
   margin-right: 15px; 
@@ -457,60 +460,65 @@
   font-size: 36px;
   line-height: 100%;
   text-align: center;
-  text-transform: uppercase;
-  color: var(--color-primary-text-white); 
+  color: var(--color-primary-text-white);
 }
 
+.steps-bar__step--active {
+  background-color: var(--color-primary-orange) !important;
+}
+
+.steps-bar__step--active .steps-bar__number {
+  border-color: var(--color-primary-text-white) !important;
+}
+
+.steps-bar__divider-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%; 
+  width: auto;
+  z-index: 6; 
+  pointer-events: none; 
+}
+
+/* 1 шаг: Билеты */
 .steps-bar__step:nth-child(1) {
-  flex: none; 
-  width: 620.5px;
-  background-color: var(--color-primary-orange);
-  padding-left: 230px; 
-
+  width: 620px; 
+  padding-left: 230px;
   clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%);
-  position: relative;
-  z-index: 3;
+  z-index: 5;
+  flex-shrink: 0;
 }
 
+/* 2 шаг: Пассажиры */
 .steps-bar__step:nth-child(2) {
-  flex: none;
-  width: 360px;          
-  padding-left: 35px;    
-  position: relative;    
-}
-
-.steps-bar__step:nth-child(2).steps-bar__step--active {
-  background-color: var(--color-primary-orange); /* Окрашиваем в оранжевый */
-  
-  /* Сдвигаем его влево на 25px, чтобы он заехал под оранжевый носик 1-го шага и перекрыл серую щель */
-  margin-left: -25px; 
-  
-  /* Делаем общую ширину чуть больше (305 + 25), чтобы компенсировать сдвиг и кружок не уехал */
-  width: 330px; 
-  
-  /* Вырезаем ему носик-стрелочку ТОЛЬКО справа, а слева срез делаем прямым, чтобы он слился с первым шагом */
+  width: 390px; 
+  padding-left: 60px; 
+  margin-left: -25px;
+  z-index: 4;    
+  flex-shrink: 0;
   clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%);
-  
-  z-index: 2; /* Кладем поверх серой полосы */
 }
 
+/* 3 шаг: Оплата  */
 .steps-bar__step:nth-child(3) {
-  flex: none;
-  width: 305px;          
-  padding-left: 35px;    
-  position: relative;    
+  width: 390px; 
+  padding-left: 80px;
+  margin-left: -25px; 
+  z-index: 3;    
+  flex-shrink: 0;
+  clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%);
 }
 
-
+/* 4 шаг: Проверка  */
 .steps-bar__step:nth-child(4) {
-  flex: none;
-  width: 305px;          
-  padding-left: 35px;    
-  position: relative;    
+  width: 620px;
+  padding-left: 60px;    
+  margin-left: -25px; 
+  z-index: 2;    
+  flex-shrink: 0;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
-
-
-
 
 
 
