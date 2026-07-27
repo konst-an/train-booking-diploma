@@ -1,0 +1,334 @@
+.trip-details {
+  width: 360px; 
+  background-color: #3E3C41;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.trip-details__main-header {
+  padding: 43px 35px;
+  border-bottom: 1px solid #E5E5E5;
+  box-sizing: border-box;
+}
+
+.trip-details__main-title {
+  font-family: var(--font-main);
+  font-size: 30px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--color-primary-text-white);
+  margin: 0;
+  line-height: 100%;
+}
+
+.trip-details__section {
+  border-bottom: 1px solid #E5E5E5;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.trip-details__section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 16px 27px 53px 28px;
+}
+
+.trip-details__section-title-group {
+  display: flex;
+  align-items: center;
+}
+
+/* Иконка стрелочки "Туда" */
+.trip-details__direction-icon {
+  width: 32px;
+  height: 26px;
+  margin-right: 12px;
+  object-fit: contain;
+}
+
+/* Текст "Туда" */
+.trip-details__section-title {
+  font-family: var(--font-main);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-primary-text-white);
+  margin: 0;
+  line-height: 100%;
+}
+
+/* Текст даты поездки рядом */
+.trip-details__section-date {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--color-primary-text-white);
+  margin-left: 14px;
+}
+
+.trip-details__btn-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.trip-details__toggle-img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+}
+
+.trip-details__btn-toggle:hover .trip-details__toggle-img {
+  opacity: 0.8;
+}
+
+.trip-details__btn-toggle:active {
+  transform: scale(0.9);
+}
+
+/* Тело секции с данными поезда */
+.trip-details__section-body {
+  padding: 0 27px 53px 28px; /* Внутренние боковые и нижний отступы */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.trip-details__info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+}
+
+.trip-details__info-row:last-child {
+  margin-bottom: 0;
+}
+
+.trip-details__info-label {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: #E5E5E5; 
+}
+
+.trip-details__info-value {
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary-text-white);
+}
+
+.trip-details__info-value--bold {
+  font-size: 24px; 
+  font-weight: 700;
+  color: var(--color-primary-text-white);
+}
+
+.trip-details__info-value--right {
+  text-align: right;
+  line-height: 1.3;
+}
+
+/* Обертка для расписания */
+.trip-details__route-schedule {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 45px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* 1. ЛЕВАЯ КОЛОНКА (Отправление) */
+.trip-details__time-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  align-items: flex-start;
+  
+  min-width: 140px; 
+  box-sizing: border-box;
+}
+
+/* 2. ЦЕНТРАЛЬНАЯ КОЛОНКА (Время в пути и стрелка) */
+.trip-details__arrow-block {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  max-width: 70px; 
+  margin-top: -25px; 
+}
+
+/* 3. ПРАВАЯ КОЛОНКА (Прибытие) */
+.trip-details__time-block--right {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  text-align: right; 
+  align-items: flex-end; 
+  
+  min-width: 140px; 
+  padding-right: 20px; 
+  box-sizing: border-box;
+  
+  white-space: nowrap !important;
+}
+
+.trip-details__time {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-text-white);
+  line-height: 100%;
+  margin-bottom: 4px;
+}
+
+.trip-details__date {
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: #928F94;
+  margin-bottom: 20px;
+}
+
+.trip-details__station {
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-primary-text-white);
+  margin-bottom: 2px;
+}
+
+.trip-details__vokzal {
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: #928F94;
+  line-height: 1.3;
+}
+
+/* Время в пути над стрелочкой*/
+.trip-details__duration-time {
+  font-family: var(--font-main);
+  font-size: 18px;
+  color: #E5E5E5;
+  font-weight: 400;
+  margin-bottom: 4px;
+  white-space: nowrap !important; 
+}
+
+.trip-details__route-arrow {
+  width: 30px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.trip-details__passengers-img {
+  width: 26px;
+  height: 26px;
+  margin-right: 17px; 
+  object-fit: contain;
+}
+
+.trip-details__section-body--passengers {
+  padding-bottom: 30px; 
+}
+
+.trip-details__passenger-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px; 
+}
+
+.trip-details__passenger-row:last-child {
+  margin-bottom: 0; 
+}
+
+.trip-details__passenger-type {
+  font-family: var(--font-main);
+  font-size: 18px;
+  font-weight: 400;
+  color: #E5E5E5; 
+}
+
+.trip-details__passenger-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.trip-details__passenger-price .trip-details__price-num {
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-primary-text-white);
+}
+
+.trip-details__passenger-price .trip-details__currency {
+  font-family: var(--font-main);
+  font-size: 20px;
+  font-weight: 400;
+  color: #928F94;
+}
+
+.trip-details__total-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 27px 33px 27px;
+  box-sizing: border-box;
+  margin-top: auto; 
+}
+
+.trip-details__total-label {
+  font-family: var(--font-main);
+  font-size: 30px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-primary-text-white);
+}
+
+.trip-details__total-price-group {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.trip-details__total-price-number {
+  font-family: var(--font-main);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-primary-orange); 
+  line-height: 100%;
+}
+
+.trip-details__total-currency {
+  font-family: var(--font-main);
+  font-size: 48px;
+  font-weight: 400;
+  color: #E5E5E5;
+}
+
+
+
+
+
+
+
+
+
+
+

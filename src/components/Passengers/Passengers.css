@@ -1,0 +1,12 @@
+.passengers__container {
+width: 100%;
+  padding-top: 95px;       
+  box-sizing: border-box;
+
+  max-width: 100%;
+  padding-left: 259px;       
+  display: flex;             
+  flex-direction: row;
+  gap: 40px;                
+  align-items: flex-start;
+}
