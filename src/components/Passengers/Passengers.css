@@ -1,6 +1,7 @@
 .passengers__container {
 width: 100%;
-  padding-top: 95px;       
+  padding-top: 95px;   
+  padding-bottom: 140px;      
   box-sizing: border-box;
 
   max-width: 100%;
@@ -10,3 +11,635 @@ width: 100%;
   gap: 40px;                
   align-items: flex-start;
 }
+
+.passengers__main {
+  flex-grow: 1;
+}
+
+.passengers__form {
+  display: flex;
+  flex-direction: column;
+  gap: 45px; 
+  width: 960px;
+  box-sizing: border-box;
+}
+
+.passengers__card {
+  width: 100%;
+  background-color: #FFFFFF; 
+  border: 1px solid #C4C4C4;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.passengers__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 33px 36px; 
+  background-color: #F9F9F9; 
+  border-bottom: 1px dashed #949494;
+  box-sizing: border-box;
+}
+
+.passengers__card:not(:has(.passengers__card-body)) .passengers__card-header {
+  border-bottom: none;
+  border-radius: 5px;
+}
+
+.passengers__card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.passengers__card-title {
+  font-family: var(--font-main);
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--color-primary-text-dark);
+  margin: 0;
+  line-height: 100%;
+}
+
+.passengers__btn-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.passengers__toggle-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.passengers__btn-toggle:active {
+  transform: scale(0.9);
+}
+
+.passengers__btn-close {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.passengers__close-img {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.passengers__btn-close:hover .passengers__close-img {
+  opacity: 1;
+}
+
+.passengers__btn-close:active {
+  transform: scale(0.85);
+}
+
+/* ==========================================================================
+   ТЕЛО КАРТОЧКИ И ФОРМЫ
+   ========================================================================== */
+
+.passengers__card-body {
+  padding-top: 38px;
+  padding-left: 36px;
+  padding-right: 35px;
+  box-sizing: border-box;
+}
+
+.passengers__dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  width: 280px;
+  height: 50px;
+  padding-left: 13px;
+  padding-right: 22px;
+  
+  border: 1px solid #928F94;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  box-sizing: border-box;
+  
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--color-primary-text-dark);
+}
+
+.passengers__form-row--type-select {
+  margin-bottom: 45px;
+}
+
+.passengers__form-row--fio {
+  display: flex;
+  gap: 25px; 
+  width: 100%;
+}
+
+.passengers__field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;   
+}
+
+.passengers__label {
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 400;
+  color: #928F94;
+}
+
+.passengers__input {
+  width: 100%;
+  height: 50px;
+  padding-left: 15px;
+  padding-right: 15px;
+  
+  border: 1px solid #928F94;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+  
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  color: var(--color-primary-text-dark);
+}
+
+.passengers__input:hover {
+  border-color: var(--color-primary-text-dark);;
+}
+
+.passengers__input:focus {
+  outline: none;
+  border-color: var(--color-primary-orange);
+}
+
+.passengers__form-row--fio {
+  margin-bottom: 50px;
+}
+
+.passengers__form-row--personal {
+  display: flex;
+  gap: 35px;           
+  align-items: flex-end;
+  margin-bottom: 45px; 
+  width: max-content;  
+}
+
+.passengers__input--date {
+  width: 280px; 
+}
+
+.passengers__gender-group {
+  display: flex;
+  width: 204px; 
+  height: 50px;   
+  border: 1px solid #928F94;
+  border-radius: 5px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.passengers__gender-label {
+  flex: 1; 
+  cursor: pointer;
+}
+
+.passengers__gender-radio {
+  display: none;
+}
+
+.passengers__gender-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  
+  /* Шрифты по макету */
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 100%;
+  color: var(--color-primary-text-dark);
+  user-select: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.passengers__gender-label:first-child .passengers__gender-btn {
+  border-right: 1px solid #928F94;
+}
+
+.passengers__gender-label:hover .passengers__gender-btn {
+  background-color: #F5F5F5;
+}
+
+.passengers__gender-radio:checked + .passengers__gender-btn {
+  background-color: var(--color-primary-orange);
+  color: var(--color-primary-text-dark); 
+}
+
+.passengers__input--date {
+  width: 280px;
+}
+
+.passengers__form-row--personal {
+  margin-bottom: 45px;
+}
+
+.passengers__form-row--checkbox {
+  display: flex;
+  width: 100%;
+  position: relative; 
+  
+  padding-bottom: 30px; 
+  margin-bottom: 37px;  
+}
+
+
+.passengers__form-row--checkbox::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+
+  left: -36px;   
+  right: -35px;  
+  border-bottom: 1px dashed #949494;
+}
+
+
+.passengers__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 20px; 
+  cursor: pointer;
+  user-select: none;
+}
+
+.passengers__checkbox-input {
+  display: none;
+}
+
+.passengers__checkbox-custom {
+  width: 28px; 
+  height: 28px;
+  border: 1px solid #928F94;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  position: relative;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.passengers__checkbox-label:hover .passengers__checkbox-custom {
+  border-color: var(--color-primary-text-dark); 
+}
+
+.passengers__checkbox-input:checked + .passengers__checkbox-custom {
+  border-color: var(--color-primary-orange);
+  background-color: var(--color-primary-orange);
+}
+
+.passengers__checkbox-custom::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 4px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.15s ease;
+}
+
+.passengers__checkbox-input:checked + .passengers__checkbox-custom::after {
+  transform: rotate(45deg) scale(1);
+}
+
+.passengers__checkbox-text {
+  font-family: var(--font-main);
+  font-size: 18px; 
+  font-weight: 400;
+  line-height: 100%;
+  color: var(--color-primary-text-dark);
+}
+
+.passengers__form-row--checkbox {
+  margin-bottom: 45px;
+}
+
+.passengers__form-row--docs {
+  display: flex;
+  gap: 35px;          
+  align-items: flex-end;
+  
+  width: max-content; 
+  position: relative; 
+  
+  padding-bottom: 33px; 
+  margin-bottom: 30px; 
+}
+
+.passengers__form-row--docs::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -36px; 
+  width: 960px; 
+  border-bottom: 1px dashed #949494;
+}
+
+.passengers__form-row--docs .passengers__dropdown {
+  width: 280px;
+  transition: width 0.2s ease;
+}
+
+
+.passengers__input--series {
+  width: 205px;
+  height: 50px;
+  border: 1px solid #928F94;
+  border-radius: 5px;
+}
+
+.passengers__input--number {
+  width: 205px;
+  height: 50px;
+  border: 1px solid #928F94;
+  border-radius: 5px;
+}
+
+.passengers__card-footer {
+  display: flex;
+  justify-content: flex-end; 
+  width: 100%;
+  margin-top: 30px;  
+  margin-bottom: 28px;   
+  
+  padding-right: 31px;
+}
+
+.passengers__btn-next {
+  width: 303px;
+  height: 52px;
+  
+  border: 1px solid var(--color-primary-text-dark);
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  color: var(--color-primary-text-dark);
+  
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.passengers__btn-next:hover {
+  background-color: var(--color-primary-text-dark); 
+  color: #FFFFFF;           
+}
+
+.passengers__btn-next:active {
+  transform: scale(0.97);  
+}
+
+
+/* ==========================================================================
+   ИНТЕРАКТИВНЫЙ ВЫПАДАЮЩИЙ СПИСОК 
+   ========================================================================== */
+
+.passengers__dropdown {
+  position: relative; 
+  width: 280px;      
+}
+
+.passengers__dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px); 
+  left: 0;
+  width: 100%;
+  
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  
+  background-color: #F4F3F6; 
+  border: 1px solid #928F94;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  
+  z-index: 10; 
+  overflow: hidden;
+}
+
+.passengers__dropdown-item {
+  padding: 12px 16px;
+  font-family: var(--font-main);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 100%;
+  color: var(--color-primary-text-dark);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.passengers__dropdown-item:hover {
+  background-color: #E2E0E5; 
+}
+
+.passengers__dropdown-item:active {
+  background-color: #D4D2D7;
+}
+
+.passengers__dropdown-item--selected {
+  background-color: var(--color-primary-orange);
+  color: var(--color-primary-text-dark);
+}
+
+.passengers__dropdown-arrow {
+  transition: transform 0.2s ease;
+}
+
+.passengers__dropdown-toggle--active .passengers__dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.passengers__form-row--docs .passengers__dropdown-menu {
+  width: 444px 
+}
+
+.passengers__form-row--docs .passengers__dropdown {
+  width: 280px; 
+}
+
+/* Модификатор: когда выбрано Свидетельство о рождении */
+.passengers__form-row--docs .passengers__dropdown--wide {
+  width: 444px; 
+}
+
+.passengers__form-row--docs .passengers__dropdown-toggle {
+  width: 100%; 
+}
+
+.passengers__input--number[placeholder*="символов"]::placeholder {
+  font-size: 16px; 
+  letter-spacing: -0.2px; /* Чуть сжимаем буквы для компактности */
+}
+
+.passengers__input--number::placeholder {
+  white-space: pre-line;
+}
+
+
+/* ==========================================================================
+   КОНТЕЙНЕР ДОБАВИТЬ НОВОГО ПАССАЖИРА
+   ========================================================================== */
+
+.passengers__add-container {
+  width: 100%;
+}
+
+.passengers__btn-add {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  
+  width: 100%;
+  height: 94px;                 
+  padding-left: 30px;           
+  padding-right: 33px;          
+  
+  background-color: #FFFFFF;
+  border: 1px solid #C4C4C4;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+}
+
+.passengers__add-title {
+  font-family: var(--font-main);
+  font-size: 30px;              
+  font-weight: 400;
+  line-height: 100%;
+  color: var(--color-primary-text-dark);
+}
+
+.passengers__add-img {
+  width: 24px;                 
+  height: 24px;              
+  object-fit: contain;
+}
+
+.passengers__btn-add:hover {
+  background-color: #FDFDFD;
+  border-color: var(--color-primary-orange); 
+}
+
+.passengers__btn-add:focus-visible {
+  outline: 2px solid var(--color-primary-orange);
+  outline-offset: 2px;
+}
+
+.passengers__btn-add:active {
+  transform: scale(0.995); 
+}
+
+/* ==========================================================================
+   КНОПКА ДАЛЕЕ
+   ========================================================================== */
+
+.passengers__submit-block {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 55px; 
+}
+
+/* Кнопка ДАЛЕЕ */
+.passengers__btn-submit {
+  width: 222px;
+  height: 60px; 
+  
+  background-color: #928F94;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  
+  font-family: var(--font-main);
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  letter-spacing: 0%;
+  
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.passengers__btn-submit:hover {
+  background-color: var(--color-primary-text-dark); /
+}
+
+.passengers__btn-submit:focus-visible {
+  outline: 3px solid var(--color-primary-orange);
+  outline-offset: 3px;
+}
+
+.passengers__btn-submit:active {
+  transform: scale(0.97);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
