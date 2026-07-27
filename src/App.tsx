@@ -4,6 +4,8 @@ import HomeMainContent from './components/HomeMainContent/HomeMainContent';
 import TrainSelection from './components/TrainSelection/TrainSelection';
 import SeatSelection from './components/SeatSelection/SeatSelection';
 import Passengers from './components/Passengers/Passengers';
+import Payment from './components/Payment/Payment'; 
+import Verification from './components/Verification/Verification';
 import Footer from './components/Footer/Footer';
 
 function App() {
@@ -26,18 +28,11 @@ function App() {
             <Route path="/passengers" element={<Passengers />} />
 
             {/* 4. Страница оплаты */}
-            <Route path="/payment" element={
-              <div style={{ padding: '40px', textAlign: 'center', fontSize: '24px' }}>
-                Здесь будет форма оплаты
-              </div>
-            } />
+            <Route path="/payment" element={<Payment />} />
 
             {/* 5. Страница проверки */}
-            <Route path="/verification" element={
-              <div style={{ padding: '40px', textAlign: 'center', fontSize: '24px' }}>
-                Здесь будет проверка и подтверждение заказа
-              </div>
-            } />
+            <Route path="/verification" element={<Verification />} />
+
           </Routes>
         </main>
 

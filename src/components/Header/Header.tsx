@@ -128,6 +128,7 @@ function Header() {
       </div>
 
       {/* Полоса шагов для внутренних страниц */}
+      {/* Полоса шагов для внутренних страниц */}
       {!isHome && (
         <div className="header__steps-bar steps-bar">
           
@@ -142,8 +143,8 @@ function Header() {
               ? 'steps-bar__step--active' 
               : ''
           }`}>
-            {/* СТРЕЛКА СТЫКА 1 И 2: рендерится ТОЛЬКО на странице пассажиров (когда оба шага оранжевые) */}
-            {location.pathname === '/passengers' && (
+            {/* СТРЕЛКА СТЫКА 1 И 2: Рендерится на пассажирах, оплате и подтверждении */}
+            {['/passengers', '/payment', '/verification'].includes(location.pathname) && (
               <img src={arrowStepDivider} alt="" className="steps-bar__divider-img" />
             )}
             <span className="steps-bar__number">2</span> Пассажиры
@@ -155,8 +156,8 @@ function Header() {
               ? 'steps-bar__step--active' 
               : ''
           }`}>
-            {/* СТРЕЛКА СТЫКА 2 И 3: скрывается на странице пассажиров (так как цвета шагов разные) */}
-            {location.pathname !== '/passengers' && (
+            {/* СТРЕЛКА СТЫКА 2 И 3: Появляется на оплате и подтверждении, скрывается на пассажирах */}
+            {['/payment', '/verification'].includes(location.pathname) && (
               <img src={arrowStepDivider} alt="" className="steps-bar__divider-img" />
             )}
             <span className="steps-bar__number">3</span> Оплата
@@ -164,13 +165,16 @@ function Header() {
 
           {/* 4 шаг: Проверка */}
           <div className={`steps-bar__step ${location.pathname === '/verification' ? 'steps-bar__step--active' : ''}`}>
-            <img src={arrowStepDivider} alt="" className="steps-bar__divider-img" />
+            {/* СТРЕЛКА СТЫКА 3 И 4: Рендерится ТОЛЬКО на шаге проверки заказа, на оплате она скрыта */}
+            {location.pathname === '/verification' && (
+              <img src={arrowStepDivider} alt="" className="steps-bar__divider-img" />
+            )}
             <span className="steps-bar__number">4</span> Проверка
           </div>
 
         </div>
       )}
-
+      
       {/* Оранжевый бордер только для Главной */}
       {isHome && <div className="header__border"></div>}
     </header>

@@ -1,15 +1,16 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Passengers.css'; 
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
 import PassengerCard from './PassengerCard'; 
 import iconPlusOrange from '../../assets/icon-plus-orange.svg';
 
 function Passengers() {
+    const navigate = useNavigate();
     const [passengers, setPassengers] = useState([
         { id: 'passenger-first' }
     ]);
 
-    // Функция добавления новой карточки
     const handleAddPassenger = () => {
         const nextPassenger = {
             id: crypto.randomUUID()
@@ -17,21 +18,23 @@ function Passengers() {
         setPassengers([...passengers, nextPassenger]);
     };
 
-    // Функция удаления карточки
     const handleRemovePassenger = (idToRemove: string) => {
-        if (passengers.length === 1) return; // Запрещаем удалять единственную карточку
+        if (passengers.length === 1) return; 
         
         setPassengers(passengers.filter(passenger => passenger.id !== idToRemove));
     };
 
-    
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        navigate('/payment');
+    };
 
     return (
         <div className="passengers__container">
             <TripDetailsSidebar />
 
             <main className="passengers__main">
-                <form className="passengers__form" onSubmit={(e) => e.preventDefault()}>
+                <form className="passengers__form" onSubmit={handleSubmit}>
                     
                     {/* РЕНДЕР КАРТОЧЕК */}
                     {passengers.map((passenger, index) => (
@@ -62,3 +65,4 @@ function Passengers() {
 }
 
 export default Passengers;
+
