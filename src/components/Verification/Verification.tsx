@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Verification.css';
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
 
@@ -8,6 +8,7 @@ import iconPassengerCircleOrange from '../../assets/icon-passenger-circle-orange
 
 export default function Verification() {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleEditTrain = () => {
         navigate('/trains');
@@ -16,6 +17,9 @@ export default function Verification() {
     const handleConfirmOrder = () => {
         navigate('/success');
     };
+
+    const paymentData = location.state as { chosenMethod?: 'online' | 'cash' } | null;
+    const currentPaymentMethod = paymentData?.chosenMethod || 'online';
 
     return (
         <div className="verification__container">
@@ -229,7 +233,11 @@ export default function Verification() {
 
                     <div className="verification-payment__body">
                         <div className="verification-payment__left-col">
-                            <span className="verification-payment__method-text">Наличными</span>
+                            
+                            <span className="verification-payment__method-text">
+                                {currentPaymentMethod === 'cash' ? 'Наличными' : 'Онлайн'}
+                            </span>
+                            
                         </div>
 
                         <div className="verification-payment__sidebar">
@@ -244,7 +252,6 @@ export default function Verification() {
                     </div>
                 </div>
 
-         
                 <div className="verification__submit-block">
                     <button 
                         type="button" 

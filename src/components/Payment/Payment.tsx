@@ -1,16 +1,17 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Payment.css';
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
 
 function Payment() {
     const navigate = useNavigate();
+    
+    const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>('online');
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault(); // Предотвращаем перезагрузку страницы браузером
+        e.preventDefault(); 
         
-        // В будущем здесь будет сбор данных оплаты и отправка запроса
-        
-        navigate('/verification'); // Перенаправляем на страницу проверки
+        navigate('/verification', { state: { chosenMethod: paymentMethod } }); 
     };
 
     return (
@@ -70,7 +71,15 @@ function Payment() {
                         <div className="payment__section-body">
                             <div className="payment__method-group">
                                 <label className="payment__checkbox-label">
-                                    <input type="radio" name="payment-method" value="online" className="payment__checkbox-input" defaultChecked />
+                                    
+                                    <input 
+                                        type="radio" 
+                                        name="payment-method" 
+                                        value="online" 
+                                        className="payment__checkbox-input" 
+                                        checked={paymentMethod === 'online'}
+                                        onChange={() => setPaymentMethod('online')}
+                                    />
                                     <span className="payment__checkbox-custom"></span>
                                     <span className="payment__checkbox-text">Онлайн</span>
                                 </label>
@@ -84,7 +93,15 @@ function Payment() {
 
                             <div className="payment__method-group payment__method-group--cash">
                                 <label className="payment__checkbox-label">
-                                    <input type="radio" name="payment-method" value="cash" className="payment__checkbox-input" />
+                                    
+                                    <input 
+                                        type="radio" 
+                                        name="payment-method" 
+                                        value="cash" 
+                                        className="payment__checkbox-input" 
+                                        checked={paymentMethod === 'cash'}
+                                        onChange={() => setPaymentMethod('cash')}
+                                    />
                                     <span className="payment__checkbox-custom"></span>
                                     <span className="payment__checkbox-text">Наличными</span>
                                 </label>
