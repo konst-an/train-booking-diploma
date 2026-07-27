@@ -1,0 +1,9 @@
+import './Success.css';
+
+export default function Success() {
+    return (
+        <div className="success-page">
+            
+        </div>
+    );
+}

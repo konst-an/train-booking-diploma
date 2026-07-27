@@ -18,6 +18,7 @@ registerLocale('ru', ru);
 function Header() {
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const isSuccess = location.pathname === '/success';
   const navigate = useNavigate();
 
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -29,8 +30,8 @@ function Header() {
   };
 
   return (
-    // Динамические классы для всего хедера
-    <header className={`header ${isHome ? 'header--home' : 'header--inner'}`}>
+
+    <header className={`header ${isHome ? 'header--home' : isSuccess ? 'header--success' : 'header--inner'}`}>
       
       <div className="header__logo-wrapper">
         <a href="#" className="header__logo">Лого</a>
@@ -55,15 +56,19 @@ function Header() {
 
       <div className="header__content">
        
-        {isHome && (
-          <h1 className="header__slogan">Вся жизнь - <br/><span>путешествие!</span></h1>
+         {isHome && (
+          <h1 className="header__slogan">
+            Вся жизнь - <br /><span>путешествие!</span>
+          </h1>
         )}
 
-        {/* Динамические классы для формы поиска */}
-        <form className={`header__search-form ${isHome ? 'header__search-form--home' : 'header__search-form--inner'}`}onSubmit={handleSubmit}>
-          
+         {!isSuccess && (
+        <form 
+          className={`header__search-form ${isHome ? 'header__search-form--home' : 'header__search-form--inner'}`} 
+          onSubmit={handleSubmit}
+        >
           <div className="header__form-content">
-          
+
             <div className="header__form-section">
               <h3 className="header__form-title">Направление</h3>
               <div className="header__form-row">
@@ -123,14 +128,12 @@ function Header() {
 
           <button type="submit" className="header__form-submit">Найти билеты</button>
 
-        </form>
+        </form> )}
          
       </div>
 
       {/* Полоса шагов для внутренних страниц */}
-      {/* Полоса шагов для внутренних страниц */}
-      {!isHome && (
-        <div className="header__steps-bar steps-bar">
+      {!isHome && !isSuccess && (<div className="header__steps-bar steps-bar">
           
           {/* 1 шаг: Билеты */}
           <div className="steps-bar__step steps-bar__step--active">

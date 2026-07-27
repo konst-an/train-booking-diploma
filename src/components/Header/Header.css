@@ -24,6 +24,19 @@
   z-index: 0; 
 }
 
+.header--success {
+  height: 834px; 
+  position: relative; 
+}
+
+.header--success::before {
+  background-image: url('../../assets/header-bg-success.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  transform: none; 
+}
+
 .header__logo-wrapper,
 .header__nav {
   position: relative;

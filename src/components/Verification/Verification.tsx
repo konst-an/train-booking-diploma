@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import './Verification.css';
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
 
-// Импорт иконки удобств из ассетов
 import ticketFeatures from '../../assets/ticket-features.svg'; 
 import iconPassengerCircleOrange from '../../assets/icon-passenger-circle-orange.svg'; // Новая иконка пассажира в оранжевом кружке
 
@@ -10,9 +9,12 @@ import iconPassengerCircleOrange from '../../assets/icon-passenger-circle-orange
 export default function Verification() {
     const navigate = useNavigate();
 
-    // Функция перенаправления на шаг изменения поезда
     const handleEditTrain = () => {
         navigate('/trains');
+    };
+
+    const handleConfirmOrder = () => {
+        navigate('/success');
     };
 
     return (
@@ -240,11 +242,14 @@ export default function Verification() {
                             </button>
                         </div>
                     </div>
-                </div> {/* <--- КАРТОЧКА СУОСОБА ОПЛАТЫ ЗАКРЫЛАСЬ ТУТ */}
+                </div>
 
-                {/* ФИНАЛЬНЫЙ БЛОК КНОПКИ: НА СЕРОМ ФОНЕ СТРОГО ПОД КАРТОЧКОЙ */}
+         
                 <div className="verification__submit-block">
-                    <button type="submit" className="verification__btn-submit">
+                    <button 
+                        type="button" 
+                        className="verification__btn-submit"
+                        onClick={handleConfirmOrder}>
                         ПОДТВЕРДИТЬ
                     </button>
                 </div>
