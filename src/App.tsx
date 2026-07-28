@@ -11,8 +11,6 @@ import Footer from './components/Footer/Footer';
 
 function AppContent() {
   const location = useLocation();
-  
-  // ГЛАВНЫЙ ФИКС: Проверяем, находится ли пользователь на финальной странице успеха
   const isSuccessPage = location.pathname === '/success';
 
   return (
@@ -39,9 +37,8 @@ function AppContent() {
           <Route path="/success" element={<Success />} />
         </Routes>
       </main>
-
-      {/* Рендерим футер везде, кроме финальной страницы успеха */}
-      {!isSuccessPage && <Footer />}
+      
+      {<Footer />}
       
     </div>
   );
