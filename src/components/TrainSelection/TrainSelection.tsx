@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; 
@@ -10,12 +11,17 @@ import arrowPagePrev from '../../assets/arrow-page-prev.svg';
 import arrowPageNext from '../../assets/arrow-page-next.svg';
 
 function TrainSelection() {
-  const [activeSort, setActiveSort] = useState('time');
-  const [isSortOpen, setIsSortOpen] = useState(false);
-  const [activeLimit, setActiveLimit] = useState(5);
+    const navigate = useNavigate();
+    
+    const [activeSort, setActiveSort] = useState('time');
+    const [isSortOpen, setIsSortOpen] = useState(false);
+    const [activeLimit, setActiveLimit] = useState(5);
+    const [activePage, setActivePage] = useState(1);
 
-  const [activePage, setActivePage] = useState(1);
-
+    const handleSelectSeats = () => {
+        navigate('/seats');
+    };
+  
   return (
     <div className="train-selection__container">
          {/* ПОДКЛЮЧАЕМ ОБЩУЮ БОКОВУЮ ПАНЕЛЬ */}
@@ -150,7 +156,13 @@ function TrainSelection() {
                             <div className="train-card__features">
                                 <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
                             </div>
-                            <button className="train-card__btn">Выбрать места</button>
+                            <button 
+                                type="button" 
+                                className="train-card__btn"
+                                onClick={handleSelectSeats}
+                                >
+                                Выбрать места
+                            </button>
                         </div>
                     </div>
                 </article>
@@ -232,7 +244,13 @@ function TrainSelection() {
                             <div className="train-card__features">
                                 <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
                             </div>
-                            <button className="train-card__btn">Выбрать места</button>
+                            <button 
+                                type="button" 
+                                className="train-card__btn"
+                                onClick={handleSelectSeats}
+                                >
+                                Выбрать места
+                            </button>
                         </div>
                     </div>
                 </article>
@@ -320,7 +338,13 @@ function TrainSelection() {
                             <div className="train-card__features">
                                 <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
                             </div>
-                            <button className="train-card__btn">Выбрать места</button>
+                            <button 
+                                type="button" 
+                                className="train-card__btn"
+                                onClick={handleSelectSeats}
+                                >
+                                Выбрать места
+                            </button>
                         </div>
                     </div>
                 </article>
@@ -412,7 +436,13 @@ function TrainSelection() {
                             <div className="train-card__features">
                                 <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
                             </div>
-                            <button className="train-card__btn">Выбрать места</button>
+                            <button 
+                                type="button" 
+                                className="train-card__btn"
+                                onClick={handleSelectSeats}
+                                >
+                                Выбрать места
+                            </button>
                         </div>
                     </div>
                 </article>
@@ -498,7 +528,13 @@ function TrainSelection() {
                             <div className="train-card__features">
                                 <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
                             </div>
-                            <button className="train-card__btn">Выбрать места</button>
+                            <button 
+                                type="button" 
+                                className="train-card__btn"
+                                onClick={handleSelectSeats}
+                                >
+                                Выбрать места
+                            </button>
                         </div>
                     </div>
                 </article>
