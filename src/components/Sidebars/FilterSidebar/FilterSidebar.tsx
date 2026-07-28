@@ -13,12 +13,16 @@ import sidebarExpress from '../../../assets/sidebar-express.svg';
 import sidebarArrowTo from '../../../assets/sidebar-arrow-to.svg';
 import sidebarArrowFrom from '../../../assets/sidebar-arrow-from.svg';
 import sidebarPlus from '../../../assets/sidebar-plus.svg';
+import sidebarMinus from '../../../assets/sidebar-minus.svg';
 
 import ticketFeatures from '../../../assets/ticket-features.svg'; 
 
 function FilterSidebar() {
   const [sidebarDateStart, setSidebarDateStart] = useState<Date | null>(new Date('2018-08-30'));
   const [sidebarDateEnd, setSidebarDateEnd] = useState<Date | null>(new Date('2018-09-09'));
+
+  const [isToExpanded, setIsToExpanded] = useState<boolean>(true);
+  const [isFromExpanded, setIsFromExpanded] = useState<boolean>(true);
 
   return (
      <div className="sidebar-left">
@@ -122,24 +126,134 @@ function FilterSidebar() {
                 </div>
             </div>
 
+
+            {/* ==========================================
+                БЛОК НАПРАВЛЕНИЯ: ТУДА
+                ========================================== */}
+        
             <div className="sidebar__section filter-direction">
                 <div className="sidebar__direction-header">
-                <img src={sidebarArrowTo} alt="" className="sidebar__direction-arrow" />
-                <span className="sidebar__direction-title">Туда</span>
-                <button type="button" className="sidebar__direction-toggle">
-                    <img src={sidebarPlus} alt="Развернуть" />
-                </button>
+                    <img src={sidebarArrowTo} alt="" className="sidebar__direction-arrow" />
+                    <span className="sidebar__direction-title">Туда</span>
+                    
+                    {/* Кнопка меняет состояние при клике */}
+                    <button 
+                        type="button" 
+                        className="sidebar__direction-toggle"
+                        onClick={() => setIsToExpanded(!isToExpanded)}>
+            
+                        <img 
+                            src={isToExpanded ? sidebarMinus : sidebarPlus} 
+                            alt={isToExpanded ? "Свернуть" : "Развернуть"} 
+                        />
+                    </button>
                 </div>
+
+                {isToExpanded && (
+                    <div className="sidebar__direction-content">
+                        {/* 1. Время отбытия */}
+                        <div className="sidebar__time-block">
+                            <h4 className="sidebar__time-title">Время отбытия</h4>
+                            <div className="sidebar__time-slider-container">
+                                <div className="sidebar__time-slider">
+                                    <div className="sidebar__time-track">
+                                        <div className="sidebar__time-range" style={{ left: '0%', width: '46%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '0%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                    </div>
+                                </div>
+                                <div className="sidebar__time-labels">
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '0%' }}>0:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 2. Время прибытия */}
+                        <div className="sidebar__time-block">
+                            <h4 className="sidebar__time-title sidebar__time-title--arrival">Время прибытия</h4>
+                            <div className="sidebar__time-slider-container">
+                                <div className="sidebar__time-slider">
+                                    <div className="sidebar__time-track">
+                                        <div className="sidebar__time-range" style={{ left: '20%', width: '26%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '20%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                    </div>
+                                </div>
+                                <div className="sidebar__time-labels">
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '20%' }}>5:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
+            
+            {/* ==========================================================================
+                БЛОК НАПРАВЛЕНИЯ: ОБРАТНО
+            ========================================================================== */}
 
             <div className="sidebar__section filter-direction">
                 <div className="sidebar__direction-header">
-                <img src={sidebarArrowFrom} alt="" className="sidebar__direction-arrow" />
-                <span className="sidebar__direction-title">Обратно</span>
-                <button type="button" className="sidebar__direction-toggle">
-                    <img src={sidebarPlus} alt="Развернуть" />
-                </button>
+                    <img src={sidebarArrowFrom} alt="" className="sidebar__direction-arrow" />
+                    <span className="sidebar__direction-title">Обратно</span>
+                    
+                    <button 
+                        type="button" 
+                        className="sidebar__direction-toggle"
+                        onClick={() => setIsFromExpanded(!isFromExpanded)}>
+                    
+                        <img 
+                            src={isFromExpanded ? sidebarMinus : sidebarPlus} 
+                            alt={isFromExpanded ? "Свернуть" : "Развернуть"} 
+                        />
+                    </button>
                 </div>
+
+                {isFromExpanded && (
+                    <div className="sidebar__direction-content">
+                        {/* 1. Время отбытия */}
+                        <div className="sidebar__time-block">
+                            <h4 className="sidebar__time-title">Время отбытия</h4>
+                            <div className="sidebar__time-slider-container">
+                                <div className="sidebar__time-slider">
+                                    <div className="sidebar__time-track">
+                                        <div className="sidebar__time-range" style={{ left: '0%', width: '46%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '0%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                    </div>
+                                </div>
+                                <div className="sidebar__time-labels">
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '0%' }}>0:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* 2. Время прибытия */}
+                        <div className="sidebar__time-block">
+                            <h4 className="sidebar__time-title sidebar__time-title--arrival">Время прибытия</h4>
+                            <div className="sidebar__time-slider-container">
+                                <div className="sidebar__time-slider">
+                                    <div className="sidebar__time-track">
+                                        <div className="sidebar__time-range" style={{ left: '20%', width: '26%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '20%' }}></div>
+                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                    </div>
+                                </div>
+                                <div className="sidebar__time-labels">
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '20%' }}>5:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </aside>
 
