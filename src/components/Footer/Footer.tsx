@@ -14,11 +14,18 @@ import twitterIcon from '../../assets/twitter-icon.svg';
 import arrowUpIcon from '../../assets/arrow-up-icon.svg';
 
 function Footer() {
+  
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
-    <footer className="footer">
+    <footer className="footer" id="contacts">
       <div className="footer__main">
         
-       
         <div className="footer__column">
           <h3 className="footer__title">Свяжитесь с нами</h3>
           <ul className="footer__contacts">
@@ -77,17 +84,22 @@ function Footer() {
         </div>
       </div>
 
-      <div className="footer__bottom">
+     <div className="footer__bottom">
         <div className="footer__bottom-container">
           <a href="#" className="footer__logo-link">Лого</a>
-        
-          <button type="button" className="footer__arrow-up">
+      
+          <button 
+            type="button" 
+            className="footer__arrow-up"
+            onClick={handleScrollToTop}
+          >
             <img src={arrowUpIcon} alt="Наверх" className="footer__arrow-up-icon"/>
           </button>
           
           <p className="footer__copyright">2018 WEB</p>
         </div>
       </div>
+
     </footer>
   );
 }
