@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import HomeMainContent from './components/HomeMainContent/HomeMainContent';
 import TrainSelection from './components/TrainSelection/TrainSelection';
@@ -10,9 +10,7 @@ import Success from './components/Success/Success';
 import Footer from './components/Footer/Footer';
 
 function AppContent() {
-  const location = useLocation();
-  const isSuccessPage = location.pathname === '/success';
-
+ 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       

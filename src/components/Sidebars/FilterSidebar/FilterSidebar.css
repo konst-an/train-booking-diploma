@@ -543,7 +543,7 @@
   display: flex;
   align-items: baseline;     
   font-family: var(--font-main);
-  color: var(--color-primary-orange); /
+  color: var(--color-primary-orange);
 }
 
 .ticket-card__price-from {

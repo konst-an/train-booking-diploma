@@ -3,7 +3,6 @@ import './TripDetailsSidebar.css';
 import sidebarArrowTo from '../../../assets/sidebar-arrow-to.svg';
 import sidebarArrowFrom from '../../../assets/sidebar-arrow-from.svg';
 import iconPassengerOrange from '../../../assets/icon-passenger-orange.svg';
-import sidebarPlus from '../../../assets/sidebar-plus.svg';
 import sidebarMinus from '../../../assets/sidebar-minus.svg';
 import arrowForward from '../../../assets/arrow-forward.svg';
 import sidebarArrowBackward from '../../../assets/arrow-backward.svg';
