@@ -44,7 +44,7 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/train-booking-diploma">
       <AppContent />
     </Router>
   );
