@@ -18,17 +18,23 @@ import sidebarLuxury from '../../assets/sidebar-luxury.svg';
 import iconServiceAir from '../../assets/icon-service-air.svg';     
 import iconWifi from '../../assets/icon-wifi.svg';           
 import iconServiceLinen from '../../assets/icon-service-linen.svg'; 
-import iconServiceFood from '../../assets/icon-service-food.svg';   
+import iconServiceFood from '../../assets/icon-service-food.svg';
+
+const WAGONS_PRICES_DATA: Record<string, { total: number; topQty: number; bottomQty: number; topPrice: string; bottomPrice: string }> = {
+  "07": { total: 11, topQty: 3, bottomQty: 8, topPrice: "2 920", bottomPrice: "3 530" },
+  "09": { total: 16, topQty: 6, bottomQty: 10, topPrice: "3 100", bottomPrice: "3 850" }
+};
 
 function SeatSelection() {
     const [activeWagonType, setActiveWagonType] = useState<string>('coupe');
+    const [activeWagonNum, setActiveWagonNum] = useState<string>('07');
 
     const [hasAir, setHasAir] = useState<boolean>(false);
     const [hasWifi, setHasWifi] = useState<boolean>(false);
     const [hasLinen, setHasLinen] = useState<boolean>(true);
     const [hasFood, setHasFood] = useState<boolean>(true);
 
-    const [activeWagonNum, setActiveWagonNum] = useState<string>('07');
+    const wagonInfo = WAGONS_PRICES_DATA[activeWagonNum] || WAGONS_PRICES_DATA["07"];
 
     return (
         <div className="seat-selection__container">
@@ -224,15 +230,15 @@ function SeatSelection() {
                                 {/* КОЛОНКА 1: МЕСТА */}
                                 <div className="seat-selection__wagon-col-seats">
                                     <div className="seat-selection__wagon-col-title">
-                                        Места <span className="seat-selection__total-seats-count">11</span>
+                                        Места <span className="seat-selection__total-seats-count">{wagonInfo.total}</span>
                                     </div>
                                     <div className="seat-selection__wagon-col-item">
                                         <span className="seat-selection__seat-name">Верхние</span>
-                                        <span className="seat-selection__seat-qty">3</span>
+                                        <span className="seat-selection__seat-qty">{wagonInfo.topQty}</span>
                                     </div>
                                     <div className="seat-selection__wagon-col-item">
                                         <span className="seat-selection__seat-name">Нижние</span>
-                                        <span className="seat-selection__seat-qty">8</span>
+                                        <span className="seat-selection__seat-qty">{wagonInfo.bottomQty}</span>
                                     </div>
                                 </div>
 
@@ -240,11 +246,11 @@ function SeatSelection() {
                                 <div className="seat-selection__wagon-col-prices">
                                     <div className="seat-selection__wagon-col-title">Стоимость</div>
                                     <div className="seat-selection__wagon-col-item">
-                                        <span className="seat-selection__price-num">2 920</span>
+                                        <span className="seat-selection__price-num">{wagonInfo.topPrice}</span>
                                         <span className="seat-selection__price-rub">₽</span>
                                     </div>
                                     <div className="seat-selection__wagon-col-item">
-                                        <span className="seat-selection__price-num">3 530</span>
+                                        <span className="seat-selection__price-num">{wagonInfo.bottomPrice}</span>
                                         <span className="seat-selection__price-rub">₽</span>
                                     </div>
                                 </div>
