@@ -4,6 +4,14 @@ import './Payment.css';
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
 
 function Payment() {
+
+    const [payerLastName, setPayerLastName] = useState('');
+    const [payerFirstName, setPayerFirstName] = useState('');
+    const [payerMiddleName, setPayerMiddleName] = useState('');
+    const [payerPhone, setPayerPhone] = useState('');
+    const [payerEmail, setPayerEmail] = useState('');
+
+
     const navigate = useNavigate();
     
     const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>('online');
@@ -31,32 +39,66 @@ function Payment() {
                         </div>
 
                         <div className="payment__section-body">
+                            
+                            {/* ФИО Плательщика */}
                             <div className="payment__form-row payment__form-row--fio">
                                 <div className="payment__field-group">
                                     <label className="payment__label">Фамилия</label>
-                                    <input type="text" className="payment__input" placeholder="Мартынюк" />
+                                    <input 
+                                        type="text" 
+                                        className="payment__input" 
+                                        placeholder="Мартынюк" 
+                                        value={payerLastName}
+                                        onChange={(e) => setPayerLastName(e.target.value)}
+                                    />
                                 </div>
                                 <div className="payment__field-group">
                                     <label className="payment__label">Имя</label>
-                                    <input type="text" className="payment__input" placeholder="Ирина" />
+                                    <input 
+                                        type="text" 
+                                        className="payment__input" 
+                                        placeholder="Ирина" 
+                                        value={payerFirstName}
+                                        onChange={(e) => setPayerFirstName(e.target.value)}
+                                    />
                                 </div>
                                 <div className="payment__field-group">
                                     <label className="payment__label">Отчество</label>
-                                    <input type="text" className="payment__input" placeholder="Эдуардовна" />
+                                    <input 
+                                        type="text" 
+                                        className="payment__input" 
+                                        placeholder="Эдуардовна" 
+                                        value={payerMiddleName}
+                                        onChange={(e) => setPayerMiddleName(e.target.value)}
+                                    />
                                 </div>
                             </div>
 
+                            {/* Контактный телефон */}
                             <div className="payment__form-row">
                                 <div className="payment__field-group">
                                     <label className="payment__label">Контактный телефон</label>
-                                    <input type="tel" className="payment__input payment__input--phone" placeholder="+7 953 322 18 18" />
+                                    <input 
+                                        type="tel" 
+                                        className="payment__input payment__input--phone" 
+                                        placeholder="+7 953 322 18 18" 
+                                        value={payerPhone}
+                                        onChange={(e) => setPayerPhone(e.target.value)}
+                                    />
                                 </div>
                             </div>
 
+                            {/* E-mail */}
                             <div className="payment__form-row">
                                 <div className="payment__field-group">
                                     <label className="payment__label">E-mail</label>
-                                    <input type="email" className="payment__input payment__input--email" placeholder="inbox@gmail.ru" />
+                                    <input 
+                                        type="email" 
+                                        className="payment__input payment__input--email" 
+                                        placeholder="inbox@gmail.ru" 
+                                        value={payerEmail}
+                                        onChange={(e) => setPayerEmail(e.target.value)}
+                                    />
                                 </div>
                             </div>
                         </div>
