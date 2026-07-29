@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; // Подключаем общий сайдбар
 import './SeatSelection.css';
@@ -20,6 +21,13 @@ import iconServiceLinen from '../../assets/icon-service-linen.svg';
 import iconServiceFood from '../../assets/icon-service-food.svg';   
 
 function SeatSelection() {
+    const [activeWagonType, setActiveWagonType] = useState<string>('coupe');
+
+    const [hasAir, setHasAir] = useState<boolean>(false);
+    const [hasWifi, setHasWifi] = useState<boolean>(false);
+    const [hasLinen, setHasLinen] = useState<boolean>(true);
+    const [hasFood, setHasFood] = useState<boolean>(true);
+
     return (
         <div className="seat-selection__container">
             
@@ -128,29 +136,47 @@ function SeatSelection() {
                             <h3 className="seat-selection__wagon-type-title">Тип вагона</h3>
                             
                             <div className="seat-selection__wagon-type-list">
+                                
                                 {/* Сидячий */}
-                                <button className="seat-selection__wagon-type-item">
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'sedentary' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('sedentary')}
+                                >
                                     <img src={sidebarSedentary} alt="Сидячий" className="seat-selection__wagon-icon seat-selection__wagon-icon--sedentary" />
                                     <span className="seat-selection__wagon-text">Сидячий</span>
                                 </button>
 
                                 {/* Плацкарт */}
-                                <button className="seat-selection__wagon-type-item">
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'reserved' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('reserved')}
+                                >
                                     <img src={sidebarReserved} alt="Плацкарт" className="seat-selection__wagon-icon seat-selection__wagon-icon--reserved" />
                                     <span className="seat-selection__wagon-text">Плацкарт</span>
                                 </button>
 
-                                {/* Купе (Активный вариант) */}
-                                <button className="seat-selection__wagon-type-item seat-selection__wagon-type-item--active">
+                                {/* Купе */}
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'coupe' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('coupe')}
+                                >
                                     <img src={sidebarCoupe} alt="Купе" className="seat-selection__wagon-icon seat-selection__wagon-icon--coupe" />
                                     <span className="seat-selection__wagon-text">Купе</span>
                                 </button>
 
                                 {/* Люкс */}
-                                <button className="seat-selection__wagon-type-item">
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'luxury' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('luxury')}
+                                >
                                     <img src={sidebarLuxury} alt="Люкс" className="seat-selection__wagon-icon seat-selection__wagon-icon--luxury" />
                                     <span className="seat-selection__wagon-text">Люкс</span>
                                 </button>
+
                             </div>
                         </div>
 
@@ -215,9 +241,15 @@ function SeatSelection() {
                                     </div>
                                     
                                     <div className="seat-selection__services-icons-list">
+                                        
                                         {/* Иконка: Кондиционер */}
                                         <div className="seat-selection__service-item">
-                                            <button className="seat-selection__service-btn" aria-label="Кондиционер">
+                                            <button 
+                                                type="button"
+                                                className={`seat-selection__service-btn ${hasAir ? 'seat-selection__service-btn--active' : ''}`} 
+                                                aria-label="Кондиционер"
+                                                onClick={() => setHasAir(!hasAir)}
+                                            >
                                                 <img src={iconServiceAir} alt="" className="seat-selection__service-img" />
                                             </button>
                                             <div className="seat-selection__service-tooltip">кондиционер</div>
@@ -225,29 +257,46 @@ function SeatSelection() {
 
                                         {/* Иконка: Wi-Fi */}
                                         <div className="seat-selection__service-item">
-                                            <button className="seat-selection__service-btn" aria-label="Wi-Fi">
+                                            <button 
+                                                type="button"
+                                                className={`seat-selection__service-btn ${hasWifi ? 'seat-selection__service-btn--active' : ''}`} 
+                                                aria-label="Wi-Fi"
+                                                onClick={() => setHasWifi(!hasWifi)} 
+                                            >
                                                 <img src={iconWifi} alt="" className="seat-selection__service-img" />
                                             </button>
                                             <div className="seat-selection__service-tooltip">wi-fi</div>
                                         </div>
 
-                                        {/* Иконка: Белье (Активная оранжевая) */}
+                                        {/* Иконка: Белье */}
                                         <div className="seat-selection__service-item">
-                                            <button className="seat-selection__service-btn seat-selection__service-btn--active" aria-label="Постельное белье">
+                                            <button 
+                                                type="button"
+                                                className={`seat-selection__service-btn ${hasLinen ? 'seat-selection__service-btn--active' : ''}`} 
+                                                aria-label="Постельное белье"
+                                                onClick={() => setHasLinen(!hasLinen)}
+                                            >
                                                 <img src={iconServiceLinen} alt="" className="seat-selection__service-img" />
                                             </button>
                                             <div className="seat-selection__service-tooltip">постельное белье</div>
                                         </div>
 
-                                        {/* Иконка: Питание (Активная оранжевая) */}
+                                        {/* Иконка: Питание */}
                                         <div className="seat-selection__service-item">
-                                            <button className="seat-selection__service-btn seat-selection__service-btn--active" aria-label="Питание">
+                                            <button 
+                                                type="button"
+                                                className={`seat-selection__service-btn ${hasFood ? 'seat-selection__service-btn--active' : ''}`} 
+                                                aria-label="Питание"
+                                                onClick={() => setHasFood(!hasFood)}
+                                            >
                                                 <img src={iconServiceFood} alt="" className="seat-selection__service-img" />
                                             </button>
                                             <div className="seat-selection__service-tooltip">питание</div>
                                         </div>
+
                                     </div>
                                 </div>
+                               
                             </div>
 
                             {/* ЖИВОЙ СЧЕТЧИК (В правом нижнем углу карточки) */}

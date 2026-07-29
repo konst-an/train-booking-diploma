@@ -626,7 +626,6 @@
   margin-left: 6px;
 }
 
-/* Выстраиваем иконки строго в один горизонтальный ряд */
 .seat-selection__services-icons-list {
   display: flex;
   flex-direction: row; 
@@ -638,30 +637,50 @@
 }
 
 .seat-selection__service-btn {
-  
-  background: none;
-  border: none; 
+  width: 36px;
+  height: 34.11px; 
+  background: transparent; 
+  border: 1px solid var(--color-primary-text-dark);
+  border-radius: 5px;
   padding: 0;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  transition: transform 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 .seat-selection__service-img {
-   width: 36px;
-  height: 34.1px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
 }
 
-.seat-selection__service-btn:hover {
+.seat-selection__service-btn:not(.seat-selection__service-btn--active):hover {
+  background-color: var(--color-primary-orange) !important;
+  border-color: var(--color-primary-text-dark) !important;
   transform: scale(1.1);
 }
 
-.seat-selection__service-btn:active {
-  transform: scale(0.95);
+.seat-selection__service-btn--active {
+  background-color: #FDB935 !important;
+  border-color: #FDB935 !important;
+}
+
+.seat-selection__service-btn--active .seat-selection__service-img {
+  filter: brightness(0) saturate(100%) invert(98%) sepia(2%) saturate(3015%) hue-rotate(204deg) brightness(101%) contrast(93%) !important;
+}
+
+.seat-selection__service-btn:disabled {
+  background-color: #FCDC9D !important; 
+  border-color: #FCDC9D !important;
+  cursor: not-allowed; 
+}
+
+.seat-selection__service-btn:disabled .seat-selection__service-img {
+  opacity: 0.35;
+  filter: none !important; 
 }
 
 .seat-selection__service-tooltip {
@@ -685,13 +704,11 @@
   transition: all 0.15s ease-in-out;
 }
 
-
 .seat-selection__service-item:hover .seat-selection__service-tooltip {
   opacity: 1;
   visibility: visible;
 }
 
-/* ПАНЕЛЬ ЖИВОГО СЧЕТЧИКА (Оставляем абсолютное позиционирование, не меняя HTML) */
 .seat-selection__live-users-panel {
   position: absolute;
 
@@ -712,29 +729,6 @@
   padding: 10px 15px; 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ВТОРОЙ КОНТЕЙНЕР: СВЕРНУТЫЙ БЛОК ВЫБОРА МЕСТ */
 .seat-selection__train-block--collapsed {
   width: 959px; 
@@ -752,54 +746,8 @@
 }
 
 .seat-selection__navigation--collapsed .seat-selection__back-arrow-img {
-  transform: scaleX(-1); /* Разворачивает стрелку по горизонтали на 180 градусов */
+  transform: scaleX(-1); 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* КНОПКА ДАЛЕЕ  */
 .seat-selection__btn-next {
