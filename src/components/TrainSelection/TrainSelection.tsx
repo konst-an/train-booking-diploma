@@ -10,6 +10,38 @@ import ticketFeatures from '../../assets/ticket-features.svg';
 import arrowPagePrev from '../../assets/arrow-page-prev.svg';
 import arrowPageNext from '../../assets/arrow-page-next.svg';
 
+const MOCK_TRAINS_DATA = [
+  {
+    id: 1,
+    number: "116С",
+    routeSummary: ["Адлер →", "Москва →", "Санкт-Петербург"],
+    forward: {
+      timeOut: "00:10",
+      cityOut: "Москва",
+      stationOut: "Курский вокзал",
+      duration: "9 : 42",
+      timeIn: "09:52",
+      cityIn: "Санкт-Петербург",
+      stationIn: "Ладожский вокзал"
+    },
+    backward: {
+      timeOut: "00:10",
+      cityOut: "Москва",
+      stationOut: "Курский вокзал",
+      duration: "9 : 42",
+      timeIn: "09:52",
+      cityIn: "Санкт-Петербург",
+      stationIn: "Ладожский вокзал"
+    },
+    seats: [
+      { type: "Сидячий", count: 88, price: "1 920" },
+      { type: "Плацкарт", count: 52, price: "2 530" },
+      { type: "Купе", count: 24, price: "3 820" },
+      { type: "Люкс", count: 15, price: "4 950" }
+    ]
+  }
+];
+
 function TrainSelection() {
     const navigate = useNavigate();
     
@@ -69,476 +101,105 @@ function TrainSelection() {
                 </div>
             </div>
 
-             {/* СПИСОК КАРТОЧЕК ПОЕЗДОВ */}
+            {/* СПИСОК КАРТОЧЕК ПОЕЗДОВ */}
             <div className="train-selection__list">
-                <article className="train-card">
-                    {/* ЛЕВАЯ СЕКЦИЯ: Поезд и Иконка */}
-                    <div className="train-card__info">
-                        <div className="train-card__icon-box">
-                            <img src="/src/assets/icon-train.svg" alt="Поезд" className="train-card__icon-img" />
-                        </div>
-                        <h3 className="train-card__number">116С</h3>
-                        <div className="train-card__route-summary">
-                            <span className="train-card__summary-city train-card__summary-city--highlight">Адлер →</span>
-                            <span className="train-card__summary-city">Москва →</span>
-                            <span className="train-card__summary-city">Санкт-Петербург</span>
-                        </div>
-                    </div>
-
-                    {/* СРЕДНЯЯ СЕКЦИЯ: Маршруты туда и обратно */}
-                    <div className="train-card__route-details">
-                        {/* Маршрут ТУДА */}
-                        <div className="train-card__route train-card__route--forward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:10</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Курский вокзал</span>
+                {MOCK_TRAINS_DATA.map((train) => (
+                    <article className="train-card" key={train.id}>
+                        
+                        {/* ЛЕВАЯ СЕКЦИЯ: Поезд и Иконка */}
+                        <div className="train-card__info">
+                            <div className="train-card__icon-box">
+                                <img src="/src/assets/icon-train.svg" alt="Поезд" className="train-card__icon-img" />
                             </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">9 : 42</span>
-                                <img src="/src/assets/arrow-forward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:52</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
+                            <h3 className="train-card__number">{train.number}</h3>
+                            <div className="train-card__route-summary">
+                                {train.routeSummary.map((city, idx) => (
+                                    <span 
+                                        key={idx} 
+                                        className={`train-card__summary-city ${idx === 0 ? 'train-card__summary-city--highlight' : ''}`}
+                                    >
+                                        {city}
+                                    </span>
+                                ))}
                             </div>
                         </div>
 
-                        {/* Маршрут ОБРАТНО */}
-                        <div className="train-card__route train-card__route--backward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:10</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Курский вокзал</span>
-                            </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">9 : 42</span>
-                                <img src="/src/assets/arrow-backward.svg" alt="" className="train-card__arrow-img" />
+                        {/* СРЕДНЯЯ СЕКЦИЯ: Маршруты туда и обратно */}
+                        <div className="train-card__route-details">
+                            {/* Маршрут ТУДА */}
+                            <div className="train-card__route train-card__route--forward">
+                                <div className="train-card__time-block">
+                                    <span className="train-card__time">{train.forward.timeOut}</span>
+                                    <span className="train-card__city">{train.forward.cityOut}</span>
+                                    <span className="train-card__station">{train.forward.stationOut}</span>
+                                </div>
+                                
+                                <div className="train-card__duration-block">
+                                    <span className="train-card__duration-time">{train.forward.duration}</span>
+                                    <img src="/src/assets/arrow-forward.svg" alt="" className="train-card__arrow-img" />
+                                </div>
+
+                                <div className="train-card__time-block">
+                                    <span className="train-card__time">{train.forward.timeIn}</span>
+                                    <span className="train-card__city">{train.forward.cityIn}</span>
+                                    <span className="train-card__station">{train.forward.stationIn}</span>
+                                </div>
                             </div>
 
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:52</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
-                            </div>
+                            {train.backward && (
+                                <div className="train-card__route train-card__route--backward">
+                                    <div className="train-card__time-block">
+                                        <span className="train-card__time">{train.backward.timeOut}</span>
+                                        <span className="train-card__city">{train.backward.cityOut}</span>
+                                        <span className="train-card__station">{train.backward.stationOut}</span>
+                                    </div>
+                                    
+                                    <div className="train-card__duration-block">
+                                        <span className="train-card__duration-time">{train.backward.duration}</span>
+                                        <img src="/src/assets/arrow-backward.svg" alt="" className="train-card__arrow-img" />
+                                    </div>
+
+                                    <div className="train-card__time-block">
+                                        <span className="train-card__time">{train.backward.timeIn}</span>
+                                        <span className="train-card__city">{train.backward.cityIn}</span>
+                                        <span className="train-card__station">{train.backward.stationIn}</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    </div>
 
-                    <div className="train-card__pricing">
-                        <ul className="train-card__seats-list">
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Сидячий</span>
-                                <span className="train-card__seat-count">88</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">1 920</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Плацкарт</span>
-                                <span className="train-card__seat-count">52</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">2 530</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Купе</span>
-                                <span className="train-card__seat-count">24</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">3 820</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Люкс</span>
-                                <span className="train-card__seat-count">15</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">4 950</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                        </ul>
-                
-                        <div className="train-card__pricing-bottom">
-                            <div className="train-card__features">
-                                <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
-                            </div>
-                            <button 
-                                type="button" 
-                                className="train-card__btn"
-                                onClick={handleSelectSeats}
+                        {/* ПРАВАЯ СЕКЦИЯ: Цены и классы мест */}
+                        <div className="train-card__pricing">
+                            <ul className="train-card__seats-list">
+                                {train.seats.map((seat, index) => (
+                                    <li className="train-card__seat-item" key={index}>
+                                        <span className="train-card__seat-type">{seat.type}</span>
+                                        <span className="train-card__seat-count">{seat.count}</span>
+                                        <span className="train-card__seat-price">
+                                            от <strong className="train-card__price-num">{seat.price}</strong>{" "}
+                                            <span className="train-card__currency">₽</span>
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            {/* Нижняя часть правой секции: Удобства и кнопка */}
+                            <div className="train-card__pricing-bottom">
+                                <div className="train-card__features">
+                                    <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
+                                </div>
+                                <button 
+                                    type="button" 
+                                    className="train-card__btn"
+                                    onClick={handleSelectSeats}
                                 >
-                                Выбрать места
-                            </button>
-                        </div>
-                    </div>
-                </article>
-
-                {/* ВТОРАЯ КАРТОЧКА: Поезд 020У «Мегаполис» */}
-                <article className="train-card">
-                    {/* ЛЕВАЯ СЕКЦИЯ: Поезд и Иконка */}
-                    <div className="train-card__info">
-                        <div className="train-card__icon-box">
-                            <img src="/src/assets/icon-train.svg" alt="Поезд" className="train-card__icon-img" />
-                        </div>
-                        <h3 className="train-card__number">020У</h3>
-                        <div className="train-card__route-summary">
-                            <span>Москва →</span>
-                            <span>Санкт-Петербург</span>
-                            <span>«Мегаполис»</span>
-                        </div>
-                    </div>
-
-                    {/* СРЕДНЯЯ СЕКЦИЯ: Маршруты туда и обратно */}
-                    <div className="train-card__route-details">
-                        {/* Маршрут ТУДА */}
-                        <div className="train-card__route train-card__route--forward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:20</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Ленинградский вокзал</span>
-                            </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">8 : 39</span>
-                                <img src="/src/assets/arrow-forward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">08:59</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Московский вокзал</span>
+                                    Выбрать места
+                                </button>
                             </div>
                         </div>
-
-                        {/* Маршрут ОБРАТНО */}
-                        <div className="train-card__route train-card__route--backward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:20</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Ленинградский вокзал</span>
-                            </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">8 : 39</span>
-                                <img src="/src/assets/arrow-backward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">08:59</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Московский вокзал</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ПРАВАЯ СЕКЦИЯ: Места, стоимости и кнопка */}
-                    <div className="train-card__pricing">
-                        <ul className="train-card__seats-list">
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Купе</span>
-                                <span className="train-card__seat-count">90</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">3 950</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Люкс</span>
-                                <span className="train-card__seat-count">31</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">4 950</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                        </ul>
-                    
-                        <div className="train-card__pricing-bottom">
-                            <div className="train-card__features">
-                                <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
-                            </div>
-                            <button 
-                                type="button" 
-                                className="train-card__btn"
-                                onClick={handleSelectSeats}
-                                >
-                                Выбрать места
-                            </button>
-                        </div>
-                    </div>
-                </article>
-
-                {/* ТРЕТЬЯ КАРТОЧКА: Поезд 116С «Волга» */}
-                <article className="train-card">
-                    {/* ЛЕВАЯ СЕКЦИЯ: Поезд и Иконка */}
-                    <div className="train-card__info">
-                        <div className="train-card__icon-box">
-                            <img src="/src/assets/icon-train.svg" alt="Поезд" className="train-card__icon-img" />
-                        </div>
-                        <h3 className="train-card__number">116С</h3>
-                        <div className="train-card__route-summary">
-                            <span className="train-card__summary-city--highlight">Нижний Новгород →</span>
-                            <span>Москва →</span>
-                            <span>Санкт-Петербург</span>
-                            <span>«Волга»</span>
-                        </div>
-                    </div>
-
-                    {/* СРЕДНЯЯ СЕКЦИЯ: Маршруты туда и обратно */}
-                    <div className="train-card__route-details">
-                        {/* Маршрут ТУДА */}
-                        <div className="train-card__route train-card__route--forward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:41</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Ленинградский вокзал</span>
-                            </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">8 : 32</span>
-                                <img src="/src/assets/arrow-forward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:13</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
-                            </div>
-                        </div>
-
-                        {/* Маршрут ОБРАТНО */}
-                        <div className="train-card__route train-card__route--backward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:41</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Ленинградский вокзал</span>
-                            </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">8 : 32</span>
-                                <img src="/src/assets/arrow-backward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:13</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ПРАВАЯ СЕКЦИЯ: Места, стоимости и кнопка */}
-                    <div className="train-card__pricing">
-                        <ul className="train-card__seats-list">
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Плацкарт</span>
-                                <span className="train-card__seat-count">52</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">2 530</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Купе</span>
-                                <span className="train-card__seat-count">24</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">3 820</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Люкс</span>
-                                <span className="train-card__seat-count">15</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">4 950</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                        </ul>
-                    
-                        <div className="train-card__pricing-bottom">
-                            <div className="train-card__features">
-                                <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
-                            </div>
-                            <button 
-                                type="button" 
-                                className="train-card__btn"
-                                onClick={handleSelectSeats}
-                                >
-                                Выбрать места
-                            </button>
-                        </div>
-                    </div>
-                </article>
-
-                {/* ЧЕТВЕРТАЯ КАРТОЧКА: Поезд 116С (Адлер — Санкт-Петербург, купе закрыто) */}
-                <article className="train-card">
-                    {/* ЛЕВАЯ СЕКЦИЯ: Поезд и Иконка */}
-                    <div className="train-card__info">
-                        <div className="train-card__icon-box">
-                            <img src="/src/assets/icon-train.svg" alt="Поезд" className="train-card__icon-img" />
-                        </div>
-                        <h3 className="train-card__number">116С</h3>
-                        <div className="train-card__route-summary">
-                            <span className="train-card__summary-city--highlight">Адлер →</span>
-                            <span>Москва →</span>
-                            <span>Санкт-Петербург</span>
-                        </div>
-                    </div>
-
-                    {/* СРЕДНЯЯ СЕКЦИЯ: Маршруты туда и обратно */}
-                    <div className="train-card__route-details">
-                        {/* Маршрут ТУДА */}
-                        <div className="train-card__route train-card__route--forward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:10</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Курский вокзал</span>
-                            </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">9 : 42</span>
-                                <img src="/src/assets/arrow-forward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:52</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
-                            </div>
-                        </div>
-
-                        {/* Маршрут ОБРАТНО */}
-                        <div className="train-card__route train-card__route--backward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:10</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Курский вокзал</span>
-                            </div>
-                            
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">9 : 42</span>
-                                <img src="/src/assets/arrow-backward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:52</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ПРАВАЯ СЕКЦИЯ: Места, стоимости и кнопка */}
-                    <div className="train-card__pricing">
-                        <ul className="train-card__seats-list">
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Сидячий</span>
-                                <span className="train-card__seat-count">88</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">1 920</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Плацкарт</span>
-                                <span className="train-card__seat-count">52</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">2 530</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Купе</span>
-                                <span className="train-card__seat-count">24</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">3 820</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Люкс</span>
-                                <span className="train-card__seat-count">15</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">4 950</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                        </ul>
-                    
-                        <div className="train-card__pricing-bottom">
-                            <div className="train-card__features">
-                                <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
-                            </div>
-                            <button 
-                                type="button" 
-                                className="train-card__btn"
-                                onClick={handleSelectSeats}
-                                >
-                                Выбрать места
-                            </button>
-                        </div>
-                    </div>
-                </article>
-
-                {/* ПЯТАЯ КАРТОЧКА: Поезд 116С (Адлер — Санкт-Петербург) */}
-                <article className="train-card">
-                    {/* ЛЕВАЯ СЕКЦИЯ */}
-                    <div className="train-card__info">
-                        <div className="train-card__icon-box">
-                            <img src="/src/assets/icon-train.svg" alt="Поезд" className="train-card__icon-img" />
-                        </div>
-                        <h3 className="train-card__number">116С</h3>
-                        <div className="train-card__route-summary">
-                            <span className="train-card__summary-city--highlight">Адлер →</span>
-                            <span>Москва →</span>
-                            <span>Санкт-Петербург</span>
-                        </div>
-                    </div>
-
-                    {/* СРЕДНЯЯ СЕКЦИЯ */}
-                    <div className="train-card__route-details">
-                        <div className="train-card__route train-card__route--forward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:10</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Курский вокзал</span>
-                            </div>
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">9 : 42</span>
-                                <img src="/src/assets/arrow-forward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:52</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
-                            </div>
-                        </div>
-
-                        <div className="train-card__route train-card__route--backward">
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">00:10</span>
-                                <span className="train-card__city">Москва</span>
-                                <span className="train-card__station">Курский вокзал</span>
-                            </div>
-                            <div className="train-card__duration-block">
-                                <span className="train-card__duration-time">9 : 42</span>
-                                <img src="/src/assets/arrow-backward.svg" alt="" className="train-card__arrow-img" />
-                            </div>
-                            <div className="train-card__time-block">
-                                <span className="train-card__time">09:52</span>
-                                <span className="train-card__city">Санкт-Петербург</span>
-                                <span className="train-card__station">Ладожский вокзал</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ПРАВАЯ СЕКЦИЯ */}
-                    <div className="train-card__pricing">
-                        <ul className="train-card__seats-list">
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Сидячий</span>
-                                <span className="train-card__seat-count">88</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">1 920</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Плацкарт</span>
-                                <span className="train-card__seat-count">52</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">2 530</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Купе</span>
-                                <span className="train-card__seat-count">24</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">3 820</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                            <li className="train-card__seat-item">
-                                <span className="train-card__seat-type">Люкс</span>
-                                <span className="train-card__seat-count">15</span>
-                                <span className="train-card__seat-price">от <strong className="train-card__price-num">4 950</strong> <span className="train-card__currency">₽</span></span>
-                            </li>
-                        </ul>
-                    
-                        <div className="train-card__pricing-bottom">
-                            <div className="train-card__features">
-                                <img src={ticketFeatures} alt="Удобства" className="train-card__features-img" />
-                            </div>
-                            <button 
-                                type="button" 
-                                className="train-card__btn"
-                                onClick={handleSelectSeats}
-                                >
-                                Выбрать места
-                            </button>
-                        </div>
-                    </div>
-                </article>
-
+                    </article>
+                ))}
+      
                 {/* БЛОК СТРАНИЦЫ */}
                 <div className="train-selection__pagination">
                     <button className="train-selection__page-arrow train-selection__page-arrow--prev">

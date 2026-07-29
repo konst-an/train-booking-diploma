@@ -69,6 +69,10 @@
   color: var(--color-primary-orange);
 }
 
+.train-selection__sort-trigger:active {
+  transform: scale(0.97);
+}
+
 .train-selection__sort-options {
   position: absolute;
   top: 100%;
@@ -103,6 +107,10 @@
   background-color: #f9f9f9;
 }
 
+.train-selection__sort-options .train-selection__sort-btn:active {
+  transform: scale(0.97);
+}
+
 .train-selection__sort-options .train-selection__sort-btn--active {
   font-weight: bold;
   color: var(--color-primary-text-dark); 
@@ -134,6 +142,10 @@
 
 .train-selection__limit-btn:hover {
   color: var(--color-primary-orange);
+}
+
+.train-selection__limit-btn:active {
+  transform: scale(0.97);
 }
 
 .train-selection__limit-btn--active {
