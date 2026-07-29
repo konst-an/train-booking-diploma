@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+## [ОТКРЫТЬ ПРОЕКТ](https://konst-an.github.io/train-booking-diploma/)
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
