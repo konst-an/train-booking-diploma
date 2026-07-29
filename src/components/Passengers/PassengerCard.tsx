@@ -13,10 +13,19 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
     const [isExpanded, setIsExpanded] = useState(true);
     const [isTypeOpen, setIsTypeOpen] = useState(false);
     const [ticketType, setTicketType] = useState('Взрослый');
+
+    const [lastName, setLastName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [middleName, setMiddleName] = useState('');
+
+    const [gender, setGender] = useState<string>('W');
+    const [birthDate, setBirthDate] = useState<string>('');
+
+    const [passportSeries, setPassportSeries] = useState('');
+    const [docNumber, setDocNumber] = useState('');  
+
     const [isDocOpen, setIsDocOpen] = useState(false);
     const [docType, setDocType] = useState('Паспорт РФ');
-
-    const [numberValue, setNumberValue] = useState('');
 
     return (
         <div className="passengers__card">
@@ -56,36 +65,88 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                     <div className="passengers__form-row passengers__form-row--fio">
                         <div className="passengers__field-group">
                             <label className="passengers__label">Фамилия</label>
-                            <input type="text" className="passengers__input" />
+                            <input 
+                                type="text" 
+                                className="passengers__input" 
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                            />
                         </div>
                         <div className="passengers__field-group">
                             <label className="passengers__label">Имя</label>
-                            <input type="text" className="passengers__input" />
+                            <input 
+                                type="text" 
+                                className="passengers__input" 
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
+                            />
                         </div>
                         <div className="passengers__field-group">
                             <label className="passengers__label">Отчество</label>
-                            <input type="text" className="passengers__input" />
+                            <input 
+                                type="text" 
+                                className="passengers__input" 
+                                value={middleName}
+                                onChange={(e) => setMiddleName(e.target.value)}
+                            />
                         </div>
                     </div>
 
                     {/* СТРОКА 3: ПОЛ И ДАТА РОЖДЕНИЯ */}
                     <div className="passengers__form-row passengers__form-row--personal">
+                        
+                        {/* Выбор Пола */}
                         <div className="passengers__field-group">
                             <label className="passengers__label">Пол</label>
                             <div className="passengers__gender-group">
-                                <label className="passengers__gender-label"><input type="radio" name={`gender-${number}`} value="M" className="passengers__gender-radio" /><span className="passengers__gender-btn">М</span></label>
-                                <label className="passengers__gender-label"><input type="radio" name={`gender-${number}`} value="W" className="passengers__gender-radio" defaultChecked /><span className="passengers__gender-btn">Ж</span></label>
+                                
+                                {/* Мужской */}
+                                <label className="passengers__gender-label">
+                                    <input 
+                                        type="radio" 
+                                        name={`gender-${number}`} 
+                                        value="M" 
+                                        className="passengers__gender-radio" 
+                                        checked={gender === 'M'}
+                                        onChange={() => setGender('M')}
+                                    />
+                                    <span className="passengers__gender-btn">М</span>
+                                </label>
+                                
+                                {/* Женский */}
+                                <label className="passengers__gender-label">
+                                    <input 
+                                        type="radio" 
+                                        name={`gender-${number}`} 
+                                        value="W" 
+                                        className="passengers__gender-radio" 
+                                        checked={gender === 'W'}
+                                        onChange={() => setGender('W')}
+                                    />
+                                    <span className="passengers__gender-btn">Ж</span>
+                                </label>
                             </div>
                         </div>
-                        <div className="passengers__field-group"><label className="passengers__label">Дата рождения</label><input type="text" className="passengers__input passengers__input--date" placeholder="ДД/ММ/ГГ" /></div>
+                        
+                        {/* Дата рождения */}
+                        <div className="passengers__field-group">
+                            <label className="passengers__label">Дата рождения</label>
+                            <input 
+                                type="text" 
+                                className="passengers__input passengers__input--date" 
+                                placeholder="ДД/ММ/ГГ" 
+                                value={birthDate}
+                                onChange={(e) => setBirthDate(e.target.value)}
+                            />
+                        </div>
                     </div>
 
                     {/* СТРОКА 4: ЧЕКБОКС */}
                     <div className="passengers__form-row passengers__form-row--checkbox">
                         <label className="passengers__checkbox-label"><input type="checkbox" className="passengers__checkbox-input" /><span className="passengers__checkbox-custom"></span><span className="passengers__checkbox-text">ограниченная подвижность</span></label>
                     </div>
-
-                   {/* СТРОКА 5: ДОКУМЕНТЫ */}
+                    
+                    {/* СТРОКА 5: ДОКУМЕНТЫ */}
                     <div className="passengers__form-row passengers__form-row--docs">
                         <div className="passengers__field-group">
                             <label className="passengers__label">Тип документа</label>
@@ -102,22 +163,34 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                                 )}
                             </div>
                         </div>
+                        
+                        {/* Серия (показывается только для Паспорта РФ) */}
                         {docType === 'Паспорт РФ' && (
                             <div className="passengers__field-group">
                                 <label className="passengers__label">Серия</label>
-                                <input type="text" className="passengers__input passengers__input--series" placeholder="_ _ _ _" />
+                                <input 
+                                    type="text" 
+                                    className="passengers__input passengers__input--series" 
+                                    placeholder="_ _ _ _" 
+                                    value={passportSeries}
+                                    onChange={(e) => setPassportSeries(e.target.value)}
+                                />
                             </div>
                         )}
+                        
+                        {/* Номер (есть у любого документа) */}
                         <div className="passengers__field-group">
                             <label className="passengers__label">Номер</label>
                             <input 
                                 type="text" 
                                 className="passengers__input passengers__input--number" 
                                 placeholder="_ _ _ _ _ _" 
+                                value={docNumber}
+                                onChange={(e) => setDocNumber(e.target.value)}
                             />
                         </div>
                     </div>
-
+                        
                     {/* КНОПКА СЛЕДУЮЩИЙ ПАССАЖИР */}
                     <div className="passengers__card-footer">
                         <button type="button" className="passengers__btn-next">Следующий пассажир</button>
