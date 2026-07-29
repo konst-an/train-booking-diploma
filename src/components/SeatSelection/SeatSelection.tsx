@@ -28,6 +28,8 @@ function SeatSelection() {
     const [hasLinen, setHasLinen] = useState<boolean>(true);
     const [hasFood, setHasFood] = useState<boolean>(true);
 
+    const [activeWagonNum, setActiveWagonNum] = useState<string>('07');
+
     return (
         <div className="seat-selection__container">
             
@@ -185,8 +187,21 @@ function SeatSelection() {
                             <div className="seat-selection__wagons-left-group">
                                 <span className="seat-selection__wagons-title-label">Вагоны</span>
                                 <div className="seat-selection__wagons-buttons-list">
-                                    <button className="seat-selection__wagon-btn seat-selection__wagon-btn--active">07</button>
-                                    <button className="seat-selection__wagon-btn">09</button>
+                                    <button 
+                                        type="button"
+                                        className={`seat-selection__wagon-btn ${activeWagonNum === '07' ? 'seat-selection__wagon-btn--active' : ''}`}
+                                        onClick={() => setActiveWagonNum('07')}
+                                    >
+                                        07
+                                    </button>
+
+                                    <button 
+                                        type="button"
+                                        className={`seat-selection__wagon-btn ${activeWagonNum === '09' ? 'seat-selection__wagon-btn--active' : ''}`}
+                                        onClick={() => setActiveWagonNum('09')}
+                                    >
+                                        09
+                                    </button>
                                 </div>
                             </div>
                             <span className="seat-selection__wagons-direction-hint">
@@ -197,9 +212,9 @@ function SeatSelection() {
                         {/* КАРТОЧКА ДЕТАЛЕЙ ВАГОНА */}
                         <div className="seat-selection__wagon-card">
                             
-                            {/* ЛЕВАЯ ЧАСТЬ: Номер вагона */}
+                            {/* ЛЕВАЯ ЧАСТЬ: Номер вагона меняется динамически в зависимости от стейта */}
                             <div className="seat-selection__wagon-badge">
-                                <div className="seat-selection__wagon-badge-num">07</div>
+                                <div className="seat-selection__wagon-badge-num">{activeWagonNum}</div>
                                 <div className="seat-selection__wagon-badge-text">вагон</div>
                             </div>
 
