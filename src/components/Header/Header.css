@@ -141,6 +141,44 @@
   pointer-events: none; 
 }
 
+/* Контейнер выпадающего списка городов */
+.header__suggestions-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #F5F4F6;
+  
+  /* Расстояние между инпутом и началом плашки */
+  margin-top: 5px; 
+  
+  border-radius: 3px; 
+  
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 10;
+  max-height: 255px;
+  overflow-y: auto;
+}
+
+/* Элемент города в списке */
+.header__suggestions-item {
+  padding: 13px 20px;
+  font-family: var(--font-main);
+  font-size: 18px;
+  color: var(--color-primary-text-dark);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease;
+}
+
+.header__suggestions-item:hover {
+  color: var(--color-primary-orange);
+}
+
 .header__form-swap {
   width: 36px;
   height: 36px;
@@ -158,6 +196,15 @@
   width: 36px; 
   height: 36px;
   object-fit: contain;
+  opacity: 0.7;
+}
+
+.header__form-swap:hover img {
+  opacity: 1;
+}
+
+.header__form-swap:active img {
+  transform: scale(0.9); 
 }
 
 .header__form-submit {
@@ -178,13 +225,14 @@
 }
 
 .header__form-submit:hover {
-  background-color: #FFB020;
-  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .header__form-submit:active {
-  background-color: #E09400; 
-  transform: scale(0.98);
+  background-color: transparent !important;
+  border: 1px solid var(--color-primary-orange) !important;
+  color: var(--color-primary-orange) !important;
+  box-shadow: none !important;
 }
 
 /* ==========================================================================
@@ -532,6 +580,8 @@
   flex-shrink: 0;
   clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
+
+
 
 
 

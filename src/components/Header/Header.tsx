@@ -12,8 +12,13 @@ import formCalendarIcon from '../../assets/form-calendar-icon.svg';
 
 import arrowStepDivider from '../../assets/arrow-step-divider.svg';
 
-
 registerLocale('ru', ru);
+
+const MOCK_CITIES = [
+  "МОСКВА", "АНГАРСК", "АРХАНГЕЛЬСК", "АСТРАХАНЬ", 
+  "БАРНАУЛ", "БЕЛГОРОД", "БЛАГОВЕЩЕНСК", "БРАТСК", 
+  "БРЯНСК", "ВЕЛИКИЙ НОВГОРОД", "СМОЛЕНСК"
+];
 
 function Header() {
   const location = useLocation();
@@ -24,6 +29,26 @@ function Header() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
+  const [fromCity, setFromCity] = useState('');
+  const [toCity, setToCity] = useState('');
+
+  const handleSwapCities = () => {
+    const temp = fromCity;
+    setFromCity(toCity);
+    setToCity(temp);
+  };
+
+  const [showFromSuggestions, setShowFromSuggestions] = useState(false);
+  const [showToSuggestions, setShowToSuggestions] = useState(false);
+
+  const filteredFromCities = fromCity.trim() === "" 
+    ? MOCK_CITIES 
+    : MOCK_CITIES.filter(city => city.toLowerCase().startsWith(fromCity.toLowerCase()));
+
+  const filteredToCities = toCity.trim() === "" 
+    ? MOCK_CITIES 
+    : MOCK_CITIES.filter(city => city.toLowerCase().startsWith(toCity.toLowerCase()));
+ 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();   
     navigate('/trains');  
@@ -72,19 +97,76 @@ function Header() {
             <div className="header__form-section">
               <h3 className="header__form-title">Направление</h3>
               <div className="header__form-row">
-                <div className="header__input-wrapper">
-                  <input type="text" placeholder="Откуда" className="header__form-input" />
+
+                {/* ОТКУДА */}
+                <div className="header__input-wrapper" style={{ position: 'relative' }}>
+                  <input 
+                    type="text" 
+                    placeholder="Откуда" 
+                    className="header__form-input" 
+                    value={fromCity}
+                    onChange={(e) => setFromCity(e.target.value)}
+                    onFocus={() => setShowFromSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowFromSuggestions(false), 200)}
+                    required
+                  />
                   <img src={formGeoIcon} alt="" className="header__input-icon" />
+                  
+                  {/* Выпадающий список "Откуда" */}
+                  {showFromSuggestions && filteredFromCities.length > 0 && (
+                    <ul className="header__suggestions-menu">
+                      {filteredFromCities.map(city => (
+                        <li 
+                          key={city} 
+                          className="header__suggestions-item"
+                          onMouseDown={() => setFromCity(city)} // Ипользуем onMouseDown, так как он срабатывает быстрее onBlur
+                        >
+                          {city}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                
-                <button type="button" className="header__form-swap">
+
+                {/* КНОПКА СМЕНЫ НАПРАВЛЕНИЙ МЕСТАМИ */}
+                <button 
+                  type="button" 
+                  className="header__form-swap" 
+                  onClick={handleSwapCities}
+                >
                   <img src={formSwapIcon} alt="Сменить направления" />
                 </button>
-                
-                <div className="header__input-wrapper">
-                  <input type="text" placeholder="Куда" className="header__form-input" />
+
+                {/* КУДА */}
+                <div className="header__input-wrapper" style={{ position: 'relative' }}>
+                  <input 
+                    type="text" 
+                    placeholder="Куда" 
+                    className="header__form-input" 
+                    value={toCity}
+                    onChange={(e) => setToCity(e.target.value)}
+                    onFocus={() => setShowToSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowToSuggestions(false), 200)}
+                    required 
+                  />
                   <img src={formGeoIcon} alt="" className="header__input-icon" />
+                  
+                  {/* Выпадающий список "Куда" */}
+                  {showToSuggestions && filteredToCities.length > 0 && (
+                    <ul className="header__suggestions-menu">
+                      {filteredToCities.map(city => (
+                        <li 
+                          key={city} 
+                          className="header__suggestions-item"
+                          onMouseDown={() => setToCity(city)}
+                        >
+                          {city}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
+
               </div>
             </div>
 
@@ -107,7 +189,6 @@ function Header() {
                   <img src={formCalendarIcon} alt="" className="header__input-icon" />
                 </div>
                 
-               
                 <div className="header__input-wrapper">
                   <DatePicker
                     selected={endDate}
