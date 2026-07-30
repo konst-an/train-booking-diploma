@@ -205,11 +205,10 @@ function Header() {
 
               </div>
             </div>
-
           </div>
 
           <button type="submit" className="header__form-submit">Найти билеты</button>
-
+          
         </form> )}
          
       </div>

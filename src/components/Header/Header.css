@@ -220,8 +220,6 @@
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
-  
-  transition: all 0.2s ease-in-out; 
 }
 
 .header__form-submit:hover {
@@ -233,6 +231,17 @@
   border: 1px solid var(--color-primary-orange) !important;
   color: var(--color-primary-orange) !important;
   box-shadow: none !important;
+}
+
+.header__search-form--home .header__form-submit {
+  align-self: flex-end;
+  margin-top: 92px;
+}
+
+.header__search-form--inner .header__form-submit {
+  align-self: flex-end;
+  margin-top: 47px;
+  margin-right: 25px;
 }
 
 /* ==========================================================================
@@ -384,7 +393,7 @@
 .header__search-form--home .header__form-row {
   display: flex;
   align-items: center;
-  gap: 5px; 
+  gap: 20px;
 }
 
 .header__search-form--home .header__form-row--dates {
@@ -450,24 +459,6 @@
   width: 325px !important; 
   height: 60px !important;
   flex: none;
-}
-
-/* ==========================================================================
-   ПОЗИЦИОНИРОВАНИЕ КНОПКИ НА РАЗНЫХ СТРАНИЦАХ
-   ========================================================================== */
-
-.header__search-form--home .header__form-submit {
-  position: absolute;
-  top: 455px;
-  left: 382px; 
-  margin-bottom: 35px;
-}
-
-.header__search-form--inner .header__form-submit {
-  position: absolute;
-  top: 190px;  
-  left: 1142px; 
-  margin: 0;   
 }
 
 /* ==========================================================================
