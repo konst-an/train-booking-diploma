@@ -3,14 +3,11 @@
   padding-top: 95px;       
 
   max-width: 100%;
-  padding-left: 259px;       
+  padding-left: 258px;       
   display: flex;             
   flex-direction: row;
   gap: 40px;                
   align-items: flex-start;
-
-  padding-bottom: 120px; 
-  box-sizing: border-box;
 }
 
 .train-selection__main {
@@ -455,20 +452,25 @@
 СТИЛИ ДЛЯ НОМЕРОВ СТРАНИЦ
    ========================================================================== */
 
+.train-selection__wrapper {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
 .train-selection__pagination {
   display: flex;
   flex-direction: row;
-  align-items: center;
   gap: 20px;
   width: 564px; 
   height: 75px; 
-  margin-top: 142px; 
-  margin-bottom: 120px; 
 
-  margin-left: 500px;
+  margin: 140px 230px 193px auto; 
+  justify-content: flex-end;
+
   box-sizing: border-box;
-  
 }
+
 
 .train-selection__page-num,
 .train-selection__page-arrow {
