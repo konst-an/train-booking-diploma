@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+
 import './FilterSidebar.css';
 
 import formCalendarIcon from '../../../assets/form-calendar-icon.svg'; 
@@ -23,6 +25,19 @@ function FilterSidebar() {
 
   const [isToExpanded, setIsToExpanded] = useState<boolean>(true);
   const [isFromExpanded, setIsFromExpanded] = useState<boolean>(true);
+
+  const [wagonFilters, setWagonFilters] = useState({
+    coupe: true,       
+    platscart: false,  
+    sitting: false,    
+    lux: false,        
+    wifi: true,        
+    express: false     
+  });
+
+   const handleToggle = (name: keyof typeof wagonFilters) => {
+    setWagonFilters(prev => ({ ...prev, [name]: !prev[name] }));
+  };
 
   return (
      <div className="sidebar-left">
@@ -56,51 +71,87 @@ function FilterSidebar() {
             </div>
 
             <div className="sidebar__section filter-options">
+
+                {/* КУПЕ */}
                 <div className="sidebar__option-item">
                     <img src={sidebarCoupe} alt="" className="sidebar__option-img" />
                     <span className="sidebar__option-label">Купе</span>
                     <label className="sidebar__switch">
-                        <input type="checkbox" defaultChecked />
-                        <span className="sidebar__slider"></span>
+                    <input 
+                        type="checkbox" 
+                        checked={wagonFilters.coupe} 
+                        onChange={() => handleToggle('coupe')} 
+                    />
+                    <span className="sidebar__slider"></span>
                     </label>
                 </div>
+
+                {/* ПЛАЦКАРТ */}
                 <div className="sidebar__option-item">
                     <img src={sidebarReserved} alt="" className="sidebar__option-img" />
                     <span className="sidebar__option-label">Плацкарт</span>
                     <label className="sidebar__switch">
-                        <input type="checkbox" />
-                        <span className="sidebar__slider"></span>
+                    <input 
+                        type="checkbox" 
+                        checked={wagonFilters.platscart} 
+                        onChange={() => handleToggle('platscart')} 
+                    />
+                    <span className="sidebar__slider"></span>
                     </label>
                 </div>
-                    <div className="sidebar__option-item">
+
+                {/* СИДЯЧИЙ */}
+                <div className="sidebar__option-item">
                     <img src={sidebarSedentary} alt="" className="sidebar__option-img" />
                     <span className="sidebar__option-label">Сидячий</span>
                     <label className="sidebar__switch">
-                        <input type="checkbox" />
+                        <input 
+                            type="checkbox" 
+                            checked={wagonFilters.sitting}
+                            onChange={() => handleToggle('sitting')}
+                        />
                         <span className="sidebar__slider"></span>
                     </label>
                 </div>
+
+                {/* ЛЮКС */}
                 <div className="sidebar__option-item">
                     <img src={sidebarLuxury} alt="" className="sidebar__option-img" />
                     <span className="sidebar__option-label">Люкс</span>
                     <label className="sidebar__switch">
-                        <input type="checkbox" />
+                        <input 
+                            type="checkbox" 
+                            checked={wagonFilters.lux}
+                            onChange={() => handleToggle('lux')}
+                        />
                         <span className="sidebar__slider"></span>
                     </label>
                 </div>
+
+                {/* WI-FI */}
                 <div className="sidebar__option-item">
                     <img src={sidebarWifi} alt="" className="sidebar__option-img" />
                     <span className="sidebar__option-label">Wi-Fi</span>
                     <label className="sidebar__switch">
-                        <input type="checkbox" defaultChecked />
+                        <input 
+                            type="checkbox" 
+                            checked={wagonFilters.wifi}
+                            onChange={() => handleToggle('wifi')}
+                        />
                         <span className="sidebar__slider"></span>
                     </label>
                 </div>
-                    <div className="sidebar__option-item">
+
+                {/* ЭКСПРЕСС */}
+                <div className="sidebar__option-item">
                     <img src={sidebarExpress} alt="" className="sidebar__option-img" />
                     <span className="sidebar__option-label">Экспресс</span>
                     <label className="sidebar__switch">
-                        <input type="checkbox" />
+                        <input 
+                            type="checkbox" 
+                            checked={wagonFilters.express}
+                            onChange={() => handleToggle('express')}
+                        />
                         <span className="sidebar__slider"></span>
                     </label>
                 </div>
@@ -125,7 +176,6 @@ function FilterSidebar() {
                     <span>7000</span>
                 </div>
             </div>
-
 
             {/* ==========================================
                 БЛОК НАПРАВЛЕНИЯ: ТУДА
