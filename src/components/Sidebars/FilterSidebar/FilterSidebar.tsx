@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import LastTickets from './LastTickets';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,7 +18,6 @@ import sidebarArrowFrom from '../../../assets/sidebar-arrow-from.svg';
 import sidebarPlus from '../../../assets/sidebar-plus.svg';
 import sidebarMinus from '../../../assets/sidebar-minus.svg';
 
-import ticketFeatures from '../../../assets/ticket-features.svg'; 
 
 function FilterSidebar() {
   const [sidebarDateStart, setSidebarDateStart] = useState<Date | null>(new Date('2018-08-30'));
@@ -308,76 +308,8 @@ function FilterSidebar() {
         </aside>
 
         {/* 2. БЛОК ПОСЛЕДНИХ БИЛЕТОВ */}
-        <div className="sidebar-left__last-tickets last-tickets">
-            <h3 className="last-tickets__main-title">Последние билеты</h3>
-            <div className="last-tickets__list">
-                {/* Карточка 1: Санкт-Петербург — Самара */}
-                <div className="last-tickets__card ticket-card">
-                    <div className="ticket-card__row">
-                        <div className="ticket-card__city-block">
-                            <span className="ticket-card__city-name">Санкт-Петербург</span>
-                            <span className="ticket-card__station">Курский  <br /> вокзал</span>
-                        </div>
-                        <div className="ticket-card__city-block ticket-card__city-block--right">
-                            <span className="ticket-card__city-name">Самара</span>
-                            <span className="ticket-card__station">Московский  <br /> вокзал</span>
-                        </div>
-                    </div>
-                    <div className="ticket-card__footer">
-                        <img src={ticketFeatures} alt="" className="ticket-card__features" />
-                        <div className="ticket-card__price">
-                            <span className="ticket-card__price-from">от</span>
-                            <span className="ticket-card__price-value">2 500</span>
-                            <span className="ticket-card__price-currency">₽</span>
-                        </div>
-                    </div>
-                </div>
-
-                    {/* Карточка 2: Москва — Казань */}
-                <div className="last-tickets__card ticket-card">
-                    <div className="ticket-card__row">
-                        <div className="ticket-card__city-block">
-                            <span className="ticket-card__city-name">Москва</span>
-                            <span className="ticket-card__station">Курский <br /> вокзал</span>
-                        </div>
-                        <div className="ticket-card__city-block ticket-card__city-block--right">
-                            <span className="ticket-card__city-name">Казань</span>
-                            <span className="ticket-card__station">Московский  <br /> вокзал</span>
-                        </div>
-                    </div>
-                    <div className="ticket-card__footer">
-                        <img src={ticketFeatures} alt="" className="ticket-card__features" />
-                        <div className="ticket-card__price">
-                            <span className="ticket-card__price-from">от</span>
-                            <span className="ticket-card__price-value">3 500</span>
-                            <span className="ticket-card__price-currency">₽</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Карточка 3: Казань — Нижний Новгород */}
-                <div className="last-tickets__card ticket-card">
-                    <div className="ticket-card__row">
-                        <div className="ticket-card__city-block">
-                            <span className="ticket-card__city-name">Казань</span>
-                            <span className="ticket-card__station">Курский  <br /> вокзал</span>
-                        </div>
-                        <div className="ticket-card__city-block ticket-card__city-block--right">
-                            <span className="ticket-card__city-name">Нижний Новгород</span>
-                            <span className="ticket-card__station">Московский  <br /> вокзал</span>
-                        </div>
-                    </div>
-                    <div className="ticket-card__footer">
-                        <img src={ticketFeatures} alt="" className="ticket-card__features" />
-                        <div className="ticket-card__price">
-                            <span className="ticket-card__price-from">от</span>
-                            <span className="ticket-card__price-value">3 800</span>
-                            <span className="ticket-card__price-currency">₽</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <LastTickets />
+        
     </div>   
   );
 }
