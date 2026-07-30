@@ -99,19 +99,21 @@
   color: var(--color-primary-text-white);
   font-family: var(--font-main);
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   box-sizing: border-box;
 }
 
 .home-main__more-btn:hover {
-  background-color: var(--color-primary-text-white);
-  color: #FF8A00; 
+  background-color: #FFCA62;
+  color: #2D2B2F; 
+  border: 1px solid #FFCA62;
 }
 
 .home-main__more-btn:active {
-  transform: scale(0.97);
+  background-color: var(--color-primary-text-white);
+  border: 1px solid var(--color-primary-text-white);
 }
 
 .home-main__how-list {
