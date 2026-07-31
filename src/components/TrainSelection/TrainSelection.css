@@ -102,12 +102,12 @@
 }
 
 .train-selection__sort-options .train-selection__sort-btn:hover {
-  color: var(--color-primary-orange);
-  background-color: #f9f9f9;
+  color: var(--color-primary-text-white);
+  background-color: #FFCA62;
 }
 
 .train-selection__sort-options .train-selection__sort-btn:active {
-  transform: scale(0.97);
+  transform: scale(0.9);
 }
 
 .train-selection__sort-options .train-selection__sort-btn--active {
@@ -424,14 +424,14 @@
 
 /* СТИЛИЗАЦИЯ ОРАНЖЕВОЙ КНОПКИ */
 .train-card__btn {
-  background-color: #FFA500; 
+  background-color: var(--color-primary-orange);
   color: var(--color-primary-text-white);
-  border: none;
+  border: 1px solid var(--color-primary-orange);
   width: 100%;
   padding: 8px 0;
   font-family: var(--font-main);
   font-weight: 700;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 100%;
   border-radius: 5px;
   cursor: pointer;
@@ -440,12 +440,12 @@
 }
 
 .train-card__btn:hover {
-  background-color: #FF8C00;
+  box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 .train-card__btn:active {
-  background-color: #CC7000;
-  transform: scale(0.98);
+  color: var(--color-primary-orange);
+  background-color: var(--color-primary-text-white);
 }
 
 /* ==========================================================================

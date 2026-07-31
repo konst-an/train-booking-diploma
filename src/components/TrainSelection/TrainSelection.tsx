@@ -68,10 +68,11 @@ function TrainSelection() {
             {/* ПРАВАЯ КОЛОНКА */}
             <main className="train-selection__main">
                 <div className="train-selection__topbar">
-                    <span className="train-selection__count">найдено 20</span>
+
+                    <span className="train-selection__count">найдено {MOCK_TRAINS_DATA.length}</span>
                     
                     <div className="train-selection__controls">
-                    {/* Сортировка */}
+                    
                         <div className="train-selection__sort">
                             <span className="train-selection__sort-label">сортировать по:</span>
                             <button 
@@ -99,7 +100,6 @@ function TrainSelection() {
                             )}
                         </div>
                         
-                        {/* Показывать по */}
                         <div className="train-selection__limit">
                             <span className="train-selection__limit-label">показывать по:</span>{[5, 10, 20].map((num) => (<button key={num} className={`train-selection__limit-btn ${activeLimit === num ? 'train-selection__limit-btn--active' : ''}`}
                             onClick={() => setActiveLimit(num)}>{num}</button>))}

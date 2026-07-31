@@ -429,11 +429,12 @@
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.sidebar__direction-toggle:hover {
-  opacity: 0.8;
-  transform: scale(1.1);
+.sidebar__direction-toggle:hover img {
+  filter: brightness(0) saturate(100%) 
+  invert(89%) sepia(13%) saturate(1210%) hue-rotate(325deg) brightness(102%) contrast(99%);
 }
 
-.sidebar__direction-toggle:active {
-  transform: scale(0.9);
+.sidebar__direction-toggle:active img {
+  filter: brightness(0) saturate(100%) 
+  invert(89%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(84%) contrast(85%);
 }

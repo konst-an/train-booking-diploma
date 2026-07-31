@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './LastTickets.css';
 
 import ticketFeatures from '../../../assets/ticket-features.svg'; 
