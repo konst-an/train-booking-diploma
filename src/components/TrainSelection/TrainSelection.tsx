@@ -211,27 +211,33 @@ function TrainSelection() {
 
         {/* БЛОК СТРАНИЦЫ */}
         <div className="train-selection__pagination">
-            <button className="train-selection__page-arrow train-selection__page-arrow--prev">
+            <button 
+                className="train-selection__page-arrow train-selection__page-arrow--prev"
+                onClick={() => setActivePage((prev) => Math.max(prev - 1, 1))}
+                disabled={activePage === 1}
+            >
                 <img src={arrowPagePrev} alt="Назад" className="train-selection__page-arrow-img" />
             </button>
             
             {[1, 2, 3].map((num) => (
                 <button 
-                key={num} 
-                className={`train-selection__page-num ${activePage === num ? 'train-selection__page-num--active' : ''}`}
-                onClick={() => setActivePage(num)}>
+                    key={num} 
+                    className={`train-selection__page-num ${activePage === num ? 'train-selection__page-num--active' : ''}`}
+                    onClick={() => setActivePage(num)}
+                >
                     {num}
                 </button>
             ))}
             
-            <button className="train-selection__page-arrow train-selection__page-arrow--next">
+            <button 
+                className="train-selection__page-arrow train-selection__page-arrow--next"
+                onClick={() => setActivePage((prev) => Math.min(prev + 1, 3))}
+                disabled={activePage === 3}
+            >
                 <img src={arrowPageNext} alt="Вперед" className="train-selection__page-arrow-img" />
             </button>
-        </div>        
-
+        </div>
     </div>
-    
-    
   );
 }
 

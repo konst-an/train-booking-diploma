@@ -480,6 +480,7 @@
   width: 75px; 
   height: 75px;
   background-color: transparent;
+  border-radius: 5px;
   border: 1px solid #C4C4C4; 
   font-family: var(--font-main);
   font-weight: 700;
@@ -493,12 +494,17 @@
 
 .train-selection__page-num:hover,
 .train-selection__page-arrow:hover {
-  color: var(--color-primary-orange);
   border-color: var(--color-primary-orange);
+  color: var(--color-primary-orange);
+  background-color: var(--color-primary-text-white);
+}
+
+.train-selection__page-arrow:hover .train-selection__page-arrow-img {
+  filter: invert(53%) sepia(91%) saturate(1636%) hue-rotate(1deg) brightness(103%) contrast(106%);
 }
 
 .train-selection__page-arrow:active {
-  transform: scale(0.95);
+  transform: scale(0.9);
 }
 
 .train-selection__page-num--active {
