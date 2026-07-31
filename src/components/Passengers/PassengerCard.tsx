@@ -7,9 +7,10 @@ import iconArrowDownGray from '../../assets/icon-arrow-down-gray.svg';
 interface PassengerCardProps {
     number: number;
     onRemove: () => void;
+    onErrorChange: (hasError: boolean) => void; 
 }
 
-export default function PassengerCard({ number, onRemove }: PassengerCardProps) {
+export default function PassengerCard({ number, onRemove, onErrorChange }: PassengerCardProps) {
     const [isExpanded, setIsExpanded] = useState(true);
     const [isTypeOpen, setIsTypeOpen] = useState(false);
     const [ticketType, setTicketType] = useState('Взрослый');
@@ -26,6 +27,9 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
 
     const [isDocOpen, setIsDocOpen] = useState(false);
     const [docType, setDocType] = useState('Паспорт РФ');
+
+    const [docError, setDocError] = useState<string>('');
+    const [isDocValid, setIsDocValid] = useState(false);
 
     return (
         <div className="passengers__card">
@@ -70,8 +74,11 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                                 className="passengers__input" 
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
+                                required 
+                                pattern="^[А-Яа-яЁёA-Za-z\-]+$" 
                             />
                         </div>
+
                         <div className="passengers__field-group">
                             <label className="passengers__label">Имя</label>
                             <input 
@@ -79,8 +86,11 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                                 className="passengers__input" 
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
+                                required 
+                                pattern="^[А-Яа-яЁёA-Za-z\-]+$" 
                             />
                         </div>
+
                         <div className="passengers__field-group">
                             <label className="passengers__label">Отчество</label>
                             <input 
@@ -88,6 +98,8 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                                 className="passengers__input" 
                                 value={middleName}
                                 onChange={(e) => setMiddleName(e.target.value)}
+        
+                                pattern="^[А-Яа-яЁёA-Za-z\-]+$" 
                             />
                         </div>
                     </div>
@@ -134,9 +146,25 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                             <input 
                                 type="text" 
                                 className="passengers__input passengers__input--date" 
-                                placeholder="ДД/ММ/ГГ" 
+                                placeholder="ДД.ММ.ГГГГ" 
                                 value={birthDate}
-                                onChange={(e) => setBirthDate(e.target.value)}
+                                required
+                                pattern="^([0-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.(19[0-9][0-9]|20[0-9][0-9])$"
+                                maxLength={10} 
+                                onChange={(e) => {
+                                    
+                                    let value = e.target.value.replace(/\D/g, '');
+                                    
+                                    if (value.length > 2) {
+                                        value = value.slice(0, 2) + '.' + value.slice(2);
+                                    }
+                                    
+                                    if (value.length > 5) {
+                                        value = value.slice(0, 5) + '.' + value.slice(5, 9);
+                                    }
+                                    
+                                    setBirthDate(value);
+                                }}
                             />
                         </div>
                     </div>
@@ -157,8 +185,8 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                                 </button>
                                 {isDocOpen && (
                                     <ul className="passengers__dropdown-menu">
-                                        <li className={`passengers__dropdown-item ${docType === 'Паспорт РФ' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setDocType('Паспорт РФ'); setIsDocOpen(false); }}>Паспорт РФ</li>
-                                        <li className={`passengers__dropdown-item ${docType === 'Свидетельство о рождении' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setDocType('Свидетельство о рождении'); setIsDocOpen(false); }}>Свидетельство о рождении</li>
+                                        <li className={`passengers__dropdown-item ${docType === 'Паспорт РФ' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setDocType('Паспорт РФ'); setIsDocOpen(false); setDocError(''); }}>Паспорт РФ</li>
+                                        <li className={`passengers__dropdown-item ${docType === 'Свидетельство о рождении' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setDocType('Свидетельство о рождении'); setIsDocOpen(false); setDocError(''); }}>Свидетельство о рождении</li>
                                     </ul>
                                 )}
                             </div>
@@ -174,6 +202,8 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                                     placeholder="_ _ _ _" 
                                     value={passportSeries}
                                     onChange={(e) => setPassportSeries(e.target.value)}
+                                    maxLength={4}
+                                    required /* <-- Добавили. Браузер потребует заполнить, если блок виден на экране */
                                 />
                             </div>
                         )}
@@ -183,18 +213,74 @@ export default function PassengerCard({ number, onRemove }: PassengerCardProps) 
                             <label className="passengers__label">Номер</label>
                             <input 
                                 type="text" 
-                                className="passengers__input passengers__input--number" 
-                                placeholder="_ _ _ _ _ _" 
+                                required /* <-- ДОБАВИЛИ ОБЯЗАТЕЛЬНОСТЬ ДЛЯ HTML5 */
+                                className={`passengers__input passengers__input--number ${docError ? 'passengers__input--error' : ''}`} 
+                                placeholder={docType === 'Паспорт РФ' ? '_ _ _ _ _ _' : 'VIII-ЫП-123456'} 
                                 value={docNumber}
-                                onChange={(e) => setDocNumber(e.target.value)}
+                                onChange={(e) => {
+                                    setDocNumber(e.target.value);
+                                    setDocError('');
+                                    setIsDocValid(false); 
+                                }}
+                                onBlur={() => {
+                                    if (!docNumber) {
+                                        setDocError('');
+                                        setIsDocValid(false);
+                                        return;
+                                    }
+
+                                    if (docType === 'Свидетельство о рождении') {
+                                        const svidPattern = /^[I|V|X|L|C|D|M]+[\s\-][А-ЯЁ]{2}[\s\-]\d{6}$/i;
+                                        if (!svidPattern.test(docNumber)) {
+                                            setDocError('Номер свидетельства о рождении указан некорректно. Пример: VIII-ЫП-123456');
+                                            setIsDocValid(false);
+                                        } else {
+                                            setDocError('');
+                                            setIsDocValid(true); 
+                                        }
+                                    } else {
+                                        setDocError('');
+                                        setIsDocValid(false);
+                                    }
+                                }}
                             />
                         </div>
                     </div>
-                        
-                    {/* КНОПКА СЛЕДУЮЩИЙ ПАССАЖИР */}
-                    <div className="passengers__card-footer">
-                        <button type="button" className="passengers__btn-next">Следующий пассажир</button>
-                    </div>
+
+                    {/* 1. БЛОК ОШИБКИ */}
+                    {docError && (
+                        <div className="passengers__error-banner">
+                            <div className="passengers__error-icon-box">
+                                <span className="passengers__error-close-icon">×</span>
+                            </div>
+                            <p className="passengers__error-text">
+                                Номер свидетельства о рождении указан некорректно<br />
+                                Пример: <span className="passengers__error-example">VIII-ЫП-123456</span>
+                            </p>
+                        </div>
+                    )}
+
+                    {/* 2. БЛОК УСПЕШНОГО ВВОДА */}
+                    {isDocValid && !docError && (
+                        <div className="passengers__success-banner">
+                            <div className="passengers__success-info">
+                                <div className="passengers__success-icon-box">
+                                    <span className="passengers__success-check-icon">✓</span>
+                                </div>
+                                <span className="passengers__success-text">Готово</span>
+                            </div>
+                            <button type="button" className="passengers__btn-next passengers__btn-next--success">
+                                Следующий пассажир
+                            </button>
+                        </div>
+                    )}
+
+                    {/* КНОПКА СЛЕДУЮЩИЙ ПАССАЖИР — Скроется автоматически, если есть ошибка */}
+                    {!docError && !isDocValid && (
+                        <div className="passengers__card-footer">
+                            <button type="button" className="passengers__btn-next">Следующий пассажир</button>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

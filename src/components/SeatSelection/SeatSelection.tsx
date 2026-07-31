@@ -35,9 +35,9 @@ function SeatSelection() {
 
     const train = location.state?.selectedTrain || MOCK_TRAINS_DATA[0];
 
-    const [adultCount, setAdultCount] = useState(2);
-    const [childCount, setChildCount] = useState(1);
-    const [babyCount, setBabyCount] = useState(0);
+    const [adultCount] = useState(2);
+    const [childCount] = useState(1);
+    const [babyCount] = useState(0);
 
     const maxAdults = 5; 
     const maxChildren = 4;

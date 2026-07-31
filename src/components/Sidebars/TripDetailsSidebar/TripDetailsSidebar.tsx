@@ -43,7 +43,6 @@ function TripDetailsSidebar() {
                         aria-label="Свернуть секцию Туда"
                         onClick={() => setIsToExpanded(!isToExpanded)}
                     >
-                        {/* Картинка меняется на минус или плюс в зависимости от стейта */}
                         <img 
                             src={isToExpanded ? sidebarMinus : sidebarPlus} 
                             alt={isToExpanded ? "Свернуть" : "Развернуть"} 

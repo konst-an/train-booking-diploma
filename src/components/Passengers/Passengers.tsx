@@ -8,12 +8,13 @@ import iconPlusOrange from '../../assets/icon-plus-orange.svg';
 function Passengers() {
     const navigate = useNavigate();
     const [passengers, setPassengers] = useState([
-        { id: 'passenger-first' }
+        { id: 'passenger-first', hasError: false } /* Шаг 1: добавили дефолтный статус ошибки */
     ]);
 
     const handleAddPassenger = () => {
         const nextPassenger = {
-            id: crypto.randomUUID()
+            id: crypto.randomUUID(),
+            hasError: false /* Шаг 1: новые карточки тоже без ошибок по умолчанию */
         };
         setPassengers([...passengers, nextPassenger]);
     };
@@ -24,8 +25,19 @@ function Passengers() {
         setPassengers(passengers.filter(passenger => passenger.id !== idToRemove));
     };
 
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        
+        // Шаг 3: Проверяем, есть ли ошибка в номерах свидетельств хоть у одного пассажира
+        const hasAnyError = passengers.some(passenger => passenger.hasError === true);
+        
+        if (hasAnyError) {
+            // Если где-то горит ошибка, прерываем выполнение и никуда не переходим
+            return; 
+        }
+
+        // Если всё верно — пускаем дальше
         navigate('/payment');
     };
 
@@ -42,6 +54,11 @@ function Passengers() {
                             key={passenger.id}      
                             number={index + 1}
                             onRemove={() => handleRemovePassenger(passenger.id)} 
+                            onErrorChange={(hasError) => {
+                                setPassengers(prev => 
+                                    prev.map(p => p.id === passenger.id ? { ...p, hasError } : p)
+                                );
+                            }}
                         />
                     ))}
 
@@ -57,7 +74,6 @@ function Passengers() {
                     <div className="passengers__submit-block">
                         <button type="submit" className="passengers__btn-submit">ДАЛЕЕ</button>
                     </div>
-
                 </form>
             </main>
         </div>
@@ -65,4 +81,3 @@ function Passengers() {
 }
 
 export default Passengers;
-
