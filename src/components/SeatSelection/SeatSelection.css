@@ -96,12 +96,16 @@
 }
 
 .seat-selection__btn-back:hover {
-  background-color: #F7F5F9;
-  border-color: var(--color-primary-orange);
+  background-color: #FFFFFF;
+  border-color: var(--color-primary-text-dark);
   color: var(--color-primary-orange);
 }
 .seat-selection__btn-back:active {
-  transform: scale(0.98);
+  background-color: var(--color-primary-orange);
+  color: var(--color-primary-text-dark);
+  border-color: var(--color-primary-orange);
+  box-shadow: 0px 4px 4px 0px #00000040;
+  transform: scale(0.9);
 }
 
 /* МИНИ - КАРТОЧКА ВЫБРАННОГО ПОЕЗДА */

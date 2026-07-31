@@ -15,7 +15,7 @@ import arrowBackward from '../../assets/arrow-backward.svg';
 import arrowPagePrev from '../../assets/arrow-page-prev.svg';
 import arrowPageNext from '../../assets/arrow-page-next.svg';
 
-const MOCK_TRAINS_DATA = [
+export const MOCK_TRAINS_DATA = [
   {
     id: 1,
     number: "116С",
@@ -44,8 +44,36 @@ const MOCK_TRAINS_DATA = [
       { type: "Купе", count: 24, price: "3 820" },
       { type: "Люкс", count: 15, price: "4 950" }
     ]
+  },
+  {
+    id: 2,
+    number: "020У",
+    routeSummary: ["Москва →", "Санкт-Петербург", "«Мегаполис»"],
+    forward: {
+      timeOut: "00:20",
+      cityOut: "Москва",
+      stationOut: "Ленинградский вокзал",
+      duration: "8 : 39",
+      timeIn: "08:59",
+      cityIn: "Санкт-Петербург",
+      stationIn: "Московский вокзал"
+    },
+    backward: {
+      timeOut: "00:20",
+      cityOut: "Москва",
+      stationOut: "Ленинградский вокзал",
+      duration: "8 : 39",
+      timeIn: "08:59",
+      cityIn: "Санкт-Петербург",
+      stationIn: "Московский вокзал"
+    },
+    seats: [
+      { type: "Купе", count: 90, price: "3 950" },
+      { type: "Люкс", count: 31, price: "4 950" }
+    ]
   }
 ];
+
 
 function TrainSelection() {
     const navigate = useNavigate();
@@ -55,8 +83,8 @@ function TrainSelection() {
     const [activeLimit, setActiveLimit] = useState(5);
     const [activePage, setActivePage] = useState(1);
 
-    const handleSelectSeats = () => {
-        navigate('/seats');
+    const handleSelectSeats = (train: any) => {
+        navigate('/seats', { state: { selectedTrain: train } });
     };
   
   return (
@@ -197,8 +225,8 @@ function TrainSelection() {
                                     <button 
                                         type="button" 
                                         className="train-card__btn"
-                                        onClick={handleSelectSeats}
-                                    >
+                                        onClick={() => handleSelectSeats(train)}
+                                        >
                                         Выбрать места
                                     </button>
                                 </div>

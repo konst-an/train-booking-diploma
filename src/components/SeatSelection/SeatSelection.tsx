@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
-import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; // Подключаем общий сайдбар
+import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; 
 import './SeatSelection.css';
 
 import arrowBackOrange from '../../assets/arrow-back-orange.svg';
@@ -20,12 +22,26 @@ import iconWifi from '../../assets/icon-wifi.svg';
 import iconServiceLinen from '../../assets/icon-service-linen.svg'; 
 import iconServiceFood from '../../assets/icon-service-food.svg';
 
+import { MOCK_TRAINS_DATA } from '../TrainSelection/TrainSelection';
+
 const WAGONS_PRICES_DATA: Record<string, { total: number; topQty: number; bottomQty: number; topPrice: string; bottomPrice: string }> = {
   "07": { total: 11, topQty: 3, bottomQty: 8, topPrice: "2 920", bottomPrice: "3 530" },
   "09": { total: 16, topQty: 6, bottomQty: 10, topPrice: "3 100", bottomPrice: "3 850" }
 };
 
 function SeatSelection() {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const train = location.state?.selectedTrain || MOCK_TRAINS_DATA[0];
+
+    const [adultCount, setAdultCount] = useState(2);
+    const [childCount, setChildCount] = useState(1);
+    const [babyCount, setBabyCount] = useState(0);
+
+    const maxAdults = 5; 
+    const maxChildren = 4;
+
     const [activeWagonType, setActiveWagonType] = useState<string>('coupe');
     const [activeWagonNum, setActiveWagonNum] = useState<string>('07');
 
@@ -35,6 +51,8 @@ function SeatSelection() {
     const [hasFood, setHasFood] = useState<boolean>(true);
 
     const wagonInfo = WAGONS_PRICES_DATA[activeWagonNum] || WAGONS_PRICES_DATA["07"];
+
+    const [liveUsers] = useState(() => Math.floor(Math.random() * (15 - 5 + 1)) + 5);
 
     return (
         <div className="seat-selection__container">
@@ -49,36 +67,48 @@ function SeatSelection() {
 
                     {/* ПЕРВЫЙ КОНТЕЙНЕР: АКТИВНЫЙ/РАЗВЕРНУТЫЙ БЛОК ВЫБОРА МЕСТ */}
                     <div className="seat-selection__train-block seat-selection__train-block--active">
+
                         {/* БЛОК НАВИГАЦИИ (КНОПКА НАЗАД И СТРЕЛКА) */}
                         <div className="seat-selection__navigation">
                             <img src={arrowBackOrange} alt="" className="seat-selection__back-arrow-img" />
-                            <button className="seat-selection__btn-back">Выбрать другой поезд</button>
+                            <button 
+                                className="seat-selection__btn-back"
+                                onClick={() => navigate(-1)} 
+                            >
+                                Выбрать другой поезд
+                            </button>
                         </div>
 
                         {/* МИНИ-КАРТОЧКА ВЫБРАННОГО ПОЕЗДА */}
                         <div className="seat-selection__train-mini-card">
+
                             {/* ЛЕВАЯ СЕКЦИЯ: Номер поезда и маршрут */}
                             <div className="seat-selection__mini-info">
                                 <img src={iconTrainMini} alt="" className="seat-selection__mini-train-icon" />
                                 <div className="seat-selection__mini-text-block">
                                     <div className="seat-selection__mini-train-num">
-                                        <span>116С</span>
+                                        <span>{train.number}</span>
                                     </div>
                                     <div className="seat-selection__mini-cities">
-                                        <span>Адлер →</span>
-                                        <span>Москва →</span>
-                                        <span className="seat-selection__mini-city-last">Санкт-Петербург</span>
+                                        {train.routeSummary.map((city: string, idx: number) => (
+                                            <span 
+                                                key={idx} 
+                                                className={idx === train.routeSummary.length - 1 ? 'seat-selection__mini-city-last' : ''}
+                                            >
+                                                {city}{idx < train.routeSummary.length - 1 ? ' ' : ''}
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* СРЕДНЯЯ СЕКЦИЯ: Расписание (от 240px до 720px) */}
+                            {/* СРЕДНЯЯ СЕКЦИЯ */}
                             <div className="seat-selection__mini-route">
                                 {/* Отправление */}
                                 <div className="seat-selection__mini-time-block">
-                                    <div className="seat-selection__mini-time">00:10</div>
-                                    <div className="seat-selection__mini-station">Москва</div>
-                                    <div className="seat-selection__mini-vokzal">Курский вокзал</div>
+                                    <div className="seat-selection__mini-time">{train.forward.timeOut}</div>
+                                    <div className="seat-selection__mini-station">{train.forward.cityOut}</div>
+                                    <div className="seat-selection__mini-vokzal">{train.forward.stationOut}</div>
                                 </div>
 
                                 {/* Стрелочка направления */}
@@ -86,18 +116,18 @@ function SeatSelection() {
 
                                 {/* Прибытие */}
                                 <div className="seat-selection__mini-time-block">
-                                    <div className="seat-selection__mini-time">09:52</div>
-                                    <div className="seat-selection__mini-station">Санкт-Петербург</div>
-                                    <div className="seat-selection__mini-vokzal">Ладожский вокзал</div>
+                                    <div className="seat-selection__mini-time">{train.forward.timeIn}</div>
+                                    <div className="seat-selection__mini-station">{train.forward.cityIn}</div>
+                                    <div className="seat-selection__mini-vokzal">{train.forward.stationIn}</div>
                                 </div>
                             </div>
 
-                            {/* ПРАВАЯ СЕКЦИЯ: Время в пути (после 720px) */}
+                            {/* ПРАВАЯ СЕКЦИЯ */}
                             <div className="seat-selection__mini-duration">
                                 <img src={iconClockMini} alt="" className="seat-selection__mini-clock-icon" />
                                 <div className="seat-selection__mini-duration-text">
-                                    <span>9 часов</span>
-                                    <span>42 минуты</span>
+                                    <span>{train.forward.duration.split(':')[0].trim()} часов</span>
+                                    <span>{train.forward.duration.split(':')[1].trim()} минуты</span>
                                 </div>
                             </div>
                         </div>
@@ -105,32 +135,34 @@ function SeatSelection() {
                         {/* СЕКЦИЯ КОЛИЧЕСТВА БИЛЕТОВ */}
                         <div className="seat-selection__tickets-section">
                             <h3 className="seat-selection__tickets-title">Количество билетов</h3>
-                            
+
                             <div className="seat-selection__tickets-grid">
                                 {/* Карточка 1: Взрослых */}
-                                <div className="seat-selection__ticket-card seat-selection__ticket-card--filled">
+                               
+                                <div className={`seat-selection__ticket-card ${adultCount > 0 ? 'seat-selection__ticket-card--filled' : ''}`}>
                                     <div className="seat-selection__ticket-field">
-                                        <span>Взрослых — 2</span>
+                                        <span>Взрослых — {adultCount}</span>
                                     </div>
                                     <p className="seat-selection__ticket-hint">
-                                        Можно добавить еще<br />3 пассажиров
+                                        Можно добавить еще<br />{maxAdults - adultCount} пассажиров
                                     </p>
                                 </div>
 
                                 {/* Карточка 2: Детских */}
-                                <div className="seat-selection__ticket-card seat-selection__ticket-card--active">
+                                <div className={`seat-selection__ticket-card ${childCount > 0 ? 'seat-selection__ticket-card--active' : ''}`}>
                                     <div className="seat-selection__ticket-field">
-                                        <span>Детских — 1</span>
+                                        <span>Детских — {childCount}</span>
                                     </div>
                                     <p className="seat-selection__ticket-hint">
-                                        Можно добавить еще 3 детей до 10 лет. Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%
+                                        Можно добавить еще {maxChildren - childCount} детей до 10 лет. Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%
                                     </p>
                                 </div>
 
                                 {/* Карточка 3: Детских без места */}
                                 <div className="seat-selection__ticket-card">
                                     <div className="seat-selection__ticket-field">
-                                        <span>Детских «без места» — 0</span>
+                                        {/* Вместо статичного нуля выводим переменную */}
+                                        <span>Детских «без места» — {babyCount}</span>
                                     </div>
                                 </div>
                             </div>
@@ -323,7 +355,7 @@ function SeatSelection() {
                             {/* ЖИВОЙ СЧЕТЧИК (В правом нижнем углу карточки) */}
                             <div className="seat-selection__live-users-panel">
                                 <span className="seat-selection__live-users-text">
-                                    11 человек выбирают места в этом поезде
+                                    {liveUsers} человек выбирают места в этом поезде
                                 </span>
                             </div>
                         </div>
@@ -332,40 +364,55 @@ function SeatSelection() {
                     {/* ВТОРОЙ КОНТЕЙНЕР: СВЕРНУТЫЙ БЛОК ВЫБОРА МЕСТ */}
                     <div className="seat-selection__train-block seat-selection__train-block--collapsed">
                         {/* БЛОК НАВИГАЦИИ (ДОБАВИЛИ КЛАСС МОДИФИКАТОРА) */}
-                        <div className="seat-selection__navigation seat-selection__navigation--collapsed">
+                         <div className="seat-selection__navigation seat-selection__navigation--collapsed">
                             <img src={arrowBackOrange} alt="" className="seat-selection__back-arrow-img" />
-                            <button className="seat-selection__btn-back">Выбрать другой поезд</button>
+                            <button 
+                                className="seat-selection__btn-back"
+                                onClick={() => navigate('/trains')} // Теперь кнопка работает и здесь!
+                            >
+                                Выбрать другой поезд
+                            </button>
                         </div>
 
                         {/* 2. МИНИ-КАРТОЧКА ВЫБРАННОГО ПОЕЗДА (Серая полоса) */}
                         <div className="seat-selection__train-mini-card">
+
                             {/* Левая секция: Номер поезда и маршрут */}
                             <div className="seat-selection__mini-info">
                                 <img src={iconTrainMini} alt="" className="seat-selection__mini-train-icon" />
                                 <div className="seat-selection__mini-text-block">
                                     <div className="seat-selection__mini-train-num">
-                                        <span>116С</span>
+                                        <span>{train.number}</span>
                                     </div>
                                     <div className="seat-selection__mini-cities">
-                                        <span>Адлер →</span>
-                                        <span>Москва →</span>
-                                        <span className="seat-selection__mini-city-last">Санкт-Петербург</span>
+                                        {train.routeSummary.map((city: string, idx: number) => (
+                                            <span 
+                                                key={idx} 
+                                                className={idx === train.routeSummary.length - 1 ? 'seat-selection__mini-city-last' : ''}
+                                            >
+                                                {city}{idx < train.routeSummary.length - 1 ? ' ' : ''}
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
 
                             {/* Средняя секция: Расписание */}
                             <div className="seat-selection__mini-route">
+                                {/* Отправление */}
                                 <div className="seat-selection__mini-time-block">
-                                    <div className="seat-selection__mini-time">00:10</div>
-                                    <div className="seat-selection__mini-station">Москва</div>
-                                    <div className="seat-selection__mini-vokzal">Курский вокзал</div>
+                                    <div className="seat-selection__mini-time">{train.forward.timeOut}</div>
+                                    <div className="seat-selection__mini-station">{train.forward.cityOut}</div>
+                                    <div className="seat-selection__mini-vokzal">{train.forward.stationOut}</div>
                                 </div>
+                                
                                 <img src={arrowForward} alt="" className="seat-selection__mini-route-arrow" />
+                                
+                                {/* Прибытие */}
                                 <div className="seat-selection__mini-time-block">
-                                    <div className="seat-selection__mini-time">09:52</div>
-                                    <div className="seat-selection__mini-station">Санкт-Петербург</div>
-                                    <div className="seat-selection__mini-vokzal">Ладожский вокзал</div>
+                                    <div className="seat-selection__mini-time">{train.forward.timeIn}</div>
+                                    <div className="seat-selection__mini-station">{train.forward.cityIn}</div>
+                                    <div className="seat-selection__mini-vokzal">{train.forward.stationIn}</div>
                                 </div>
                             </div>
 
@@ -373,8 +420,9 @@ function SeatSelection() {
                             <div className="seat-selection__mini-duration">
                                 <img src={iconClockMini} alt="" className="seat-selection__mini-clock-icon" />
                                 <div className="seat-selection__mini-duration-text">
-                                    <span>9 часов</span>
-                                    <span>42 минуты</span>
+                                    {/* Безопасное деление вашей строки "9 : 42" на часы и минуты через массив */}
+                                    <span>{train.forward.duration.split(':')[0].trim()} часов</span>
+                                    <span>{train.forward.duration.split(':')[1].trim()} минуты</span>
                                 </div>
                             </div>
                         </div>
@@ -385,29 +433,31 @@ function SeatSelection() {
                             
                             <div className="seat-selection__tickets-grid">
                                 {/* Карточка 1: Взрослых */}
-                                <div className="seat-selection__ticket-card seat-selection__ticket-card--filled">
+                                <div className={`seat-selection__ticket-card ${adultCount > 0 ? 'seat-selection__ticket-card--filled' : ''}`}>
                                     <div className="seat-selection__ticket-field">
-                                        <span>Взрослых — 2</span>
+                                        <span>Взрослых — {adultCount}</span>
                                     </div>
                                     <p className="seat-selection__ticket-hint">
-                                        Можно добавить еще<br />3 пассажиров
+                                        Можно добавить еще<br />{maxAdults - adultCount} пассажиров
                                     </p>
                                 </div>
 
-                                {/* Карточка 2: Детских (В свернутом блоке по умолчанию 0) */}
-                                <div className="seat-selection__ticket-card">
+                                {/* Карточка 2: Детских */}
+                                <div className={`seat-selection__ticket-card ${childCount > 0 ? 'seat-selection__ticket-card--filled' : ''}`}>
                                     <div className="seat-selection__ticket-field">
-                                        <span>Детских — 0</span>
+                                        <span>Детских — {childCount}</span>
                                     </div>
-                                    <p className="seat-selection__ticket-hint">
-                                        
-                                    </p>
+                                    {childCount > 0 && (
+                                        <p className="seat-selection__ticket-hint">
+                                            Можно добавить еще {maxChildren - childCount} детей до 10 лет. Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Карточка 3: Детских без места */}
-                                <div className="seat-selection__ticket-card">
+                                <div className={`seat-selection__ticket-card ${babyCount > 0 ? 'seat-selection__ticket-card--filled' : ''}`}>
                                     <div className="seat-selection__ticket-field">
-                                        <span>Детских «без места» — 0</span>
+                                        <span>Детских «без места» — {babyCount}</span>
                                     </div>
                                 </div>
                             </div>
@@ -421,33 +471,52 @@ function SeatSelection() {
                             <h3 className="seat-selection__wagon-type-title">Тип вагона</h3>
                             
                             <div className="seat-selection__wagon-type-list">
+                                
                                 {/* Тип 1: Сидячий */}
-                                <button className="seat-selection__wagon-type-item">
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'sedentary' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('sedentary')}
+                                >
                                     <img src={sidebarSedentary} alt="Сидячий" className="seat-selection__wagon-icon seat-selection__wagon-icon--sedentary" />
                                     <span className="seat-selection__wagon-text">Сидячий</span>
                                 </button>
 
                                 {/* Тип 2: Плацкарт */}
-                                <button className="seat-selection__wagon-type-item">
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'reserved' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('reserved')}
+                                >
                                     <img src={sidebarReserved} alt="Плацкарт" className="seat-selection__wagon-icon seat-selection__wagon-icon--reserved" />
                                     <span className="seat-selection__wagon-text">Плацкарт</span>
                                 </button>
 
-                                {/* Тип 3: Купе (В этом блоке без класса --active, так как вагон еще не выбран) */}
-                                <button className="seat-selection__wagon-type-item">
+                                {/* Тип 3: Купе */}
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'coupe' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('coupe')}
+                                >
                                     <img src={sidebarCoupe} alt="Купе" className="seat-selection__wagon-icon seat-selection__wagon-icon--coupe" />
                                     <span className="seat-selection__wagon-text">Купе</span>
                                 </button>
 
                                 {/* Тип 4: Люкс */}
-                                <button className="seat-selection__wagon-type-item">
+                                <button 
+                                    type="button"
+                                    className={`seat-selection__wagon-type-item ${activeWagonType === 'luxury' ? 'seat-selection__wagon-type-item--active' : ''}`}
+                                    onClick={() => setActiveWagonType('luxury')}
+                                >
                                     <img src={sidebarLuxury} alt="Люкс" className="seat-selection__wagon-icon seat-selection__wagon-icon--luxury" />
                                     <span className="seat-selection__wagon-text">Люкс</span>
                                 </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 {/* КНОПКА ДАЛЕЕ ДЛЯ ПЕРЕХОДА К ПАССАЖИРАМ */}
                 <Link to="/passengers" style={{ textDecoration: 'none' }}>
                     <button className="seat-selection__btn-next">Далее</button>
