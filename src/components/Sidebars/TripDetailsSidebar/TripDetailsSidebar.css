@@ -88,11 +88,13 @@
 }
 
 .trip-details__btn-toggle:hover .trip-details__toggle-img {
-  opacity: 0.8;
+  filter: brightness(0) saturate(100%) 
+  invert(89%) sepia(13%) saturate(1210%) hue-rotate(325deg) brightness(102%) contrast(99%);
 }
 
 .trip-details__btn-toggle:active {
-  transform: scale(0.9);
+  filter: brightness(0) saturate(100%) 
+  invert(89%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(84%) contrast(85%);
 }
 
 /* Тело секции с данными поезда */
