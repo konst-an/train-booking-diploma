@@ -3,8 +3,19 @@ import './Verification.css';
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
 
 import ticketFeatures from '../../assets/ticket-features.svg'; 
-import iconPassengerCircleOrange from '../../assets/icon-passenger-circle-orange.svg'; // Новая иконка пассажира в оранжевом кружке
+import iconPassengerCircleOrange from '../../assets/icon-passenger-circle-orange.svg';
 
+interface Passenger {
+    ticketType: string;
+    lastName: string;
+    firstName: string;
+    middleName: string;
+    gender: string;
+    birthDate: string;
+    docType: string;
+    passportSeries?: string;
+    docNumber: string;
+}
 
 export default function Verification() {
     const navigate = useNavigate();
@@ -18,8 +29,15 @@ export default function Verification() {
         navigate('/success');
     };
 
-    const paymentData = location.state as { chosenMethod?: 'online' | 'cash' } | null;
-    const currentPaymentMethod = paymentData?.chosenMethod || 'online';
+    const stateData = location.state as { 
+        chosenMethod?: 'online' | 'cash';
+        passengers?: Passenger[];
+    } | null;
+
+    const currentPaymentMethod = stateData?.chosenMethod || 'online';
+    const passengers: Passenger[] = stateData?.passengers || [];
+
+    const totalPrice = passengers.reduce((sum, p) => sum + (p.ticketType === 'Взрослый' ? 2500 : 1260), 0);
 
     return (
         <div className="verification__container">
@@ -155,53 +173,38 @@ export default function Verification() {
                         {/* ЛЕВАЯ КОЛОНКА: Список людей */}
                         <div className="verification-passengers__list">
                             
-                            {/* Пассажир 1 */}
-                            <div className="verification-passengers__item">
-                                <div className="verification-passengers__avatar-group">
-                                    <div className="verification-passengers__avatar">
-                                        <img src={iconPassengerCircleOrange} alt="Пассажир" className="verification-passengers__avatar-img" />
+                            {passengers.length === 0 ? (
+                                <p className="verification-passengers__empty">Данные о пассажирах не найдены</p>
+                            ) : (
+                                passengers.map((passenger, index) => (
+                                    <div className="verification-passengers__item" key={index}>
+                                        <div className="verification-passengers__avatar-group">
+                                            <div className="verification-passengers__avatar">
+                                                <img src={iconPassengerCircleOrange} alt="Пассажир" className="verification-passengers__avatar-img" />
+                                            </div>
+                                            <span className="verification-passengers__type">{passenger.ticketType}</span>
+                                        </div>
+                                        <div className="verification-passengers__info">
+                                            <h4 className="verification-passengers__name">
+                                                {`${passenger.lastName} ${passenger.firstName} ${passenger.middleName}`}
+                                            </h4>
+                                            <p className="verification-passengers__meta">
+                                                Пол {passenger.gender === 'M' ? 'мужской' : 'женский'}
+                                            </p>
+                                            <p className="verification-passengers__meta">
+                                                Дата рождения {passenger.birthDate}
+                                            </p>
+                                            <p className="verification-passengers__meta">
+                                                {passenger.docType} {' '}
+                                                {passenger.docType === 'Паспорт РФ' 
+                                                    ? `${passenger.passportSeries || ''} ${passenger.docNumber}`
+                                                    : passenger.docNumber
+                                                }
+                                            </p>
+                                        </div>
                                     </div>
-                                    <span className="verification-passengers__type">Взрослый</span>
-                                </div>
-                                <div className="verification-passengers__info">
-                                    <h4 className="verification-passengers__name">Мартынюк Ирина Эдуардовна</h4>
-                                    <p className="verification-passengers__meta">Пол женский</p>
-                                    <p className="verification-passengers__meta">Дата рождения 17.02.1985</p>
-                                    <p className="verification-passengers__meta">Паспорт РФ 4204 380694</p>
-                                </div>
-                            </div>
-
-                            {/* Пассажир 2 */}
-                            <div className="verification-passengers__item">
-                                <div className="verification-passengers__avatar-group">
-                                    <div className="verification-passengers__avatar">
-                                        <img src={iconPassengerCircleOrange} alt="Пассажир" className="verification-passengers__avatar-img" />
-                                    </div>
-                                    <span className="verification-passengers__type">Детский</span>
-                                </div>
-                                <div className="verification-passengers__info">
-                                    <h4 className="verification-passengers__name">Мартынюк Кирилл Сергеевич</h4>
-                                    <p className="verification-passengers__meta">Пол мужской</p>
-                                    <p className="verification-passengers__meta">Дата рождения 25.01.2006</p>
-                                    <p className="verification-passengers__meta">Свидетельство о рождении VIII УН 256319</p>
-                                </div>
-                            </div>
-
-                            {/* Пассажир 3 */}
-                            <div className="verification-passengers__item">
-                                <div className="verification-passengers__avatar-group">
-                                    <div className="verification-passengers__avatar">
-                                        <img src={iconPassengerCircleOrange} alt="Пассажир" className="verification-passengers__avatar-img" />
-                                    </div>
-                                    <span className="verification-passengers__type">Взрослый</span>
-                                </div>
-                                <div className="verification-passengers__info">
-                                    <h4 className="verification-passengers__name">Мартынюк Сергей Петрович</h4>
-                                    <p className="verification-passengers__meta">Пол мужской</p>
-                                    <p className="verification-passengers__meta">Дата рождения 19.06.1982</p>
-                                    <p className="verification-passengers__meta">Паспорт РФ 4204 380694</p>
-                                </div>
-                            </div>
+                                ))
+                            )}
 
                         </div>
 
@@ -210,13 +213,13 @@ export default function Verification() {
                             <div className="verification-passengers__total-box">
                                 <span className="verification-passengers__total-label">Всего</span>
                                 <span className="verification-passengers__total-price">
-                                    7 760 <span className="verification-passengers__currency">₽</span>
+                                    {totalPrice.toLocaleString()} <span className="verification-passengers__currency">₽</span>
                                 </span>
                             </div>
                             <button 
                                 type="button" 
                                 className="verification__card-btn-edit"
-                                onClick={() => navigate('/passengers')} // Возвращает на шаг заполнения пассажиров
+                                onClick={() => navigate('/passengers', { state: { passengers } })} // Возвращает на шаг заполнения пассажиров
                             >
                                 Изменить
                             </button>
@@ -224,7 +227,7 @@ export default function Verification() {
 
                     </div>
                 </div>
-
+            
                 {/* БЛОК 3: СПОСОБ ОПЛАТЫ */}
                 <div className="verification__card verification-payment">
                     <div className="verification-payment__header">

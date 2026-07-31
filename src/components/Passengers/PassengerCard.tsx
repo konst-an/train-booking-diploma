@@ -4,32 +4,41 @@ import iconPlusCircle from '../../assets/icon-plus-circle.svg';
 import iconClose from '../../assets/icon-close.svg';
 import iconArrowDownGray from '../../assets/icon-arrow-down-gray.svg';
 
-interface PassengerCardProps {
-    number: number;
-    onRemove: () => void;
-    onErrorChange: (hasError: boolean) => void; 
+export interface PassengerData {
+    ticketType: string;
+    lastName: string;
+    firstName: string;
+    middleName: string;
+    gender: string;
+    birthDate: string;
+    docType: string;
+    passportSeries: string;
+    docNumber: string;
+    isLimitedMobility: boolean;
 }
 
-export default function PassengerCard({ number, onRemove, onErrorChange }: PassengerCardProps) {
+interface PassengerCardProps {
+    number: number;
+    data: PassengerData;
+    onRemove: () => void;
+    onChange: (updatedData: PassengerData) => void;
+}
+
+export default function PassengerCard({ number, data, onRemove, onChange }: PassengerCardProps) {
+    
     const [isExpanded, setIsExpanded] = useState(true);
     const [isTypeOpen, setIsTypeOpen] = useState(false);
-    const [ticketType, setTicketType] = useState('Взрослый');
-
-    const [lastName, setLastName] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [middleName, setMiddleName] = useState('');
-
-    const [gender, setGender] = useState<string>('W');
-    const [birthDate, setBirthDate] = useState<string>('');
-
-    const [passportSeries, setPassportSeries] = useState('');
-    const [docNumber, setDocNumber] = useState('');  
-
     const [isDocOpen, setIsDocOpen] = useState(false);
-    const [docType, setDocType] = useState('Паспорт РФ');
 
     const [docError, setDocError] = useState<string>('');
     const [isDocValid, setIsDocValid] = useState(false);
+
+    const updateField = (field: keyof PassengerData, value: string) => {
+        onChange({
+            ...data,
+            [field]: value
+        });
+    };
 
     return (
         <div className="passengers__card">
@@ -53,13 +62,13 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                     <div className="passengers__form-row passengers__form-row--type-select">
                         <div className="passengers__dropdown">
                             <button type="button" className={`passengers__dropdown-toggle ${isTypeOpen ? 'passengers__dropdown-toggle--active' : ''}`} onClick={() => setIsTypeOpen(!isTypeOpen)}>
-                                <span className="passengers__dropdown-current">{ticketType}</span>
+                                <span className="passengers__dropdown-current">{data.ticketType}</span>
                                 <img src={iconArrowDownGray} alt="Открыть" className="passengers__dropdown-arrow" />
                             </button>
                             {isTypeOpen && (
                                 <ul className="passengers__dropdown-menu">
-                                    <li className={`passengers__dropdown-item ${ticketType === 'Взрослый' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setTicketType('Взрослый'); setIsTypeOpen(false); }}>Взрослый</li>
-                                    <li className={`passengers__dropdown-item ${ticketType === 'Детский' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setTicketType('Детский'); setIsTypeOpen(false); }}>Детский</li>
+                                    <li className={`passengers__dropdown-item ${data.ticketType === 'Взрослый' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { updateField('ticketType', 'Взрослый'); setIsTypeOpen(false); }}>Взрослый</li>
+                                    <li className={`passengers__dropdown-item ${data.ticketType === 'Детский' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { updateField('ticketType', 'Детский'); setIsTypeOpen(false); }}>Детский</li>
                                 </ul>
                             )}
                         </div>
@@ -72,8 +81,8 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                             <input 
                                 type="text" 
                                 className="passengers__input" 
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
+                                value={data.lastName}
+                                onChange={(e) => updateField('lastName', e.target.value)}
                                 required 
                                 pattern="^[А-Яа-яЁёA-Za-z\-]+$" 
                             />
@@ -84,8 +93,8 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                             <input 
                                 type="text" 
                                 className="passengers__input" 
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                value={data.firstName} 
+                                onChange={(e) => updateField('firstName', e.target.value)}
                                 required 
                                 pattern="^[А-Яа-яЁёA-Za-z\-]+$" 
                             />
@@ -96,9 +105,8 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                             <input 
                                 type="text" 
                                 className="passengers__input" 
-                                value={middleName}
-                                onChange={(e) => setMiddleName(e.target.value)}
-        
+                                value={data.middleName}
+                                onChange={(e) => updateField('middleName', e.target.value)}
                                 pattern="^[А-Яа-яЁёA-Za-z\-]+$" 
                             />
                         </div>
@@ -119,8 +127,8 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                                         name={`gender-${number}`} 
                                         value="M" 
                                         className="passengers__gender-radio" 
-                                        checked={gender === 'M'}
-                                        onChange={() => setGender('M')}
+                                        checked={data.gender === 'M'} 
+                                        onChange={() => updateField('gender', 'M')} 
                                     />
                                     <span className="passengers__gender-btn">М</span>
                                 </label>
@@ -132,8 +140,8 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                                         name={`gender-${number}`} 
                                         value="W" 
                                         className="passengers__gender-radio" 
-                                        checked={gender === 'W'}
-                                        onChange={() => setGender('W')}
+                                        checked={data.gender === 'W'} 
+                                        onChange={() => updateField('gender', 'W')} 
                                     />
                                     <span className="passengers__gender-btn">Ж</span>
                                 </label>
@@ -147,12 +155,11 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                                 type="text" 
                                 className="passengers__input passengers__input--date" 
                                 placeholder="ДД.ММ.ГГГГ" 
-                                value={birthDate}
+                                value={data.birthDate} // Заменили на data.birthDate
                                 required
                                 pattern="^([0-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.(19[0-9][0-9]|20[0-9][0-9])$"
                                 maxLength={10} 
                                 onChange={(e) => {
-                                    
                                     let value = e.target.value.replace(/\D/g, '');
                                     
                                     if (value.length > 2) {
@@ -163,7 +170,7 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                                         value = value.slice(0, 5) + '.' + value.slice(5, 9);
                                     }
                                     
-                                    setBirthDate(value);
+                                    updateField('birthDate', value);
                                 }}
                             />
                         </div>
@@ -171,39 +178,71 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
 
                     {/* СТРОКА 4: ЧЕКБОКС */}
                     <div className="passengers__form-row passengers__form-row--checkbox">
-                        <label className="passengers__checkbox-label"><input type="checkbox" className="passengers__checkbox-input" /><span className="passengers__checkbox-custom"></span><span className="passengers__checkbox-text">ограниченная подвижность</span></label>
+                        <label className="passengers__checkbox-label">
+                            <input 
+                                type="checkbox" 
+                                className="passengers__checkbox-input" 
+                                checked={data.isLimitedMobility}
+                                onChange={(e) => {
+                                    onChange({
+                                        ...data,
+                                        isLimitedMobility: e.target.checked
+                                    });
+                                }}
+                            />
+                            <span className="passengers__checkbox-custom"></span>
+                            <span className="passengers__checkbox-text">ограниченная подвижность</span>
+                        </label>
                     </div>
                     
                     {/* СТРОКА 5: ДОКУМЕНТЫ */}
                     <div className="passengers__form-row passengers__form-row--docs">
                         <div className="passengers__field-group">
                             <label className="passengers__label">Тип документа</label>
-                            <div className={`passengers__dropdown ${docType === 'Свидетельство о рождении' ? 'passengers__dropdown--wide' : ''}`}>
+                            <div className={`passengers__dropdown ${data.docType === 'Свидетельство о рождении' ? 'passengers__dropdown--wide' : ''}`}>
                                 <button type="button" className={`passengers__dropdown-toggle ${isDocOpen ? 'passengers__dropdown-toggle--active' : ''}`} onClick={() => setIsDocOpen(!isDocOpen)}>
-                                    <span className="passengers__dropdown-current">{docType}</span>
+                                    <span className="passengers__dropdown-current">{data.docType}</span>
                                     <img src={iconArrowDownGray} alt="Открыть" className="passengers__dropdown-arrow" />
                                 </button>
                                 {isDocOpen && (
                                     <ul className="passengers__dropdown-menu">
-                                        <li className={`passengers__dropdown-item ${docType === 'Паспорт РФ' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setDocType('Паспорт РФ'); setIsDocOpen(false); setDocError(''); }}>Паспорт РФ</li>
-                                        <li className={`passengers__dropdown-item ${docType === 'Свидетельство о рождении' ? 'passengers__dropdown-item--selected' : ''}`} onClick={() => { setDocType('Свидетельство о рождении'); setIsDocOpen(false); setDocError(''); }}>Свидетельство о рождении</li>
+                                        <li 
+                                            className={`passengers__dropdown-item ${data.docType === 'Паспорт РФ' ? 'passengers__dropdown-item--selected' : ''}`} 
+                                            onClick={() => { 
+                                                updateField('docType', 'Паспорт РФ'); 
+                                                setIsDocOpen(false); 
+                                                setDocError(''); 
+                                            }}
+                                        >
+                                            Паспорт РФ
+                                        </li>
+                                        <li 
+                                            className={`passengers__dropdown-item ${data.docType === 'Свидетельство о рождении' ? 'passengers__dropdown-item--selected' : ''}`} 
+                                            onClick={() => { 
+                                                updateField('docType', 'Свидетельство о рождении'); 
+                                                setIsDocOpen(false); 
+                                                setDocError(''); 
+                                            }}
+                                        >
+                                            Свидетельство о рождении
+                                        </li>
                                     </ul>
                                 )}
                             </div>
                         </div>
                         
                         {/* Серия (показывается только для Паспорта РФ) */}
-                        {docType === 'Паспорт РФ' && (
+                        {data.docType === 'Паспорт РФ' && (
                             <div className="passengers__field-group">
                                 <label className="passengers__label">Серия</label>
                                 <input 
                                     type="text" 
                                     className="passengers__input passengers__input--series" 
                                     placeholder="_ _ _ _" 
-                                    value={passportSeries}
-                                    onChange={(e) => setPassportSeries(e.target.value)}
+                                    value={data.passportSeries} 
+                                    onChange={(e) => updateField('passportSeries', e.target.value)}
                                     maxLength={4}
-                                    required /* <-- Добавили. Браузер потребует заполнить, если блок виден на экране */
+                                    required 
                                 />
                             </div>
                         )}
@@ -213,25 +252,25 @@ export default function PassengerCard({ number, onRemove, onErrorChange }: Passe
                             <label className="passengers__label">Номер</label>
                             <input 
                                 type="text" 
-                                required /* <-- ДОБАВИЛИ ОБЯЗАТЕЛЬНОСТЬ ДЛЯ HTML5 */
+                                required 
                                 className={`passengers__input passengers__input--number ${docError ? 'passengers__input--error' : ''}`} 
-                                placeholder={docType === 'Паспорт РФ' ? '_ _ _ _ _ _' : 'VIII-ЫП-123456'} 
-                                value={docNumber}
+                                placeholder={data.docType === 'Паспорт РФ' ? '_ _ _ _ _ _' : 'VIII-ЫП-123456'} // Изменили на data
+                                value={data.docNumber}
                                 onChange={(e) => {
-                                    setDocNumber(e.target.value);
+                                    updateField('docNumber', e.target.value);
                                     setDocError('');
                                     setIsDocValid(false); 
                                 }}
                                 onBlur={() => {
-                                    if (!docNumber) {
+                                    if (!data.docNumber) {
                                         setDocError('');
                                         setIsDocValid(false);
                                         return;
                                     }
 
-                                    if (docType === 'Свидетельство о рождении') {
+                                    if (data.docType === 'Свидетельство о рождении') {
                                         const svidPattern = /^[I|V|X|L|C|D|M]+[\s\-][А-ЯЁ]{2}[\s\-]\d{6}$/i;
-                                        if (!svidPattern.test(docNumber)) {
+                                        if (!svidPattern.test(data.docNumber)) {
                                             setDocError('Номер свидетельства о рождении указан некорректно. Пример: VIII-ЫП-123456');
                                             setIsDocValid(false);
                                         } else {

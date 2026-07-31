@@ -1,25 +1,32 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Payment.css';
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
 
 function Payment() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const passengersFromRouter = location.state?.passengers || [];
 
     const [payerLastName, setPayerLastName] = useState('');
     const [payerFirstName, setPayerFirstName] = useState('');
     const [payerMiddleName, setPayerMiddleName] = useState('');
     const [payerPhone, setPayerPhone] = useState('');
     const [payerEmail, setPayerEmail] = useState('');
-
-
-    const navigate = useNavigate();
     
     const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>('online');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault(); 
         
-        navigate('/verification', { state: { chosenMethod: paymentMethod } }); 
+        navigate('/verification', { 
+            state: { 
+                chosenMethod: paymentMethod,
+                passengers: passengersFromRouter,
+                payer: { payerLastName, payerFirstName, payerMiddleName, payerPhone, payerEmail }
+            } 
+        }); 
     };
 
     return (

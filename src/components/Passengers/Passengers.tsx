@@ -1,20 +1,55 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Passengers.css'; 
 import TripDetailsSidebar from '../Sidebars/TripDetailsSidebar/TripDetailsSidebar';
-import PassengerCard from './PassengerCard'; 
+
 import iconPlusOrange from '../../assets/icon-plus-orange.svg';
+
+import PassengerCard from './PassengerCard'; 
+import type { PassengerData } from './PassengerCard';
+
+interface PassengerWithMeta {
+    id: string;
+    hasError: boolean;
+    data: PassengerData;
+}
 
 function Passengers() {
     const navigate = useNavigate();
-    const [passengers, setPassengers] = useState([
-        { id: 'passenger-first', hasError: false } /* Шаг 1: добавили дефолтный статус ошибки */
-    ]);
+    const location = useLocation();
+
+    const createEmptyPassengerData = (): PassengerData => ({
+        ticketType: 'Взрослый',
+        lastName: '',
+        firstName: '',
+        middleName: '',
+        gender: 'W',
+        birthDate: '',
+        docType: 'Паспорт РФ',
+        passportSeries: '',
+        docNumber: '',
+        isLimitedMobility: false
+    });
+
+    const [passengers, setPassengers] = useState<PassengerWithMeta[]>(() => {
+        const savedPassengers = location.state?.passengers as PassengerData[] | undefined;
+        
+        if (savedPassengers && savedPassengers.length > 0) {
+            return savedPassengers.map((p, index) => ({
+                id: index === 0 ? 'passenger-first' : crypto.randomUUID(),
+                hasError: false,
+                data: p
+            }));
+        }
+        
+        return [{ id: 'passenger-first', hasError: false, data: createEmptyPassengerData() }];
+    });
 
     const handleAddPassenger = () => {
         const nextPassenger = {
             id: crypto.randomUUID(),
-            hasError: false /* Шаг 1: новые карточки тоже без ошибок по умолчанию */
+            hasError: false,
+            data: createEmptyPassengerData()
         };
         setPassengers([...passengers, nextPassenger]);
     };
@@ -25,20 +60,23 @@ function Passengers() {
         setPassengers(passengers.filter(passenger => passenger.id !== idToRemove));
     };
 
+    const handlePassengerDataChange = (idToUpdate: string, updatedData: PassengerData) => {
+        setPassengers(prev => 
+            prev.map(p => p.id === idToUpdate ? { ...p, data: updatedData } : p)
+        );
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         
-        // Шаг 3: Проверяем, есть ли ошибка в номерах свидетельств хоть у одного пассажира
         const hasAnyError = passengers.some(passenger => passenger.hasError === true);
         
         if (hasAnyError) {
-            // Если где-то горит ошибка, прерываем выполнение и никуда не переходим
             return; 
         }
 
-        // Если всё верно — пускаем дальше
-        navigate('/payment');
+        const cleanPassengersData = passengers.map(p => p.data);
+        navigate('/payment', { state: { passengers: cleanPassengersData } });
     };
 
     return (
@@ -53,12 +91,9 @@ function Passengers() {
                         <PassengerCard 
                             key={passenger.id}      
                             number={index + 1}
+                            data={passenger.data}
                             onRemove={() => handleRemovePassenger(passenger.id)} 
-                            onErrorChange={(hasError) => {
-                                setPassengers(prev => 
-                                    prev.map(p => p.id === passenger.id ? { ...p, hasError } : p)
-                                );
-                            }}
+                            onChange={(updatedData) => handlePassengerDataChange(passenger.id, updatedData)}
                         />
                     ))}
 
