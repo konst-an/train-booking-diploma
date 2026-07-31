@@ -8,14 +8,15 @@ function Payment() {
     const navigate = useNavigate();
 
     const passengersFromRouter = location.state?.passengers || [];
+    const savedPayer = location.state?.payer;
 
-    const [payerLastName, setPayerLastName] = useState('');
-    const [payerFirstName, setPayerFirstName] = useState('');
-    const [payerMiddleName, setPayerMiddleName] = useState('');
-    const [payerPhone, setPayerPhone] = useState('');
-    const [payerEmail, setPayerEmail] = useState('');
+    const [payerLastName, setPayerLastName] = useState(savedPayer?.payerLastName || '');
+    const [payerFirstName, setPayerFirstName] = useState(savedPayer?.payerFirstName || '');
+    const [payerMiddleName, setPayerMiddleName] = useState(savedPayer?.payerMiddleName || '');
+    const [payerPhone, setPayerPhone] = useState(savedPayer?.payerPhone || '');
+    const [payerEmail, setPayerEmail] = useState(savedPayer?.payerEmail || '');
     
-    const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>('online');
+    const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>(location.state?.chosenMethod || 'online');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault(); 
@@ -57,6 +58,8 @@ function Payment() {
                                         placeholder="Мартынюк" 
                                         value={payerLastName}
                                         onChange={(e) => setPayerLastName(e.target.value)}
+                                        required
+                                        pattern="^[А-Яа-яЁёA-Za-z\-]+$"
                                     />
                                 </div>
                                 <div className="payment__field-group">
@@ -67,6 +70,8 @@ function Payment() {
                                         placeholder="Ирина" 
                                         value={payerFirstName}
                                         onChange={(e) => setPayerFirstName(e.target.value)}
+                                        required
+                                        pattern="^[А-Яа-яЁёA-Za-z\-]+$"
                                     />
                                 </div>
                                 <div className="payment__field-group">
@@ -77,6 +82,7 @@ function Payment() {
                                         placeholder="Эдуардовна" 
                                         value={payerMiddleName}
                                         onChange={(e) => setPayerMiddleName(e.target.value)}
+                                        pattern="^[А-Яа-яЁёA-Za-z\-]*$" /* Необязательное, но если введено — только буквы */
                                     />
                                 </div>
                             </div>
@@ -90,7 +96,39 @@ function Payment() {
                                         className="payment__input payment__input--phone" 
                                         placeholder="+7 953 322 18 18" 
                                         value={payerPhone}
-                                        onChange={(e) => setPayerPhone(e.target.value)}
+                                        required
+                                        pattern="^\+7\s\d{3}\s\d{3}\s\d{2}\s\d{2}$"
+                                        maxLength={16} 
+                                        onChange={(e) => {
+                                            
+                                            let input = e.target.value.replace(/\D/g, '');
+                                            
+                                            if (!input) {
+                                                setPayerPhone('');
+                                                return;
+                                            }
+
+                                            if (input.startsWith('7') || input.startsWith('8')) {
+                                                input = input.substring(1);
+                                            }
+
+                                            let formatted = '+7';
+                                            
+                                            if (input.length > 0) {
+                                                formatted += ' ' + input.substring(0, 3);
+                                            }
+                                            if (input.length > 3) {
+                                                formatted += ' ' + input.substring(3, 6);
+                                            }
+                                            if (input.length > 6) {
+                                                formatted += ' ' + input.substring(6, 8);
+                                            }
+                                            if (input.length > 8) {
+                                                formatted += ' ' + input.substring(8, 10);
+                                            }
+
+                                            setPayerPhone(formatted);
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -100,17 +138,17 @@ function Payment() {
                                 <div className="payment__field-group">
                                     <label className="payment__label">E-mail</label>
                                     <input 
-                                        type="email" 
+                                        type="email"
                                         className="payment__input payment__input--email" 
                                         placeholder="inbox@gmail.ru" 
                                         value={payerEmail}
                                         onChange={(e) => setPayerEmail(e.target.value)}
+                                        required
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     {/* СЕКЦИЯ 2: СПОСОБ ОПЛАТЫ */}
                     <div className="payment__section payment__section--methods">
                         <div className="payment__section-header">

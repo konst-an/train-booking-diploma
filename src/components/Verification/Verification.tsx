@@ -17,6 +17,14 @@ interface Passenger {
     docNumber: string;
 }
 
+interface PayerData {
+    payerLastName: string;
+    payerFirstName: string;
+    payerMiddleName: string;
+    payerPhone: string;
+    payerEmail: string;
+}
+
 export default function Verification() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,14 +33,20 @@ export default function Verification() {
         navigate('/trains');
     };
 
-    const handleConfirmOrder = () => {
-        navigate('/success');
-    };
-
     const stateData = location.state as { 
         chosenMethod?: 'online' | 'cash';
         passengers?: Passenger[];
+        payer?: PayerData;
     } | null;
+
+    const handleConfirmOrder = () => {
+        navigate('/success', { 
+            state: { 
+                firstName: stateData?.payer?.payerFirstName || 'Пассажир',
+                middleName: stateData?.payer?.payerMiddleName || ''
+            } 
+        });
+    };
 
     const currentPaymentMethod = stateData?.chosenMethod || 'online';
     const passengers: Passenger[] = stateData?.passengers || [];
@@ -247,7 +261,7 @@ export default function Verification() {
                             <button 
                                 type="button" 
                                 className="verification__card-btn-edit"
-                                onClick={() => navigate('/payment')}
+                                onClick={() => navigate('/payment', { state: { passengers, payer: stateData?.payer, chosenMethod: currentPaymentMethod } })}
                             >
                                 Изменить
                             </button>

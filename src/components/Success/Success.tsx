@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Success.css';
 import successIconEmail from '../../assets/success-icon-email.svg';
 import successIconPrint from '../../assets/success-icon-print.svg';
@@ -8,9 +8,18 @@ import successStar from '../../assets/success-star.svg';
 
 export default function Success() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const stateData = location.state as { firstName?: string; middleName?: string } | null;
+    const clientFirstName = stateData?.firstName || 'Пассажир';
+    const clientMiddleName = stateData?.middleName || '';
+
+    const greetingName = clientMiddleName 
+        ? `${clientFirstName} ${clientMiddleName}!` 
+        : `${clientFirstName}!`;
 
     const handleGoHome = () => {
-        navigate('/'); // Перенаправляем пользователя на главную страницу при клике
+        navigate('/');
     };
 
     return (
@@ -67,7 +76,7 @@ export default function Success() {
 
                 {/* Третий блок: Текстовая информация */}
                 <div className="success-page__info-content">
-                    <h2 className="success-page__client-name">Ирина Эдуардовна!</h2>
+                    <h2 className="success-page__client-name">{greetingName}</h2>
                     
                     <p className="success-page__status-text">
                         Ваш заказ успешно оформлен.<br />

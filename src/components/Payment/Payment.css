@@ -258,3 +258,9 @@
 .payment__btn-submit:active {
   transform: scale(0.97);    
 }
+
+.payment__main:invalid .payment__input:placeholder-shown:required,
+.payment__main .payment__input:invalid:not(:placeholder-shown) {
+    border: 1px solid #ff4d4d !important;
+    background-color: #fff5f5;
+}
