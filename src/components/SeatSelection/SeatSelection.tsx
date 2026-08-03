@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; 
 import './SeatSelection.css';
 
@@ -54,11 +52,38 @@ function SeatSelection() {
 
     const [liveUsers] = useState(() => Math.floor(Math.random() * (15 - 5 + 1)) + 5);
 
+    // Добавляем стейты и обработчик для боковой панели, чтобы исправить ошибку TS2740
+    const [sidebarDateStart, setSidebarDateStart] = useState<Date | null>(new Date('2018-08-30'));
+    const [sidebarDateEnd, setSidebarDateEnd] = useState<Date | null>(new Date('2018-09-09'));
+
+    const [wagonFilters, setWagonFilters] = useState({
+        coupe: true,       
+        platscart: false,  
+        sitting: false,    
+        lux: false,        
+        wifi: true,        
+        express: false     
+    });
+
+    const handleFilterToggle = (name: string) => {
+        setWagonFilters(prev => ({ 
+            ...prev, 
+            [name]: !prev[name as keyof typeof wagonFilters] 
+        }));
+    };
+
     return (
         <div className="seat-selection__container">
             
             {/* ЛЕВАЯ КОЛОНКА: (Фильтры + Последние билеты) */}
-            <FilterSidebar />
+            <FilterSidebar 
+                dateStart={sidebarDateStart}
+                setDateStart={setSidebarDateStart}
+                dateEnd={sidebarDateEnd}
+                setDateEnd={setSidebarDateEnd}
+                wagonFilters={wagonFilters}
+                onToggle={handleFilterToggle}
+            />
 
             {/* ПРАВАЯ КОЛОНКА: Основная информация выбора мест */}
             <main className="seat-selection__main">
