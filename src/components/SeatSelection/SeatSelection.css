@@ -386,6 +386,12 @@
   transition: all 0.2s ease;
 }
 
+.seat-selection__wagon-type-item:disabled {
+  opacity: 0.3; 
+  cursor: not-allowed;
+}
+
+
 .seat-selection__wagon-icon {
   height: 50px; 
   object-fit: contain;

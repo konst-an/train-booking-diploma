@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; 
@@ -91,6 +91,16 @@ function SeatSelection() {
             [name]: !prev[name as keyof typeof wagonFilters] 
         }));
     };
+
+    useEffect(() => {
+        if (train && train.seats && train.seats.length > 0) {
+            const firstSeat = train.seats[0].type;
+            if (firstSeat === 'Купе') setActiveWagonType('coupe');
+            if (firstSeat === 'Плацкарт') setActiveWagonType('reserved');
+            if (firstSeat === 'Сидячий') setActiveWagonType('sedentary');
+            if (firstSeat === 'Люкс') setActiveWagonType('luxury');
+        }
+    }, [train]);
 
     return (
         <div className="seat-selection__container">
@@ -306,6 +316,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'sedentary' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('sedentary')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Сидячий')} // Отключаем, если нет в поезде
                                 >
                                     <img src={sidebarSedentary} alt="Сидячий" className="seat-selection__wagon-icon seat-selection__wagon-icon--sedentary" />
                                     <span className="seat-selection__wagon-text">Сидячий</span>
@@ -316,6 +327,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'reserved' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('reserved')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Плацкарт')} // Отключаем, если нет в поезде
                                 >
                                     <img src={sidebarReserved} alt="Плацкарт" className="seat-selection__wagon-icon seat-selection__wagon-icon--reserved" />
                                     <span className="seat-selection__wagon-text">Плацкарт</span>
@@ -326,6 +338,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'coupe' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('coupe')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Купе')} // Отключаем, если нет в поезде
                                 >
                                     <img src={sidebarCoupe} alt="Купе" className="seat-selection__wagon-icon seat-selection__wagon-icon--coupe" />
                                     <span className="seat-selection__wagon-text">Купе</span>
@@ -336,6 +349,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'luxury' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('luxury')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Люкс')} // Отключаем, если нет в поезде
                                 >
                                     <img src={sidebarLuxury} alt="Люкс" className="seat-selection__wagon-icon seat-selection__wagon-icon--luxury" />
                                     <span className="seat-selection__wagon-text">Люкс</span>
@@ -601,6 +615,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'sedentary' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('sedentary')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Сидячий')} // Блокируем, если нет в поезде
                                 >
                                     <img src={sidebarSedentary} alt="Сидячий" className="seat-selection__wagon-icon seat-selection__wagon-icon--sedentary" />
                                     <span className="seat-selection__wagon-text">Сидячий</span>
@@ -611,6 +626,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'reserved' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('reserved')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Плацкарт')} // Блокируем, если нет в поезде
                                 >
                                     <img src={sidebarReserved} alt="Плацкарт" className="seat-selection__wagon-icon seat-selection__wagon-icon--reserved" />
                                     <span className="seat-selection__wagon-text">Плацкарт</span>
@@ -621,6 +637,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'coupe' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('coupe')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Купе')} // Блокируем, если нет в поезде
                                 >
                                     <img src={sidebarCoupe} alt="Купе" className="seat-selection__wagon-icon seat-selection__wagon-icon--coupe" />
                                     <span className="seat-selection__wagon-text">Купе</span>
@@ -631,6 +648,7 @@ function SeatSelection() {
                                     type="button"
                                     className={`seat-selection__wagon-type-item ${activeWagonType === 'luxury' ? 'seat-selection__wagon-type-item--active' : ''}`}
                                     onClick={() => setActiveWagonType('luxury')}
+                                    disabled={!train.seats.some((s: any) => s.type === 'Люкс')} // Блокируем, если нет в поезде
                                 >
                                     <img src={sidebarLuxury} alt="Люкс" className="seat-selection__wagon-icon seat-selection__wagon-icon--luxury" />
                                     <span className="seat-selection__wagon-text">Люкс</span>
