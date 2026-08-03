@@ -73,16 +73,18 @@ function TripDetailsSidebar({
                     </button>
                 </div>
 
-                {isToExpanded && (
+                {isToExpanded && train.forward && (
                     <div className="trip-details__section-body">
                         <div className="trip-details__info-row">
                             <span className="trip-details__info-label">№ Поезда</span>
-                            <span className="trip-details__info-value trip-details__info-value--bold">116С</span>
+                            <span className="trip-details__info-value trip-details__info-value--bold">
+                                {train.number}
+                            </span>
                         </div>
                         <div className="trip-details__info-row">
                             <span className="trip-details__info-label">Название</span>
                             <span className="trip-details__info-value trip-details__info-value--right">
-                                Адлер<br />Санкт-Петербург
+                                {train.routeSummary?.[0]}<br />{train.routeSummary?.[train.routeSummary.length - 1]}
                             </span>
                         </div>
 
@@ -91,24 +93,32 @@ function TripDetailsSidebar({
                             
                             {/* Левая колонка — Отправление */}
                             <div className="trip-details__time-block">
-                                <div className="trip-details__time">00:10</div>
-                                <div className="trip-details__date">30.08.2018</div>
-                                <div className="trip-details__station">Москва</div>
-                                <div className="trip-details__vokzal">Курский<br />вокзал</div>
+                                <div className="trip-details__time">{train.forward.timeOut}</div>
+                                <div className="trip-details__date">{train.forward.date || '30.08.2018'}</div>
+                                <div className="trip-details__station">{train.forward.cityOut}</div>
+                                <div className="trip-details__vokzal">
+                                    {train.forward.stationOut.replace(' вокзал', '')}<br />вокзал
+                                </div>
                             </div>
 
                             {/* Центр — Стрелка и время в пути */}
                             <div className="trip-details__arrow-block">
-                                <span className="trip-details__duration-time">9 : 42</span>
+                                <span className="trip-details__duration-time">
+                                    {train.forward.duration.split(':').join(' : ')}
+                                </span>
                                 <img src={arrowForward} alt="" className="trip-details__route-arrow" />
                             </div>
 
                             {/* Правая колонка — Прибытие (выравнивание вправо) */}
                             <div className="trip-details__time-block trip-details__time-block--right">
-                                <div className="trip-details__time">09:52</div>
-                                <div className="trip-details__date">31.08.2018</div>
-                                <div className="trip-details__station">Санкт-Петербург</div>
-                                <div className="trip-details__vokzal">Ладожский<br />вокзал</div>
+                                <div className="trip-details__time">{train.forward.timeIn}</div>
+                                <div className="trip-details__date">
+                                    {train.forward.date || '31.08.2018'}
+                                </div>
+                                <div className="trip-details__station">{train.forward.cityIn}</div>
+                                <div className="trip-details__vokzal">
+                                    {train.forward.stationIn.replace(' вокзал', '')}<br />вокзал
+                                </div>
                             </div>
 
                         </div>
@@ -140,38 +150,50 @@ function TripDetailsSidebar({
                     </button>
                 </div>
 
-                {isFromExpanded && (
+                 {train.backward && isFromExpanded && (
                     <div className="trip-details__section-body">
                         <div className="trip-details__info-row">
                             <span className="trip-details__info-label">№ Поезда</span>
-                            <span className="trip-details__info-value trip-details__info-value--bold">116С</span>
+                            <span className="trip-details__info-value trip-details__info-value--bold">
+                                {train.backward.number || train.number}
+                            </span>
                         </div>
                         <div className="trip-details__info-row">
                             <span className="trip-details__info-label">Название</span>
                             <span className="trip-details__info-value trip-details__info-value--right">
-                                Адлер<br />Санкт-Петербург
+                                {train.backward.routeSummary?.[0] || train.routeSummary?.[train.routeSummary.length - 1]}<br />
+                                {train.backward.routeSummary?.[train.backward.routeSummary.length - 1] || train.routeSummary?.[0]}
                             </span>
                         </div>
 
                         <div className="trip-details__route-schedule">
                             
+                            {/* Левая колонка — Отправление */}
                             <div className="trip-details__time-block">
-                                <div className="trip-details__time">00:10</div>
-                                <div className="trip-details__date">09.09.2018</div>
-                                <div className="trip-details__station">Москва</div>
-                                <div className="trip-details__vokzal">Курский<br />вокзал</div>
+                                <div className="trip-details__time">{train.backward.timeOut}</div>
+                                <div className="trip-details__date">{train.backward.date || '09.09.2018'}</div>
+                                <div className="trip-details__station">{train.backward.cityOut}</div>
+                                <div className="trip-details__vokzal">
+                                    {train.backward.stationOut?.replace(' вокзал', '') || 'Курский'}<br />вокзал
+                                </div>
                             </div>
 
+                            {/* Центр — Обратная стрелочка и длительность */}
                             <div className="trip-details__arrow-block">
-                                <span className="trip-details__duration-time">9 : 42</span>
+                                <span className="trip-details__duration-time">
+                                    {train.backward.duration?.split(':').join(' : ') || '9 : 42'}
+                                </span>
                                 <img src={sidebarArrowBackward} alt="" className="trip-details__route-arrow" />
                             </div>
 
+                            {/* Правая колонка — Прибытие */}
                             <div className="trip-details__time-block trip-details__time-block--right">
-                                <div className="trip-details__time">09:52</div>
-                                <div className="trip-details__date">08.09.2018</div>
-                                <div className="trip-details__station">Санкт-Петербург</div>
-                                <div className="trip-details__vokzal">Ладожский<br />вокзал</div>
+                                <div className="trip-details__time">{train.backward.timeIn}</div>
+                                <div className="trip-details__date">{train.backward.dateArrival || '08.09.2018'}</div>
+                                <div className="trip-details__station">{train.backward.cityIn}</div>
+                                <div className="trip-details__vokzal">
+                                    {train.backward.stationIn?.replace(' вокзал', '') || 'Ладожский'}<br />вокзал
+                                </div>
                             </div>
                         </div>
                     </div>
