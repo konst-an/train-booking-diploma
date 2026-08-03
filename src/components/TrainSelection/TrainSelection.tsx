@@ -1,17 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; 
 import './TrainSelection.css';
 
 import ticketFeatures from '../../assets/ticket-features.svg';
-
 import trainIcon from '../../assets/icon-train.svg';
-
 import arrowForward from '../../assets/arrow-forward.svg';
 import arrowBackward from '../../assets/arrow-backward.svg';
-
 import arrowPagePrev from '../../assets/arrow-page-prev.svg';
 import arrowPageNext from '../../assets/arrow-page-next.svg';
 
@@ -74,20 +71,60 @@ export const MOCK_TRAINS_DATA = [
   }
 ];
 
+interface LocationState {
+  searchParams?: {
+    fromCity: string;
+    toCity: string;
+    startDate: string | null;
+    endDate: string | null;
+  }
+}
 
 function TrainSelection() {
+
     const navigate = useNavigate();
+    const location = useLocation();
     
     const [activeSort, setActiveSort] = useState('time');
     const [isSortOpen, setIsSortOpen] = useState(false);
     const [activeLimit, setActiveLimit] = useState(5);
     const [activePage, setActivePage] = useState(1);
 
+    const searchParams = location.state?.searchParams;
+    const fromCity = searchParams?.fromCity || '';
+    const toCity = searchParams?.toCity || '';
+    
+    // ФИЛЬТРАЦИЯ: Оставляем только те поезда, в маршруте которых есть эти города
+    const filteredTrains = MOCK_TRAINS_DATA.filter(train => {
+        if (!fromCity && !toCity) return true;
+
+        const searchFrom = fromCity.toLowerCase().trim();
+        const searchTo = toCity.toLowerCase().trim();
+
+        const hasFrom = train.routeSummary.some(city => city.toLowerCase().includes(searchFrom));
+        const hasTo = train.routeSummary.some(city => city.toLowerCase().includes(searchTo));
+
+        return hasFrom && hasTo;
+    });
+
+    const sortedTrains = [...filteredTrains].sort((a, b) => {
+        if (activeSort === 'price') {
+            const minPriceA = Math.min(...a.seats.map(s => parseInt(s.price.replace(/\s/g, ''))));
+            const minPriceB = Math.min(...b.seats.map(s => parseInt(s.price.replace(/\s/g, ''))));
+            return minPriceA - minPriceB;
+        }
+        return a.forward.timeOut.localeCompare(b.forward.timeOut);
+    });
+
+    const indexOfLastTrain = activePage * activeLimit;
+    const indexOfFirstTrain = indexOfLastTrain - activeLimit;
+    const currentTrains = sortedTrains.slice(indexOfFirstTrain, indexOfLastTrain);
+
     const handleSelectSeats = (train: any) => {
         navigate('/seats', { state: { selectedTrain: train } });
     };
-  
-  return (
+    
+    return (
     <div className="train-selection__wrapper">
         <div className="train-selection__container">
             {/* ПОДКЛЮЧАЕМ ОБЩУЮ БОКОВУЮ ПАНЕЛЬ */}
@@ -97,7 +134,7 @@ function TrainSelection() {
             <main className="train-selection__main">
                 <div className="train-selection__topbar">
 
-                    <span className="train-selection__count">найдено {MOCK_TRAINS_DATA.length}</span>
+                    <span className="train-selection__count">найдено {filteredTrains.length}</span>
                     
                     <div className="train-selection__controls">
                     
@@ -137,7 +174,7 @@ function TrainSelection() {
 
                 {/* СПИСОК КАРТОЧЕК ПОЕЗДОВ */}
                 <div className="train-selection__list">
-                    {MOCK_TRAINS_DATA.map((train) => (
+                    {currentTrains.map((train) => (
                         <article className="train-card" key={train.id}>
                             
                             {/* ЛЕВАЯ СЕКЦИЯ: Поезд и Иконка */}
@@ -226,14 +263,14 @@ function TrainSelection() {
                                         type="button" 
                                         className="train-card__btn"
                                         onClick={() => handleSelectSeats(train)}
-                                        >
+                                    >
                                         Выбрать места
                                     </button>
                                 </div>
                             </div>
                         </article>
                     ))}
-                </div>                         
+                </div>
             </main>
         </div>
 

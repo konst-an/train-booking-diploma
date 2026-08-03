@@ -50,8 +50,28 @@ function Header() {
     : MOCK_CITIES.filter(city => city.toLowerCase().startsWith(toCity.toLowerCase()));
  
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();   
-    navigate('/trains');  
+    e.preventDefault();
+
+    if (fromCity.trim().toLowerCase() === toCity.trim().toLowerCase()) {
+        alert('Пункт отправления и пункт прибытия не могут совпадать');
+        return;
+    }
+
+    if (startDate && endDate && endDate < startDate) {
+        alert('Дата обратно не может быть раньше даты отправления');
+        return;
+    }
+
+    navigate('/trains', {
+        state: {
+            searchParams: {
+                fromCity,
+                toCity,
+                startDate: startDate ? startDate.toISOString() : null,
+                endDate: endDate ? endDate.toISOString() : null
+            }
+        }
+    });
   };
 
   return (
