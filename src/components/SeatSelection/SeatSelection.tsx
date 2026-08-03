@@ -59,6 +59,20 @@ function SeatSelection() {
     const [priceMin, setPriceMin] = useState<number>(absoluteMinPrice);
     const [priceMax, setPriceMax] = useState<number>(absoluteMaxPrice);
 
+    // Стейты времени для направления "Туда" (в часах от 0 до 24)
+    const [timeDepartureMin, setTimeDepartureMin] = useState<number>(0);
+    const [timeDepartureMax, setTimeDepartureMax] = useState<number>(11);
+    
+    const [timeArrivalMin, setTimeArrivalMin] = useState<number>(0);
+    const [timeArrivalMax, setTimeArrivalMax] = useState<number>(11);
+
+    // Стейты времени для направления "Обратно" (в часах от 0 до 24)
+    const [timeReturnDepartureMin, setTimeReturnDepartureMin] = useState<number>(0);
+    const [timeReturnDepartureMax, setTimeReturnDepartureMax] = useState<number>(11);
+    
+    const [timeReturnArrivalMin, setTimeReturnArrivalMin] = useState<number>(5);
+    const [timeReturnArrivalMax, setTimeReturnArrivalMax] = useState<number>(11);
+
     const [liveUsers] = useState(() => Math.floor(Math.random() * (15 - 5 + 1)) + 5);
 
     const [sidebarDateStart, setSidebarDateStart] = useState<Date | null>(new Date('2018-08-30'));
@@ -95,8 +109,28 @@ function SeatSelection() {
                 setPriceMin={setPriceMin}
                 priceMax={priceMax}
                 setPriceMax={setPriceMax}
-                absoluteMinPrice={absoluteMinPrice} 
+                absoluteMinPrice={absoluteMinPrice}
                 absoluteMaxPrice={absoluteMaxPrice}
+               
+                // ВРЕМЯ НАПРАВЛЕНИЯ "ТУДА"
+                timeDepartureMin={timeDepartureMin}
+                setTimeDepartureMin={setTimeDepartureMin}
+                timeDepartureMax={timeDepartureMax}
+                setTimeDepartureMax={setTimeDepartureMax}
+                timeArrivalMin={timeArrivalMin}
+                setTimeArrivalMin={setTimeArrivalMin}
+                timeArrivalMax={timeArrivalMax}
+                setTimeArrivalMax={setTimeArrivalMax}
+
+                // ВРЕМЯ НАПРАВЛЕНИЯ "ОБРАТНО" 
+                timeReturnDepartureMin={timeReturnDepartureMin}
+                setTimeReturnDepartureMin={setTimeReturnDepartureMin}
+                timeReturnDepartureMax={timeReturnDepartureMax}
+                setTimeReturnDepartureMax={setTimeReturnDepartureMax}
+                timeReturnArrivalMin={timeReturnArrivalMin}
+                setTimeReturnArrivalMin={setTimeReturnArrivalMin}
+                timeReturnArrivalMax={timeReturnArrivalMax}
+                setTimeReturnArrivalMax={setTimeReturnArrivalMax}
             />
 
             {/* ПРАВАЯ КОЛОНКА: Основная информация выбора мест */}

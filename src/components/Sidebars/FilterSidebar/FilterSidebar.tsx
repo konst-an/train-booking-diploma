@@ -28,7 +28,6 @@ export interface WagonFilters {
   express: boolean;
 }
 
-// Расширяем интерфейс пропсов динамическими границами цен
 interface FilterSidebarProps {
   dateStart: Date | null;
   setDateStart: (date: Date | null) => void;
@@ -40,8 +39,28 @@ interface FilterSidebarProps {
   setPriceMin: (val: number) => void;
   priceMax: number;
   setPriceMax: (val: number) => void;
-  absoluteMinPrice: number; 
-  absoluteMaxPrice: number; 
+  absoluteMinPrice: number;
+  absoluteMaxPrice: number;
+  
+  // Время "Туда"
+  timeDepartureMin: number;
+  setTimeDepartureMin: (val: number) => void;
+  timeDepartureMax: number;
+  setTimeDepartureMax: (val: number) => void;
+  timeArrivalMin: number;
+  setTimeArrivalMin: (val: number) => void;
+  timeArrivalMax: number;
+  setTimeArrivalMax: (val: number) => void;
+
+  // Время "Обратно"
+  timeReturnDepartureMin: number;
+  setTimeReturnDepartureMin: (val: number) => void;
+  timeReturnDepartureMax: number;
+  setTimeReturnDepartureMax: (val: number) => void;
+  timeReturnArrivalMin: number;
+  setTimeReturnArrivalMin: (val: number) => void;
+  timeReturnArrivalMax: number;
+  setTimeReturnArrivalMax: (val: number) => void;
 }
 
 function FilterSidebar({ 
@@ -50,8 +69,18 @@ function FilterSidebar({
   wagonFilters, onToggle,
   priceMin, setPriceMin,
   priceMax, setPriceMax,
-  absoluteMinPrice,  
-  absoluteMaxPrice
+  absoluteMinPrice,
+  absoluteMaxPrice,
+  
+  timeDepartureMin, setTimeDepartureMin,
+  timeDepartureMax, setTimeDepartureMax,
+  timeArrivalMin, setTimeArrivalMin,
+  timeArrivalMax, setTimeArrivalMax,
+
+  timeReturnDepartureMin, setTimeReturnDepartureMin,
+  timeReturnDepartureMax, setTimeReturnDepartureMax,
+  timeReturnArrivalMin, setTimeReturnArrivalMin,
+  timeReturnArrivalMax, setTimeReturnArrivalMax
 }: FilterSidebarProps) {
 
   const [isToExpanded, setIsToExpanded] = useState<boolean>(true);
@@ -80,8 +109,8 @@ function FilterSidebar({
                 <h4 className="sidebar__title sidebar__title--return">Дата возвращения</h4>
                 <div className="sidebar__input-wrapper">
                     <DatePicker
-                        selected={dateEnd} // Изменили с sidebarDateEnd
-                        onChange={(date: Date | null) => setDateEnd(date)} // Изменили с setSidebarDateEnd
+                        selected={dateEnd} 
+                        onChange={(date: Date | null) => setDateEnd(date)}
                         dateFormat="dd.MM.yyyy"
                         className="sidebar__datepicker-input"
                         onChangeRaw={(e) => { if (e) e.preventDefault(); }}
@@ -178,7 +207,7 @@ function FilterSidebar({
                 </div>
             </div>
 
-             {/* ==========================================
+            {/* ==========================================
                 БЛОК СТОИМОСТЬ
                 ========================================== */}
 
@@ -190,7 +219,7 @@ function FilterSidebar({
                 </div>
                 
                 <div className="sidebar__slider-container" style={{ position: 'relative' }}>
-                    {/* Базовый трек */}
+                    
                     <div className="sidebar__price-track">
                         <div 
                             className="sidebar__price-range"
@@ -254,18 +283,16 @@ function FilterSidebar({
             {/* ==========================================
                 БЛОК НАПРАВЛЕНИЯ: ТУДА
                 ========================================== */}
-        
             <div className="sidebar__section filter-direction">
                 <div className="sidebar__direction-header">
                     <img src={sidebarArrowTo} alt="" className="sidebar__direction-arrow" />
                     <span className="sidebar__direction-title">Туда</span>
                     
-                    {/* Кнопка меняет состояние при клике */}
                     <button 
                         type="button" 
                         className="sidebar__direction-toggle"
-                        onClick={() => setIsToExpanded(!isToExpanded)}>
-            
+                        onClick={() => setIsToExpanded(!isToExpanded)}
+                    >
                         <img 
                             src={isToExpanded ? sidebarMinus : sidebarPlus} 
                             alt={isToExpanded ? "Свернуть" : "Развернуть"} 
@@ -275,20 +302,46 @@ function FilterSidebar({
 
                 {isToExpanded && (
                     <div className="sidebar__direction-content">
+                        
                         {/* 1. Время отбытия */}
                         <div className="sidebar__time-block">
                             <h4 className="sidebar__time-title">Время отбытия</h4>
                             <div className="sidebar__time-slider-container">
                                 <div className="sidebar__time-slider">
                                     <div className="sidebar__time-track">
-                                        <div className="sidebar__time-range" style={{ left: '0%', width: '46%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '0%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                        <div 
+                                            className="sidebar__time-range" 
+                                            style={{ 
+                                                left: `${(timeDepartureMin / 24) * 100}%`, 
+                                                width: `${((timeDepartureMax - timeDepartureMin) / 24) * 100}%` 
+                                            }}
+                                        ></div>
                                     </div>
+
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeDepartureMin / 24) * 100}%` }}
+                                    ></div>
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeDepartureMax / 24) * 100}%` }}
+                                    ></div>
+
+                                    <input 
+                                        type="range" min={0} max={24} value={timeDepartureMin}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeDepartureMin(Math.min(parseInt(e.target.value), timeDepartureMax - 1))}
+                                    />
+                                    <input 
+                                        type="range" min={0} max={24} value={timeDepartureMax}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeDepartureMax(Math.max(parseInt(e.target.value), timeDepartureMin + 1))}
+                                    />
                                 </div>
+
                                 <div className="sidebar__time-labels">
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '0%' }}>0:00</span>
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeDepartureMin / 24) * 100}%` }}>{timeDepartureMin}:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeDepartureMax / 24) * 100}%` }}>{timeDepartureMax}:00</span>
                                     <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
                                 </div>
                             </div>
@@ -300,22 +353,47 @@ function FilterSidebar({
                             <div className="sidebar__time-slider-container">
                                 <div className="sidebar__time-slider">
                                     <div className="sidebar__time-track">
-                                        <div className="sidebar__time-range" style={{ left: '20%', width: '26%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '20%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                        <div 
+                                            className="sidebar__time-range" 
+                                            style={{ 
+                                                left: `${(timeArrivalMin / 24) * 100}%`, 
+                                                width: `${((timeArrivalMax - timeArrivalMin) / 24) * 100}%` 
+                                            }}
+                                        ></div>
                                     </div>
+
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeArrivalMin / 24) * 100}%` }}
+                                    ></div>
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeArrivalMax / 24) * 100}%` }}
+                                    ></div>
+
+                                    <input 
+                                        type="range" min={0} max={24} value={timeArrivalMin}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeArrivalMin(Math.min(parseInt(e.target.value), timeArrivalMax - 1))}
+                                    />
+                                    <input 
+                                        type="range" min={0} max={24} value={timeArrivalMax}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeArrivalMax(Math.max(parseInt(e.target.value), timeArrivalMin + 1))}
+                                    />
                                 </div>
+
                                 <div className="sidebar__time-labels">
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '20%' }}>5:00</span>
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeArrivalMin / 24) * 100}%` }}>{timeArrivalMin}:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeArrivalMax / 24) * 100}%` }}>{timeArrivalMax}:00</span>
                                     <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
-            </div>
-            
+            </div>    
+             
             {/* ==========================================================================
                 БЛОК НАПРАВЛЕНИЯ: ОБРАТНО
             ========================================================================== */}
@@ -328,8 +406,8 @@ function FilterSidebar({
                     <button 
                         type="button" 
                         className="sidebar__direction-toggle"
-                        onClick={() => setIsFromExpanded(!isFromExpanded)}>
-                    
+                        onClick={() => setIsFromExpanded(!isFromExpanded)}
+                    >
                         <img 
                             src={isFromExpanded ? sidebarMinus : sidebarPlus} 
                             alt={isFromExpanded ? "Свернуть" : "Развернуть"} 
@@ -339,20 +417,50 @@ function FilterSidebar({
 
                 {isFromExpanded && (
                     <div className="sidebar__direction-content">
+                        
                         {/* 1. Время отбытия */}
                         <div className="sidebar__time-block">
                             <h4 className="sidebar__time-title">Время отбытия</h4>
                             <div className="sidebar__time-slider-container">
                                 <div className="sidebar__time-slider">
                                     <div className="sidebar__time-track">
-                                        <div className="sidebar__time-range" style={{ left: '0%', width: '46%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '0%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                        {/* Динамическая оранжевая линия времени обратного пути */}
+                                        <div 
+                                            className="sidebar__time-range" 
+                                            style={{ 
+                                                left: `${(timeReturnDepartureMin / 24) * 100}%`, 
+                                                width: `${((timeReturnDepartureMax - timeReturnDepartureMin) / 24) * 100}%` 
+                                            }}
+                                        ></div>
                                     </div>
+
+                                    {/* Оригинальные кругляшки-ручки, бегущие по процентам */}
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeReturnDepartureMin / 24) * 100}%` }}
+                                    ></div>
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeReturnDepartureMax / 24) * 100}%` }}
+                                    ></div>
+
+                                    {/* Прозрачные инпуты управления временем отбытия */}
+                                    <input 
+                                        type="range" min={0} max={24} value={timeReturnDepartureMin}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeReturnDepartureMin(Math.min(parseInt(e.target.value), timeReturnDepartureMax - 1))}
+                                    />
+                                    <input 
+                                        type="range" min={0} max={24} value={timeReturnDepartureMax}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeReturnDepartureMax(Math.max(parseInt(e.target.value), timeReturnDepartureMin + 1))}
+                                    />
                                 </div>
+
+                                {/* Подписи часов меняются на месте и никогда не столкнутся с 24:00 */}
                                 <div className="sidebar__time-labels">
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '0%' }}>0:00</span>
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeReturnDepartureMin / 24) * 100}%` }}>{timeReturnDepartureMin}:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeReturnDepartureMax / 24) * 100}%` }}>{timeReturnDepartureMax}:00</span>
                                     <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
                                 </div>
                             </div>
@@ -364,18 +472,47 @@ function FilterSidebar({
                             <div className="sidebar__time-slider-container">
                                 <div className="sidebar__time-slider">
                                     <div className="sidebar__time-track">
-                                        <div className="sidebar__time-range" style={{ left: '20%', width: '26%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '20%' }}></div>
-                                        <div className="sidebar__time-handle" style={{ left: '46%' }}></div>
+                                        {/* Динамическая оранжевая линия времени обратного пути */}
+                                        <div 
+                                            className="sidebar__time-range" 
+                                            style={{ 
+                                                left: `${(timeReturnArrivalMin / 24) * 100}%`, 
+                                                width: `${((timeReturnArrivalMax - timeReturnArrivalMin) / 24) * 100}%` 
+                                            }}
+                                        ></div>
                                     </div>
+
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeReturnArrivalMin / 24) * 100}%` }}
+                                    ></div>
+                                    <div 
+                                        className="sidebar__time-handle" 
+                                        style={{ left: `${(timeReturnArrivalMax / 24) * 100}%` }}
+                                    ></div>
+
+                                    {/* Прозрачные инпуты управления временем прибытия */}
+                                    <input 
+                                        type="range" min={0} max={24} value={timeReturnArrivalMin}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeReturnArrivalMin(Math.min(parseInt(e.target.value), timeReturnArrivalMax - 1))}
+                                    />
+                                    <input 
+                                        type="range" min={0} max={24} value={timeReturnArrivalMax}
+                                        className="sidebar__range-input"
+                                        onChange={(e) => setTimeReturnArrivalMax(Math.max(parseInt(e.target.value), timeReturnArrivalMin + 1))}
+                                    />
                                 </div>
+
+                                {/* Подписи часов меняются на месте и никогда не столкнутся с 24:00 */}
                                 <div className="sidebar__time-labels">
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '20%' }}>5:00</span>
-                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: '46%' }}>11:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeReturnArrivalMin / 24) * 100}%` }}>{timeReturnArrivalMin}:00</span>
+                                    <span className="sidebar__time-val sidebar__time-val--current" style={{ left: `${(timeReturnArrivalMax / 24) * 100}%` }}>{timeReturnArrivalMax}:00</span>
                                     <span className="sidebar__time-val sidebar__time-val--end">24:00</span>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 )}
             </div>

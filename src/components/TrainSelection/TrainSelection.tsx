@@ -107,6 +107,20 @@ function TrainSelection() {
     const [priceMin, setPriceMin] = useState<number>(absoluteMinPrice);
     const [priceMax, setPriceMax] = useState<number>(absoluteMaxPrice);
 
+    // Стейты времени для направления "Туда" (в часах от 0 до 24)
+    const [timeDepartureMin, setTimeDepartureMin] = useState<number>(0);
+    const [timeDepartureMax, setTimeDepartureMax] = useState<number>(11);
+    
+    const [timeArrivalMin, setTimeArrivalMin] = useState<number>(0);
+    const [timeArrivalMax, setTimeArrivalMax] = useState<number>(11);
+
+    // Стейты времени для направления "Обратно" (в часах от 0 до 24)
+    const [timeReturnDepartureMin, setTimeReturnDepartureMin] = useState<number>(0);
+    const [timeReturnDepartureMax, setTimeReturnDepartureMax] = useState<number>(11);
+    
+    const [timeReturnArrivalMin, setTimeReturnArrivalMin] = useState<number>(5);
+    const [timeReturnArrivalMax, setTimeReturnArrivalMax] = useState<number>(11);
+
     const handleFilterToggle = (name: string) => {
         setWagonFilters(prev => ({ 
             ...prev, 
@@ -123,7 +137,7 @@ function TrainSelection() {
     const fromCity = searchParams?.fromCity || '';
     const toCity = searchParams?.toCity || '';
     
-    const filteredTrains = MOCK_TRAINS_DATA.filter(train => {
+   const filteredTrains = MOCK_TRAINS_DATA.filter(train => {
         if (fromCity || toCity) {
             const searchFrom = fromCity.toLowerCase().trim();
             const searchTo = toCity.toLowerCase().trim();
@@ -154,12 +168,29 @@ function TrainSelection() {
 
         if (!hasMatchingPrice) return false;
 
+    
+        const trainDepartureHour = parseInt(train.forward.timeOut.split(':')[0], 10);
+        const matchDepartureTime = trainDepartureHour >= timeDepartureMin && trainDepartureHour <= timeDepartureMax;
+
+        const trainArrivalHour = parseInt(train.forward.timeIn.split(':')[0], 10);
+        const matchArrivalTime = trainArrivalHour >= timeArrivalMin && trainArrivalHour <= timeArrivalMax;
+
+        if (!matchDepartureTime || !matchArrivalTime) return false;
+
+        const trainReturnDepartureHour = parseInt(train.backward.timeOut.split(':')[0], 10);
+        const matchReturnDepartureTime = trainReturnDepartureHour >= timeReturnDepartureMin && trainReturnDepartureHour <= timeReturnDepartureMax;
+
+        const trainReturnArrivalHour = parseInt(train.backward.timeIn.split(':')[0], 10);
+        const matchReturnArrivalTime = trainReturnArrivalHour >= timeReturnArrivalMin && trainReturnArrivalHour <= timeReturnArrivalMax;
+
+        if (!matchReturnDepartureTime || !matchReturnArrivalTime) return false;
+
         return true; 
     });
 
     useEffect(() => {
         setActivePage(1);
-    }, [fromCity, toCity, wagonFilters, priceMin, priceMax]);
+    }, [fromCity, toCity, wagonFilters, priceMin, priceMax, timeDepartureMin, timeDepartureMax, timeArrivalMin, timeArrivalMax, timeReturnDepartureMin, timeReturnDepartureMax, timeReturnArrivalMin, timeReturnArrivalMax]);
 
     const sortedTrains = [...filteredTrains].sort((a, b) => {
         if (activeSort === 'price') {
@@ -186,6 +217,7 @@ function TrainSelection() {
         <div className="train-selection__container">
 
             {/* ПОДКЛЮЧАЕМ ОБЩУЮ БОКОВУЮ ПАНЕЛЬ */}
+                        {/* ПОДКЛЮЧАЕМ ОБЩУЮ БОКОВУЮ ПАНЕЛЬ СО ВСЕМИ РАБОЧИМИ ФИЛЬТРАМИ */}
             <FilterSidebar 
                 dateStart={sidebarDateStart}
                 setDateStart={setSidebarDateStart}
@@ -199,6 +231,26 @@ function TrainSelection() {
                 setPriceMax={setPriceMax}
                 absoluteMinPrice={absoluteMinPrice}
                 absoluteMaxPrice={absoluteMaxPrice}
+               
+                // ВРЕМЯ НАПРАВЛЕНИЯ "ТУДА"
+                timeDepartureMin={timeDepartureMin}
+                setTimeDepartureMin={setTimeDepartureMin}
+                timeDepartureMax={timeDepartureMax}
+                setTimeDepartureMax={setTimeDepartureMax}
+                timeArrivalMin={timeArrivalMin}
+                setTimeArrivalMin={setTimeArrivalMin}
+                timeArrivalMax={timeArrivalMax}
+                setTimeArrivalMax={setTimeArrivalMax}
+
+                // ВРЕМЯ НАПРАВЛЕНИЯ "ОБРАТНО" 
+                timeReturnDepartureMin={timeReturnDepartureMin}
+                setTimeReturnDepartureMin={setTimeReturnDepartureMin}
+                timeReturnDepartureMax={timeReturnDepartureMax}
+                setTimeReturnDepartureMax={setTimeReturnDepartureMax}
+                timeReturnArrivalMin={timeReturnArrivalMin}
+                setTimeReturnArrivalMin={setTimeReturnArrivalMin}
+                timeReturnArrivalMax={timeReturnArrivalMax}
+                setTimeReturnArrivalMax={setTimeReturnArrivalMax}
             />
 
             {/* ПРАВАЯ КОЛОНКА */}
