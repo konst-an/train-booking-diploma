@@ -487,7 +487,6 @@ function SeatSelection() {
 
                                     </div>
                                 </div>
-                               
                             </div>
 
                             {/* ЖИВОЙ СЧЕТЧИК (В правом нижнем углу карточки) */}
@@ -506,7 +505,7 @@ function SeatSelection() {
                             <img src={arrowBackOrange} alt="" className="seat-selection__back-arrow-img" />
                             <button 
                                 className="seat-selection__btn-back"
-                                onClick={() => navigate('/trains')} // Теперь кнопка работает и здесь!
+                                onClick={() => navigate('/trains')}
                             >
                                 Выбрать другой поезд
                             </button>
@@ -660,9 +659,20 @@ function SeatSelection() {
                 </div>
                 
                 {/* КНОПКА ДАЛЕЕ ДЛЯ ПЕРЕХОДА К ПАССАЖИРАМ */}
-                <Link to="/passengers" style={{ textDecoration: 'none' }}>
-                    <button className="seat-selection__btn-next">Далее</button>
-                </Link>
+                <button 
+                    type="button"
+                    className="seat-selection__btn-next"
+                    onClick={() => navigate('/passengers', { 
+                        state: { 
+                            selectedTrain: train,
+                            adultCount: adultCount,
+                            childCount: childCount,
+                            babyCount: babyCount
+                        } 
+                    })}
+                >
+                    Далее
+                </button>
             </main>
         </div>
     );

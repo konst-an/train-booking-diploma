@@ -10,13 +10,37 @@ import sidebarPlus from '../../../assets/sidebar-plus.svg';
 import arrowForward from '../../../assets/arrow-forward.svg';
 import sidebarArrowBackward from '../../../assets/arrow-backward.svg';
 
-import './TripDetailsSidebar.css';
+interface TripDetailsSidebarProps {
+    selectedTrain: any;
+    adultCount: number;
+    childCount: number;
+    babyCount: number;
+}
 
-function TripDetailsSidebar() {
+function TripDetailsSidebar({ 
+    selectedTrain, 
+    adultCount, 
+    childCount, 
+    babyCount 
+}: TripDetailsSidebarProps) {
 
     const [isToExpanded, setIsToExpanded] = useState<boolean>(true);
     const [isFromExpanded, setIsFromExpanded] = useState<boolean>(true);
     const [isPassengersExpanded, setIsPassengersExpanded] = useState<boolean>(true);
+
+    const train = selectedTrain || {
+        number: '116С',
+        routeSummary: ['Москва', 'Адлер', 'Санкт-Петербург'],
+        seats: [{ type: 'Купе', price: '3 530' }],
+        forward: { timeOut: '00:10', cityOut: 'Москва', stationOut: 'Курский вокзал', timeIn: '09:52', cityIn: 'Санкт-Петербург', stationIn: 'Ладожский вокзал', duration: '09:42', date: '30.08.2018' },
+        backward: null
+    };
+
+    const singleSeatPrice = parseInt(train.seats?.[0]?.price?.replace(/\s/g, '') || '3530', 10);
+    
+    const totalAdultPrice = adultCount * singleSeatPrice;
+    const totalChildPrice = childCount * Math.round(singleSeatPrice * 0.5);
+    const totalPriceSum = totalAdultPrice + totalChildPrice;
 
     return (
         <aside className="trip-details">
@@ -182,24 +206,32 @@ function TripDetailsSidebar() {
 
                 {isPassengersExpanded && (
                     <div className="trip-details__section-body trip-details__section-body--passengers">
-                        
-                        {/* Строка: Взрослые */}
+                     
                         <div className="trip-details__passenger-row">
-                            <span className="trip-details__passenger-type">2 Взрослых</span>
+                            <span className="trip-details__passenger-type">
+                                {adultCount} {adultCount === 1 ? 'Взрослый' : 'Взрослых'}
+                            </span>
                             <div className="trip-details__passenger-price">
-                                <span className="trip-details__price-num">5 840</span>
+                                <span className="trip-details__price-num">
+                                    {totalAdultPrice.toLocaleString('ru-RU')}
+                                </span>
                                 <span className="trip-details__currency">₽</span>
                             </div>
                         </div>
                         
-                        {/* Строка: Дети */}
-                        <div className="trip-details__passenger-row">
-                            <span className="trip-details__passenger-type">1 Ребенок</span>
-                            <div className="trip-details__passenger-price">
-                                <span className="trip-details__price-num">1 920</span>
-                                <span className="trip-details__currency">₽</span>
+                        {childCount > 0 && (
+                            <div className="trip-details__passenger-row">
+                                <span className="trip-details__passenger-type">
+                                    {childCount} {childCount === 1 ? 'Ребенок' : childCount < 5 ? 'Ребенка' : 'Детей'}
+                                </span>
+                                <div className="trip-details__passenger-price">
+                                    <span className="trip-details__price-num">
+                                        {totalChildPrice.toLocaleString('ru-RU')}
+                                    </span>
+                                    <span className="trip-details__currency">₽</span>
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                     </div>
                 )}
@@ -209,8 +241,11 @@ function TripDetailsSidebar() {
             <footer className="trip-details__total-footer">
                 <span className="trip-details__total-label">Итог</span>
                 <div className="trip-details__total-price-group">
-                    <span className="trip-details__total-price-number">7 760</span>
-                    <span className="trip-details__total-currency">₽</span>
+                    
+                    <span className="trip-details__total-price-number">
+                        {totalPriceSum.toLocaleString('ru-RU')}
+                    </span>
+                    <span className="trip-details__total-currency"> ₽</span>
                 </div>
             </footer>
         </aside>

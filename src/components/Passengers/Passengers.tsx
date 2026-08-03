@@ -18,14 +18,21 @@ function Passengers() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const createEmptyPassengerData = (): PassengerData => ({
-        ticketType: 'Взрослый',
+    const { 
+        selectedTrain, 
+        adultCount = 1, 
+        childCount = 0, 
+        babyCount = 0 
+    } = location.state || {};
+
+    const createEmptyPassengerData = (type: 'Взрослый' | 'Детский' = 'Взрослый'): PassengerData => ({
+        ticketType: type,
         lastName: '',
         firstName: '',
         middleName: '',
         gender: 'W',
         birthDate: '',
-        docType: 'Паспорт РФ',
+        docType: type === 'Взрослый' ? 'Паспорт РФ' : 'Свидетельство о рождении',
         passportSeries: '',
         docNumber: '',
         isLimitedMobility: false
@@ -42,14 +49,29 @@ function Passengers() {
             }));
         }
         
-        return [{ id: 'passenger-first', hasError: false, data: createEmptyPassengerData() }];
+        const totalSeatsCount = adultCount + childCount;
+        
+        if (totalSeatsCount === 0) {
+            return [{ id: 'passenger-first', hasError: false, data: createEmptyPassengerData('Взрослый') }];
+        }
+        
+        return Array.from({ length: totalSeatsCount }).map((_, index) => {
+            const passengerNumber = index + 1;
+            const isAdult = passengerNumber <= adultCount;
+
+            return {
+                id: index === 0 ? 'passenger-first' : crypto.randomUUID(),
+                hasError: false,
+                data: createEmptyPassengerData(isAdult ? 'Взрослый' : 'Детский')
+            };
+        });
     });
 
     const handleAddPassenger = () => {
         const nextPassenger = {
             id: crypto.randomUUID(),
             hasError: false,
-            data: createEmptyPassengerData()
+            data: createEmptyPassengerData('Взрослый')
         };
         setPassengers([...passengers, nextPassenger]);
     };
@@ -76,12 +98,26 @@ function Passengers() {
         }
 
         const cleanPassengersData = passengers.map(p => p.data);
-        navigate('/payment', { state: { passengers: cleanPassengersData } });
+        
+        navigate('/payment', { 
+            state: { 
+                selectedTrain,
+                passengers: cleanPassengersData,
+                adultCount,
+                childCount,
+                babyCount
+            } 
+        });
     };
 
     return (
         <div className="passengers__container">
-            <TripDetailsSidebar />
+            <TripDetailsSidebar 
+                selectedTrain={selectedTrain}
+                adultCount={adultCount}
+                childCount={childCount}
+                babyCount={babyCount}
+            />
 
             <main className="passengers__main">
                 <form className="passengers__form" onSubmit={handleSubmit}>
