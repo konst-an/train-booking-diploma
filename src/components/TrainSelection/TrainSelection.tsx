@@ -97,7 +97,16 @@ function TrainSelection() {
         express: false     
     });
 
-    // Функция переключения фильтров, которую ожидает сайдбар
+    // Динамический расчет крайних цен на основе доступных билетов
+    const allPrices = MOCK_TRAINS_DATA.flatMap(train => 
+        train.seats.map(seat => parseInt(seat.price.replace(/\s/g, '')))
+    );
+    const absoluteMinPrice = Math.min(...allPrices) || 1920; 
+    const absoluteMaxPrice = Math.max(...allPrices) || 7000; // Вычислит максимальную из билетов (или 7000 по макету)
+
+    const [priceMin, setPriceMin] = useState<number>(absoluteMinPrice);
+    const [priceMax, setPriceMax] = useState<number>(absoluteMaxPrice);
+
     const handleFilterToggle = (name: string) => {
         setWagonFilters(prev => ({ 
             ...prev, 
@@ -114,8 +123,7 @@ function TrainSelection() {
     const fromCity = searchParams?.fromCity || '';
     const toCity = searchParams?.toCity || '';
     
-   const filteredTrains = MOCK_TRAINS_DATA.filter(train => {
-        // 1. Проверка городов отправления/прибытия из главной шапки
+    const filteredTrains = MOCK_TRAINS_DATA.filter(train => {
         if (fromCity || toCity) {
             const searchFrom = fromCity.toLowerCase().trim();
             const searchTo = toCity.toLowerCase().trim();
@@ -123,10 +131,9 @@ function TrainSelection() {
             const hasFrom = train.routeSummary.some(city => city.toLowerCase().includes(searchFrom));
             const hasTo = train.routeSummary.some(city => city.toLowerCase().includes(searchTo));
 
-            if (!hasFrom || !hasTo) return false; // Если города не совпали, сразу отсекаем поезд
+            if (!hasFrom || !hasTo) return false;
         }
 
-        // 2. Проверка фильтров вагонов из боковой панели
         const isAnyWagonFilterActive = wagonFilters.coupe || wagonFilters.platscart || wagonFilters.sitting || wagonFilters.lux;
 
         if (isAnyWagonFilterActive) {
@@ -139,12 +146,20 @@ function TrainSelection() {
                 return false;
             }
         }
-        return true; // Поезд прошел все проверки
+
+        const hasMatchingPrice = train.seats.some(seat => {
+            const seatPriceNum = parseInt(seat.price.replace(/\s/g, '')); 
+            return seatPriceNum >= priceMin && seatPriceNum <= priceMax;
+        });
+
+        if (!hasMatchingPrice) return false;
+
+        return true; 
     });
 
     useEffect(() => {
         setActivePage(1);
-    }, [fromCity, toCity, wagonFilters]);
+    }, [fromCity, toCity, wagonFilters, priceMin, priceMax]);
 
     const sortedTrains = [...filteredTrains].sort((a, b) => {
         if (activeSort === 'price') {
@@ -178,6 +193,12 @@ function TrainSelection() {
                 setDateEnd={setSidebarDateEnd}
                 wagonFilters={wagonFilters}
                 onToggle={handleFilterToggle}
+                priceMin={priceMin}
+                setPriceMin={setPriceMin}
+                priceMax={priceMax}
+                setPriceMax={setPriceMax}
+                absoluteMinPrice={absoluteMinPrice}
+                absoluteMaxPrice={absoluteMaxPrice}
             />
 
             {/* ПРАВАЯ КОЛОНКА */}

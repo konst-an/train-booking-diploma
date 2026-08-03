@@ -780,3 +780,58 @@
   transition: all 0.2s ease;
 }
 
+/* Делаем ползунки самым верхним слоем, чтобы по ним всегда можно было кликнуть */
+.sidebar__range-input {
+  position: absolute;
+  width: 100%;
+  height: 28px; /* Должна совпадать с высотой .sidebar__slider-container */
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  z-index: 5; /* Подняли на самый верхний слой */
+}
+
+/* Настраиваем поведение кругляшка */
+.sidebar__range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto; /* Включает клики строго на невидимом кругляшке */
+}
+
+.sidebar__range-input::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Опускаем блок цифр на нижний слой, чтобы он не перекрывал клики */
+.sidebar__price-values {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 10px;
+  position: relative;
+  z-index: 1; /* Опустили вниз */
+}
+
+.sidebar__price-values span {
+  position: static !important;
+  transform: none !important;
+  color: #E5E5E5;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+}

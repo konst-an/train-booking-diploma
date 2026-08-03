@@ -28,6 +28,7 @@ export interface WagonFilters {
   express: boolean;
 }
 
+// Расширяем интерфейс пропсов динамическими границами цен
 interface FilterSidebarProps {
   dateStart: Date | null;
   setDateStart: (date: Date | null) => void;
@@ -35,18 +36,29 @@ interface FilterSidebarProps {
   setDateEnd: (date: Date | null) => void;
   wagonFilters: WagonFilters;
   onToggle: (name: keyof WagonFilters) => void;
+  priceMin: number;
+  setPriceMin: (val: number) => void;
+  priceMax: number;
+  setPriceMax: (val: number) => void;
+  absoluteMinPrice: number; 
+  absoluteMaxPrice: number; 
 }
 
 function FilterSidebar({ 
   dateStart, setDateStart, 
   dateEnd, setDateEnd, 
-  wagonFilters, onToggle 
+  wagonFilters, onToggle,
+  priceMin, setPriceMin,
+  priceMax, setPriceMax,
+  absoluteMinPrice,  
+  absoluteMaxPrice
 }: FilterSidebarProps) {
 
   const [isToExpanded, setIsToExpanded] = useState<boolean>(true);
   const [isFromExpanded, setIsFromExpanded] = useState<boolean>(true);
 
   return (
+
      <div className="sidebar-left">
         {/* 1. ОСНОВНОЙ БЛОК ФИЛЬТРОВ */}
         <aside className="sidebar">
@@ -166,23 +178,76 @@ function FilterSidebar({
                 </div>
             </div>
 
+             {/* ==========================================
+                БЛОК СТОИМОСТЬ
+                ========================================== */}
+
             <div className="sidebar__section filter-price">
                 <h4 className="sidebar__title">Стоимость</h4>
                 <div className="sidebar__price-labels">
                     <span>от</span>
                     <span>до</span>
                 </div>
-                <div className="sidebar__slider-container">
+                
+                <div className="sidebar__slider-container" style={{ position: 'relative' }}>
+                    {/* Базовый трек */}
                     <div className="sidebar__price-track">
-                        <div className="sidebar__price-range"></div>
+                        <div 
+                            className="sidebar__price-range"
+                            style={{
+                                left: `${((priceMin - absoluteMinPrice) / (absoluteMaxPrice - absoluteMinPrice)) * 100}%`,
+                                width: `${((priceMax - priceMin) / (absoluteMaxPrice - absoluteMinPrice)) * 100}%`
+                            }}
+                        ></div>
                     </div>
-                    <div className="sidebar__price-handle sidebar__price-handle--min"></div>
-                    <div className="sidebar__price-handle sidebar__price-handle--max"></div>
+                    
+                    <div 
+                        className="sidebar__price-handle sidebar__price-handle--min"
+                        style={{ left: `${((priceMin - absoluteMinPrice) / (absoluteMaxPrice - absoluteMinPrice)) * 100}%` }}
+                    >
+                        <span className="sidebar__price-tooltip">{priceMin}</span>
+                    </div>
+
+                    <div 
+                        className="sidebar__price-handle sidebar__price-handle--max"
+                        style={{ left: `${((priceMax - absoluteMinPrice) / (absoluteMaxPrice - absoluteMinPrice)) * 100}%` }}
+                    >
+                        <span className="sidebar__price-tooltip">{priceMax}</span>
+                    </div>
+
+                    <input 
+                        type="range"
+                        min={absoluteMinPrice}
+                        max={absoluteMaxPrice}
+                        step={10}
+                        value={priceMin}
+                        className="sidebar__range-input"
+                        onChange={(e) => {
+                            const val = Math.min(parseInt(e.target.value), priceMax - 100);
+                            setPriceMin(val);
+                        }}
+                    />
+
+                    <input 
+                        type="range"
+                        min={absoluteMinPrice}
+                        max={absoluteMaxPrice}
+                        step={10}
+                        value={priceMax}
+                        className="sidebar__range-input"
+                        onChange={(e) => {
+                            const val = Math.max(parseInt(e.target.value), priceMin + 100);
+                            setPriceMax(val);
+                        }}
+                    />
                 </div>
-                <div className="sidebar__price-values">
-                    <span>1920</span>
-                    <span>4500</span>
-                    <span>7000</span>
+                
+                <div className="sidebar__price-values" style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '10px' }}>
+                    <span style={{ position: 'static' }}>{absoluteMinPrice}</span>
+                    <span style={{ position: 'static', left: 'auto', transform: 'none' }}>
+                        {Math.round((absoluteMinPrice + absoluteMaxPrice) / 2)}
+                    </span>
+                    <span style={{ position: 'static' }}>{absoluteMaxPrice}</span>
                 </div>
             </div>
 

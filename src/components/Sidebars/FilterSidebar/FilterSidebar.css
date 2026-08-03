@@ -365,6 +365,48 @@
   background-color: var(--color-primary-orange); 
 }
 
+/* Стили для летающей подсказки цены над кругляшком */
+.sidebar__price-tooltip {
+  position: absolute;
+  bottom: 28px; 
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary-orange); /* Фирменный оранжевый цвет */
+  color: #FFFFFF;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  opacity: 0; 
+  pointer-events: none;
+  transition: opacity 0.2s ease, bottom 0.2s ease;
+  z-index: 10;
+}
+
+.sidebar__price-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--color-primary-orange) transparent transparent transparent;
+}
+
+.sidebar__price-handle:hover .sidebar__price-tooltip {
+  opacity: 1;
+  bottom: 32px;
+}
+
+.sidebar__slider-container:has(.sidebar__range-input:active) .sidebar__price-tooltip {
+  opacity: 1;
+  bottom: 32px;
+}
+
 .sidebar__time-handle {
   position: absolute;
   width: 18px;       
@@ -438,3 +480,5 @@
   filter: brightness(0) saturate(100%) 
   invert(89%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(84%) contrast(85%);
 }
+
+

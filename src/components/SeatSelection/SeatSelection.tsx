@@ -50,9 +50,17 @@ function SeatSelection() {
 
     const wagonInfo = WAGONS_PRICES_DATA[activeWagonNum] || WAGONS_PRICES_DATA["07"];
 
+    const allPrices = MOCK_TRAINS_DATA.flatMap(train => 
+        train.seats.map(seat => parseInt(seat.price.replace(/\s/g, '')))
+    );
+    const absoluteMinPrice = Math.min(...allPrices) || 1920;
+    const absoluteMaxPrice = Math.max(...allPrices) || 7000;
+
+    const [priceMin, setPriceMin] = useState<number>(absoluteMinPrice);
+    const [priceMax, setPriceMax] = useState<number>(absoluteMaxPrice);
+
     const [liveUsers] = useState(() => Math.floor(Math.random() * (15 - 5 + 1)) + 5);
 
-    // Добавляем стейты и обработчик для боковой панели, чтобы исправить ошибку TS2740
     const [sidebarDateStart, setSidebarDateStart] = useState<Date | null>(new Date('2018-08-30'));
     const [sidebarDateEnd, setSidebarDateEnd] = useState<Date | null>(new Date('2018-09-09'));
 
@@ -83,6 +91,12 @@ function SeatSelection() {
                 setDateEnd={setSidebarDateEnd}
                 wagonFilters={wagonFilters}
                 onToggle={handleFilterToggle}
+                priceMin={priceMin}
+                setPriceMin={setPriceMin}
+                priceMax={priceMax}
+                setPriceMax={setPriceMax}
+                absoluteMinPrice={absoluteMinPrice} 
+                absoluteMaxPrice={absoluteMaxPrice}
             />
 
             {/* ПРАВАЯ КОЛОНКА: Основная информация выбора мест */}
