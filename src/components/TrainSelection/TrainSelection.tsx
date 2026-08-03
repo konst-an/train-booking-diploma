@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -85,6 +85,26 @@ function TrainSelection() {
     const navigate = useNavigate();
     const location = useLocation() as { state: LocationState }; 
     
+    const [sidebarDateStart, setSidebarDateStart] = useState<Date | null>(new Date('2018-08-30'));
+    const [sidebarDateEnd, setSidebarDateEnd] = useState<Date | null>(new Date('2018-09-09'));
+
+    const [wagonFilters, setWagonFilters] = useState({
+        coupe: true,       
+        platscart: false,  
+        sitting: false,    
+        lux: false,        
+        wifi: true,        
+        express: false     
+    });
+
+    // Функция переключения фильтров, которую ожидает сайдбар
+    const handleFilterToggle = (name: string) => {
+        setWagonFilters(prev => ({ 
+            ...prev, 
+            [name]: !prev[name as keyof typeof wagonFilters] 
+        }));
+    };
+
     const [activeSort, setActiveSort] = useState('time');
     const [isSortOpen, setIsSortOpen] = useState(false);
     const [activeLimit, setActiveLimit] = useState(5);
@@ -94,18 +114,37 @@ function TrainSelection() {
     const fromCity = searchParams?.fromCity || '';
     const toCity = searchParams?.toCity || '';
     
-    // ФИЛЬТРАЦИЯ: Оставляем только те поезда, в маршруте которых есть эти города
-    const filteredTrains = MOCK_TRAINS_DATA.filter(train => {
-        if (!fromCity && !toCity) return true;
+   const filteredTrains = MOCK_TRAINS_DATA.filter(train => {
+        // 1. Проверка городов отправления/прибытия из главной шапки
+        if (fromCity || toCity) {
+            const searchFrom = fromCity.toLowerCase().trim();
+            const searchTo = toCity.toLowerCase().trim();
 
-        const searchFrom = fromCity.toLowerCase().trim();
-        const searchTo = toCity.toLowerCase().trim();
+            const hasFrom = train.routeSummary.some(city => city.toLowerCase().includes(searchFrom));
+            const hasTo = train.routeSummary.some(city => city.toLowerCase().includes(searchTo));
 
-        const hasFrom = train.routeSummary.some(city => city.toLowerCase().includes(searchFrom));
-        const hasTo = train.routeSummary.some(city => city.toLowerCase().includes(searchTo));
+            if (!hasFrom || !hasTo) return false; // Если города не совпали, сразу отсекаем поезд
+        }
 
-        return hasFrom && hasTo;
+        // 2. Проверка фильтров вагонов из боковой панели
+        const isAnyWagonFilterActive = wagonFilters.coupe || wagonFilters.platscart || wagonFilters.sitting || wagonFilters.lux;
+
+        if (isAnyWagonFilterActive) {
+            const matchCoupe = wagonFilters.coupe && train.seats.some(s => s.type === 'Купе');
+            const matchPlatscart = wagonFilters.platscart && train.seats.some(s => s.type === 'Плацкарт');
+            const matchSitting = wagonFilters.sitting && train.seats.some(s => s.type === 'Сидячий');
+            const matchLux = wagonFilters.lux && train.seats.some(s => s.type === 'Люкс');
+
+            if (!matchCoupe && !matchPlatscart && !matchSitting && !matchLux) {
+                return false;
+            }
+        }
+        return true; // Поезд прошел все проверки
     });
+
+    useEffect(() => {
+        setActivePage(1);
+    }, [fromCity, toCity, wagonFilters]);
 
     const sortedTrains = [...filteredTrains].sort((a, b) => {
         if (activeSort === 'price') {
@@ -120,21 +159,26 @@ function TrainSelection() {
     const indexOfFirstTrain = indexOfLastTrain - activeLimit;
     const currentTrains = sortedTrains.slice(indexOfFirstTrain, indexOfLastTrain);
 
-    // Вычисляем общее количество страниц исходя из отфильтрованных данных и лимита
     const totalPages = Math.ceil(filteredTrains.length / activeLimit) || 1;
-
-    // Создаем массив с номерами страниц [1, 2, ...]
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     const handleSelectSeats = (train: any) => {
         navigate('/seats', { state: { selectedTrain: train } });
     };
-    
+
     return (
     <div className="train-selection__wrapper">
         <div className="train-selection__container">
+
             {/* ПОДКЛЮЧАЕМ ОБЩУЮ БОКОВУЮ ПАНЕЛЬ */}
-            <FilterSidebar />
+            <FilterSidebar 
+                dateStart={sidebarDateStart}
+                setDateStart={setSidebarDateStart}
+                dateEnd={sidebarDateEnd}
+                setDateEnd={setSidebarDateEnd}
+                wagonFilters={wagonFilters}
+                onToggle={handleFilterToggle}
+            />
 
             {/* ПРАВАЯ КОЛОНКА */}
             <main className="train-selection__main">
@@ -172,8 +216,17 @@ function TrainSelection() {
                         </div>
                         
                         <div className="train-selection__limit">
-                            <span className="train-selection__limit-label">показывать по:</span>{[5, 10, 20].map((num) => (<button key={num} className={`train-selection__limit-btn ${activeLimit === num ? 'train-selection__limit-btn--active' : ''}`}
-                            onClick={() => setActiveLimit(num)}>{num}</button>))}
+                            <span className="train-selection__limit-label">показывать по:</span>
+                            {[5, 10, 20].map((num) => (
+                                <button 
+                                    key={num} 
+                                    type="button"
+                                    className={`train-selection__limit-btn ${activeLimit === num ? 'train-selection__limit-btn--active' : ''}`}
+                                    onClick={() => { setActiveLimit(num); setActivePage(1); }}
+                                >
+                                    {num}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </div>

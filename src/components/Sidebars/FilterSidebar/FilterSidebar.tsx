@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import LastTickets from './LastTickets';
-
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import { ru } from 'date-fns/locale/ru';
 import 'react-datepicker/dist/react-datepicker.css';
-
 import './FilterSidebar.css';
 
 import formCalendarIcon from '../../../assets/form-calendar-icon.svg'; 
@@ -18,26 +17,34 @@ import sidebarArrowFrom from '../../../assets/sidebar-arrow-from.svg';
 import sidebarPlus from '../../../assets/sidebar-plus.svg';
 import sidebarMinus from '../../../assets/sidebar-minus.svg';
 
+registerLocale('ru', ru);
 
-function FilterSidebar() {
-  const [sidebarDateStart, setSidebarDateStart] = useState<Date | null>(new Date('2018-08-30'));
-  const [sidebarDateEnd, setSidebarDateEnd] = useState<Date | null>(new Date('2018-09-09'));
+export interface WagonFilters {
+  coupe: boolean;
+  platscart: boolean;
+  sitting: boolean;
+  lux: boolean;
+  wifi: boolean;
+  express: boolean;
+}
+
+interface FilterSidebarProps {
+  dateStart: Date | null;
+  setDateStart: (date: Date | null) => void;
+  dateEnd: Date | null;
+  setDateEnd: (date: Date | null) => void;
+  wagonFilters: WagonFilters;
+  onToggle: (name: keyof WagonFilters) => void;
+}
+
+function FilterSidebar({ 
+  dateStart, setDateStart, 
+  dateEnd, setDateEnd, 
+  wagonFilters, onToggle 
+}: FilterSidebarProps) {
 
   const [isToExpanded, setIsToExpanded] = useState<boolean>(true);
   const [isFromExpanded, setIsFromExpanded] = useState<boolean>(true);
-
-  const [wagonFilters, setWagonFilters] = useState({
-    coupe: true,       
-    platscart: false,  
-    sitting: false,    
-    lux: false,        
-    wifi: true,        
-    express: false     
-  });
-
-   const handleToggle = (name: keyof typeof wagonFilters) => {
-    setWagonFilters(prev => ({ ...prev, [name]: !prev[name] }));
-  };
 
   return (
      <div className="sidebar-left">
@@ -48,24 +55,26 @@ function FilterSidebar() {
                 <h4 className="sidebar__title">Дата поездки</h4>
                 <div className="sidebar__input-wrapper">
                     <DatePicker
-                        selected={sidebarDateStart}
-                        onChange={(date: Date | null) => setSidebarDateStart(date)}
+                        selected={dateStart} // Изменили с sidebarDateStart
+                        onChange={(date: Date | null) => setDateStart(date)} // Изменили с setSidebarDateStart
                         dateFormat="dd.MM.yyyy"
                         className="sidebar__datepicker-input"
                         onChangeRaw={(e) => { if (e) e.preventDefault(); }}
-                        locale="ru"/>
+                        locale="ru"
+                    />
                     <img src={formCalendarIcon} alt="" className="sidebar__input-icon" />
                 </div>
                 
                 <h4 className="sidebar__title sidebar__title--return">Дата возвращения</h4>
                 <div className="sidebar__input-wrapper">
                     <DatePicker
-                        selected={sidebarDateEnd}
-                        onChange={(date: Date | null) => setSidebarDateEnd(date)}
+                        selected={dateEnd} // Изменили с sidebarDateEnd
+                        onChange={(date: Date | null) => setDateEnd(date)} // Изменили с setSidebarDateEnd
                         dateFormat="dd.MM.yyyy"
                         className="sidebar__datepicker-input"
                         onChangeRaw={(e) => { if (e) e.preventDefault(); }}
-                        locale="ru"/>
+                        locale="ru"
+                    />
                     <img src={formCalendarIcon} alt="" className="sidebar__input-icon" />
                 </div>
             </div>
@@ -80,7 +89,7 @@ function FilterSidebar() {
                     <input 
                         type="checkbox" 
                         checked={wagonFilters.coupe} 
-                        onChange={() => handleToggle('coupe')} 
+                        onChange={() => onToggle('coupe')} 
                     />
                     <span className="sidebar__slider"></span>
                     </label>
@@ -94,7 +103,7 @@ function FilterSidebar() {
                     <input 
                         type="checkbox" 
                         checked={wagonFilters.platscart} 
-                        onChange={() => handleToggle('platscart')} 
+                        onChange={() => onToggle('platscart')} 
                     />
                     <span className="sidebar__slider"></span>
                     </label>
@@ -108,7 +117,7 @@ function FilterSidebar() {
                         <input 
                             type="checkbox" 
                             checked={wagonFilters.sitting}
-                            onChange={() => handleToggle('sitting')}
+                            onChange={() => onToggle('sitting')}
                         />
                         <span className="sidebar__slider"></span>
                     </label>
@@ -122,7 +131,7 @@ function FilterSidebar() {
                         <input 
                             type="checkbox" 
                             checked={wagonFilters.lux}
-                            onChange={() => handleToggle('lux')}
+                            onChange={() => onToggle('lux')}
                         />
                         <span className="sidebar__slider"></span>
                     </label>
@@ -136,7 +145,7 @@ function FilterSidebar() {
                         <input 
                             type="checkbox" 
                             checked={wagonFilters.wifi}
-                            onChange={() => handleToggle('wifi')}
+                            onChange={() => onToggle('wifi')}
                         />
                         <span className="sidebar__slider"></span>
                     </label>
@@ -150,7 +159,7 @@ function FilterSidebar() {
                         <input 
                             type="checkbox" 
                             checked={wagonFilters.express}
-                            onChange={() => handleToggle('express')}
+                            onChange={() => onToggle('express')}
                         />
                         <span className="sidebar__slider"></span>
                     </label>
