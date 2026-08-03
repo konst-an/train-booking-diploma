@@ -33,12 +33,40 @@ function SeatSelection() {
 
     const train = location.state?.selectedTrain || MOCK_TRAINS_DATA[0];
 
-    const [adultCount] = useState(2);
-    const [childCount] = useState(1);
-    const [babyCount] = useState(0);
+    const [adultCount, setAdultCount] = useState<number>(2);
+    const [childCount, setChildCount] = useState<number>(1);
+    const [babyCount, setBabyCount] = useState<number>(0);
 
     const maxAdults = 5; 
     const maxChildren = 4;
+
+    const handleAdultChange = (action: 'increment' | 'decrement') => {
+        if (action === 'increment' && adultCount < maxAdults) {
+            setAdultCount(adultCount + 1);
+        } else if (action === 'decrement' && adultCount > 1) {
+            const newAdultCount = adultCount - 1;
+            setAdultCount(newAdultCount);
+            if (babyCount > newAdultCount) {
+                setBabyCount(newAdultCount);
+            }
+        }
+    };
+
+    const handleChildChange = (action: 'increment' | 'decrement') => {
+        if (action === 'increment' && childCount < maxChildren) {
+            setChildCount(childCount + 1);
+        } else if (action === 'decrement' && childCount > 0) {
+            setChildCount(childCount - 1);
+        }
+    };
+
+    const handleBabyChange = (action: 'increment' | 'decrement') => {
+        if (action === 'increment' && babyCount < adultCount) {
+            setBabyCount(babyCount + 1);
+        } else if (action === 'decrement' && babyCount > 0) {
+            setBabyCount(babyCount - 1);
+        }
+    };
 
     const [activeWagonType, setActiveWagonType] = useState<string>('coupe');
     const [activeWagonNum, setActiveWagonNum] = useState<string>('07');
@@ -59,14 +87,12 @@ function SeatSelection() {
     const [priceMin, setPriceMin] = useState<number>(absoluteMinPrice);
     const [priceMax, setPriceMax] = useState<number>(absoluteMaxPrice);
 
-    // Стейты времени для направления "Туда" (в часах от 0 до 24)
     const [timeDepartureMin, setTimeDepartureMin] = useState<number>(0);
     const [timeDepartureMax, setTimeDepartureMax] = useState<number>(11);
     
     const [timeArrivalMin, setTimeArrivalMin] = useState<number>(0);
     const [timeArrivalMax, setTimeArrivalMax] = useState<number>(11);
 
-    // Стейты времени для направления "Обратно" (в часах от 0 до 24)
     const [timeReturnDepartureMin, setTimeReturnDepartureMin] = useState<number>(0);
     const [timeReturnDepartureMax, setTimeReturnDepartureMax] = useState<number>(11);
     
@@ -210,11 +236,28 @@ function SeatSelection() {
                             <h3 className="seat-selection__tickets-title">Количество билетов</h3>
 
                             <div className="seat-selection__tickets-grid">
-                                {/* Карточка 1: Взрослых */}
-                               
+                                
+                                 {/* Карточка 1: Взрослых */}
                                 <div className={`seat-selection__ticket-card ${adultCount > 0 ? 'seat-selection__ticket-card--filled' : ''}`}>
                                     <div className="seat-selection__ticket-field">
-                                        <span>Взрослых — {adultCount}</span>
+                                        <span>Взрослых — </span>
+                                        <input 
+                                            type="text"
+                                            value={adultCount}
+                                            className="seat-selection__ticket-input-clean"
+                                            style={{ marginLeft: '6px' }}
+                                            onChange={(e) => {
+                                                // Разрешаем только цифры, убираем ведущие нули
+                                                let valStr = e.target.value.replace(/\D/g, '').replace(/^0+/, '');
+                                                let val = parseInt(valStr, 10);
+                                                
+                                                if (isNaN(val) || val < 1) val = 1; // Если всё стёрли, возвращаем 1
+                                                if (val > maxAdults) val = maxAdults;
+                                                
+                                                setAdultCount(val);
+                                                if (babyCount > val) setBabyCount(val);
+                                            }}
+                                        />
                                     </div>
                                     <p className="seat-selection__ticket-hint">
                                         Можно добавить еще<br />{maxAdults - adultCount} пассажиров
@@ -224,7 +267,26 @@ function SeatSelection() {
                                 {/* Карточка 2: Детских */}
                                 <div className={`seat-selection__ticket-card ${childCount > 0 ? 'seat-selection__ticket-card--active' : ''}`}>
                                     <div className="seat-selection__ticket-field">
-                                        <span>Детских — {childCount}</span>
+                                        <span>Детских — </span>
+                                        <input 
+                                            type="text"
+                                            value={childCount}
+                                            className="seat-selection__ticket-input-clean"
+                                            style={{ marginLeft: '6px' }}
+                                            onChange={(e) => {
+                                                let valStr = e.target.value.replace(/\D/g, '');
+                                                
+                                                if (valStr.length > 1 && valStr.startsWith('0')) {
+                                                    valStr = valStr.replace(/^0+/, '');
+                                                }
+                                                let val = parseInt(valStr, 10);
+                                                
+                                                if (isNaN(val) || val < 0) val = 0;
+                                                if (val > maxChildren) val = maxChildren;
+                                                
+                                                setChildCount(val);
+                                            }}
+                                        />
                                     </div>
                                     <p className="seat-selection__ticket-hint">
                                         Можно добавить еще {maxChildren - childCount} детей до 10 лет. Свое место в вагоне, как у взрослых, но дешевле в среднем на 50-65%
@@ -234,13 +296,30 @@ function SeatSelection() {
                                 {/* Карточка 3: Детских без места */}
                                 <div className="seat-selection__ticket-card">
                                     <div className="seat-selection__ticket-field">
-                                        {/* Вместо статичного нуля выводим переменную */}
-                                        <span>Детских «без места» — {babyCount}</span>
+                                        <span>Детских «без места» — </span>
+                                        <input 
+                                            type="text"
+                                            value={babyCount}
+                                            className="seat-selection__ticket-input-clean"
+                                            style={{ marginLeft: '6px' }}
+                                            onChange={(e) => {
+                                                let valStr = e.target.value.replace(/\D/g, '');
+                                                if (valStr.length > 1 && valStr.startsWith('0')) {
+                                                    valStr = valStr.replace(/^0+/, '');
+                                                }
+                                                let val = parseInt(valStr, 10);
+                                                
+                                                if (isNaN(val) || val < 0) val = 0;
+                                                if (val > adultCount) val = adultCount; // Ограничение по взрослым
+                                                
+                                                setBabyCount(val);
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                         
                         {/* ПУНКТИРНАЯ ЛИНИЯ-РАЗДЕЛИТЕЛЬ */}
                         <div className="seat-selection__dashed-divider"></div>
 

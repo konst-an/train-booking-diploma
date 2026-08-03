@@ -289,6 +289,7 @@
     color: var(--color-primary-text-dark); 
     white-space: nowrap; 
 }
+
 .seat-selection__ticket-hint {
     font-family: var(--font-main);
     font-size: 15px;
@@ -314,6 +315,28 @@
 
 .seat-selection__ticket-card--filled .seat-selection__ticket-hint {
   color: #000000; 
+}
+
+.seat-selection__ticket-input-clean {
+  border: none !important;
+  background: transparent !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+  width: 30px;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+.seat-selection__ticket-input-clean::-webkit-outer-spin-button,
+.seat-selection__ticket-input-clean::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.seat-selection__ticket-input-clean[type=number] {
+  -moz-appearance: textfield;
 }
 
 /* Пунктирная разделительная линия */
