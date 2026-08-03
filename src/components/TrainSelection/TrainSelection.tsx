@@ -72,18 +72,18 @@ export const MOCK_TRAINS_DATA = [
 ];
 
 interface LocationState {
-  searchParams?: {
-    fromCity: string;
-    toCity: string;
-    startDate: string | null;
-    endDate: string | null;
-  }
+    searchParams?: {
+        fromCity: string;
+        toCity: string;
+        startDate: string | null;
+        endDate: string | null;
+    }
 }
 
 function TrainSelection() {
 
     const navigate = useNavigate();
-    const location = useLocation();
+    const location = useLocation() as { state: LocationState }; 
     
     const [activeSort, setActiveSort] = useState('time');
     const [isSortOpen, setIsSortOpen] = useState(false);
@@ -119,6 +119,12 @@ function TrainSelection() {
     const indexOfLastTrain = activePage * activeLimit;
     const indexOfFirstTrain = indexOfLastTrain - activeLimit;
     const currentTrains = sortedTrains.slice(indexOfFirstTrain, indexOfLastTrain);
+
+    // Вычисляем общее количество страниц исходя из отфильтрованных данных и лимита
+    const totalPages = Math.ceil(filteredTrains.length / activeLimit) || 1;
+
+    // Создаем массив с номерами страниц [1, 2, ...]
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     const handleSelectSeats = (train: any) => {
         navigate('/seats', { state: { selectedTrain: train } });
@@ -276,7 +282,9 @@ function TrainSelection() {
 
         {/* БЛОК СТРАНИЦЫ */}
         <div className="train-selection__pagination">
+            {/* Стрелка НАЗАД */}
             <button 
+                type="button"
                 className="train-selection__page-arrow train-selection__page-arrow--prev"
                 onClick={() => setActivePage((prev) => Math.max(prev - 1, 1))}
                 disabled={activePage === 1}
@@ -284,9 +292,11 @@ function TrainSelection() {
                 <img src={arrowPagePrev} alt="Назад" className="train-selection__page-arrow-img" />
             </button>
             
-            {[1, 2, 3].map((num) => (
+            {/* Номера страниц (генерируются динамически) */}
+            {pageNumbers.map((num) => (
                 <button 
                     key={num} 
+                    type="button"
                     className={`train-selection__page-num ${activePage === num ? 'train-selection__page-num--active' : ''}`}
                     onClick={() => setActivePage(num)}
                 >
@@ -294,10 +304,12 @@ function TrainSelection() {
                 </button>
             ))}
             
+            {/* Стрелка ВПЕРЕД */}
             <button 
+                type="button"
                 className="train-selection__page-arrow train-selection__page-arrow--next"
-                onClick={() => setActivePage((prev) => Math.min(prev + 1, 3))}
-                disabled={activePage === 3}
+                onClick={() => setActivePage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={activePage === totalPages}
             >
                 <img src={arrowPageNext} alt="Вперед" className="train-selection__page-arrow-img" />
             </button>
