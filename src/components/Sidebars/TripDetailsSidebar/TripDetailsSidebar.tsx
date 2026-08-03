@@ -14,14 +14,12 @@ interface TripDetailsSidebarProps {
     selectedTrain: any;
     adultCount: number;
     childCount: number;
-    babyCount: number;
 }
 
 function TripDetailsSidebar({ 
     selectedTrain, 
     adultCount, 
-    childCount, 
-    babyCount 
+    childCount
 }: TripDetailsSidebarProps) {
 
     const [isToExpanded, setIsToExpanded] = useState<boolean>(true);

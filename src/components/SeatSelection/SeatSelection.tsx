@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import FilterSidebar from '../Sidebars/FilterSidebar/FilterSidebar'; 
 import './SeatSelection.css';

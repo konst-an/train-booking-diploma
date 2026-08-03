@@ -29,6 +29,8 @@ export default function Verification() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const { selectedTrain, adultCount = 1, childCount = 0 } = location.state || {};
+
     const handleEditTrain = () => {
         navigate('/trains');
     };
@@ -55,7 +57,11 @@ export default function Verification() {
 
     return (
         <div className="verification__container">
-            <TripDetailsSidebar />
+            <TripDetailsSidebar 
+                selectedTrain={selectedTrain}
+                adultCount={adultCount}
+                childCount={childCount}
+            />
 
             <main className="verification__main">
                 

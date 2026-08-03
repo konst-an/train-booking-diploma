@@ -21,8 +21,7 @@ function Passengers() {
     const { 
         selectedTrain, 
         adultCount = 1, 
-        childCount = 0, 
-        babyCount = 0 
+        childCount = 0
     } = location.state || {};
 
     const createEmptyPassengerData = (type: 'Взрослый' | 'Детский' = 'Взрослый'): PassengerData => ({
@@ -104,8 +103,7 @@ function Passengers() {
                 selectedTrain,
                 passengers: cleanPassengersData,
                 adultCount,
-                childCount,
-                babyCount
+                childCount
             } 
         });
     };
@@ -116,7 +114,6 @@ function Passengers() {
                 selectedTrain={selectedTrain}
                 adultCount={adultCount}
                 childCount={childCount}
-                babyCount={babyCount}
             />
 
             <main className="passengers__main">

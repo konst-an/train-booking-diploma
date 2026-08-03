@@ -7,6 +7,8 @@ function Payment() {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const { selectedTrain, adultCount = 1, childCount = 0 } = location.state || {};
+
     const passengersFromRouter = location.state?.passengers || [];
     const savedPayer = location.state?.payer;
 
@@ -32,9 +34,12 @@ function Payment() {
 
     return (
         <div className="payment__container">
-            <TripDetailsSidebar />
+            <TripDetailsSidebar 
+                selectedTrain={selectedTrain}
+                adultCount={adultCount}
+                childCount={childCount}
+            />
 
-            {/* Обернули правую колонку в тег формы с обработчиком отправки */}
             <form className="payment__main" onSubmit={handleSubmit}>
                 
                 {/* 1. БЕЛАЯ КАРТОЧКА С ПОЛЯМИ */}
