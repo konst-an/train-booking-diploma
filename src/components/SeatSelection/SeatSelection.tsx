@@ -40,34 +40,6 @@ function SeatSelection() {
     const maxAdults = 5; 
     const maxChildren = 4;
 
-    const handleAdultChange = (action: 'increment' | 'decrement') => {
-        if (action === 'increment' && adultCount < maxAdults) {
-            setAdultCount(adultCount + 1);
-        } else if (action === 'decrement' && adultCount > 1) {
-            const newAdultCount = adultCount - 1;
-            setAdultCount(newAdultCount);
-            if (babyCount > newAdultCount) {
-                setBabyCount(newAdultCount);
-            }
-        }
-    };
-
-    const handleChildChange = (action: 'increment' | 'decrement') => {
-        if (action === 'increment' && childCount < maxChildren) {
-            setChildCount(childCount + 1);
-        } else if (action === 'decrement' && childCount > 0) {
-            setChildCount(childCount - 1);
-        }
-    };
-
-    const handleBabyChange = (action: 'increment' | 'decrement') => {
-        if (action === 'increment' && babyCount < adultCount) {
-            setBabyCount(babyCount + 1);
-        } else if (action === 'decrement' && babyCount > 0) {
-            setBabyCount(babyCount - 1);
-        }
-    };
-
     const [activeWagonType, setActiveWagonType] = useState<string>('coupe');
     const [activeWagonNum, setActiveWagonNum] = useState<string>('07');
 
@@ -236,7 +208,7 @@ function SeatSelection() {
                             <h3 className="seat-selection__tickets-title">Количество билетов</h3>
 
                             <div className="seat-selection__tickets-grid">
-                                
+
                                  {/* Карточка 1: Взрослых */}
                                 <div className={`seat-selection__ticket-card ${adultCount > 0 ? 'seat-selection__ticket-card--filled' : ''}`}>
                                     <div className="seat-selection__ticket-field">
